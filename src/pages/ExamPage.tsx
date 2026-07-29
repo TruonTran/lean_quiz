@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getSubjectById } from "../data/subjects";
 import { useExamStore } from "../store/examStore";
@@ -26,9 +25,14 @@ export default function ExamPage() {
   const currentIndex = subjectId ? (allCurrentIndex[subjectId] ?? 0) : 0;
 
   const [showHint, setShowHint] = useState(false);
+  const [showConfirmReset, setShowConfirmReset] = useState(false);
 
+  // Refs for focus management when modal opens/closes
+  const resetButtonRef = useRef<HTMLButtonElement | null>(null);
+  const confirmButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  // Keyboard shortcuts: Left/Right to navigate, 1..9 to pick options
   useEffect(() => {
-    // Keyboard shortcuts: Left/Right to navigate, 1..9 to pick options
     const handler = (e: KeyboardEvent) => {
       if (!subjectId) return;
 
@@ -39,7 +43,10 @@ export default function ExamPage() {
         setShowHint(false);
         setCurrentIndex(
           subjectId,
-          Math.min(currentIndex + 1, subject?.questions.length! - 1),
+          Math.min(
+            currentIndex + 1,
+            subject?.questions.length ? subject.questions.length - 1 : 0,
+          ),
         );
       } else if (/^[1-9]$/.test(e.key)) {
         const idx = parseInt(e.key, 10) - 1;
@@ -58,6 +65,40 @@ export default function ExamPage() {
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [subjectId, currentIndex, answers, setAnswer, setCurrentIndex, subject]);
+
+  // Close confirm modal on Escape and manage focus when modal opens/closes
+  useEffect(() => {
+    if (!showConfirmReset) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowConfirmReset(false);
+    };
+
+    window.addEventListener("keydown", onKey);
+
+    // focus confirm button when modal opens
+    setTimeout(() => confirmButtonRef.current?.focus(), 0);
+
+    return () => {
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [showConfirmReset]);
+
+  // When modal closes, return focus back to Reset button
+  useEffect(() => {
+    if (!showConfirmReset) {
+      setTimeout(() => resetButtonRef.current?.focus(), 0);
+    }
+  }, [showConfirmReset]);
+
+  const doReset = () => {
+    if (!subjectId) return;
+
+    clearExam(subjectId);
+    setCurrentIndex(subjectId, 0);
+    setShowHint(false);
+    setShowConfirmReset(false);
+  };
 
   if (!subject) {
     return (
@@ -101,8 +142,6 @@ export default function ExamPage() {
       ? question.answer.includes(selectedAnswer)
       : selectedAnswer === question.answer);
 
-  const answeredCount = Object.keys(answers).length;
-
   const progress = ((currentIndex + 1) / questions.length) * 100;
 
   return (
@@ -116,35 +155,19 @@ export default function ExamPage() {
 
             <div className="mt-3 flex items-center gap-3 text-sm">
               <span className="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-amber-800">
-                Q {currentIndex + 1}/{questions.length}
-              </span>
-
-              <span className="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-amber-800">
-                Answered {answeredCount}/{questions.length}
+                {currentIndex + 1}/{questions.length}
               </span>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => {
-                if (!subjectId) return;
-                if (!confirm("Clear saved answers for this subject?")) return;
-                clearExam(subjectId);
-                setShowHint(false);
-              }}
-              className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-amber-700 ring-1 ring-amber-200 hover:bg-amber-50"
+              ref={resetButtonRef}
+              onClick={() => setShowConfirmReset(true)}
+              className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-amber-700 ring-1 ring-amber-200 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-200"
             >
               Reset
             </button>
-
-            <a
-              className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700"
-              href="#"
-              onClick={(e) => e.preventDefault()}
-            >
-              Save
-            </a>
           </div>
         </div>
 
@@ -166,7 +189,7 @@ export default function ExamPage() {
                 {selectedAnswer === undefined ? (
                   <button
                     onClick={() => setShowHint((s) => !s)}
-                    className="rounded-md bg-amber-100 px-3 py-1 text-sm font-medium text-amber-800 ring-1 ring-amber-200 hover:bg-amber-200"
+                    className="rounded-md bg-amber-100 px-3 py-1 text-sm font-medium text-amber-800 ring-1 ring-amber-200 hover:bg-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-200"
                   >
                     Hint
                   </button>
@@ -246,11 +269,12 @@ export default function ExamPage() {
           <button
             onClick={() => {
               setShowHint(false);
-              if (subjectId)
+              if (subjectId) {
                 setCurrentIndex(subjectId, Math.max(currentIndex - 1, 0));
+              }
             }}
             disabled={currentIndex === 0}
-            className="rounded-lg bg-amber-700 px-6 py-3 font-semibold text-white hover:bg-amber-800 disabled:opacity-40"
+            className="rounded-lg bg-amber-700 px-6 py-3 font-semibold text-white hover:bg-amber-800 disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-amber-300"
           >
             ← Previous
           </button>
@@ -259,20 +283,70 @@ export default function ExamPage() {
             <button
               onClick={() => {
                 setShowHint(false);
-                if (subjectId)
+                if (subjectId) {
                   setCurrentIndex(
                     subjectId,
                     Math.min(currentIndex + 1, questions.length - 1),
                   );
+                }
               }}
               disabled={currentIndex === questions.length - 1}
-              className="rounded-lg bg-amber-600 px-6 py-3 font-semibold text-white hover:bg-amber-700 disabled:opacity-40"
+              className="rounded-lg bg-amber-600 px-6 py-3 font-semibold text-white hover:bg-amber-700 disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-amber-300"
             >
               Next →
             </button>
           </div>
         </div>
       </div>
+
+      {/* Confirm Reset Modal */}
+      {showConfirmReset && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* backdrop */}
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setShowConfirmReset(false)}
+            aria-hidden="true"
+          />
+
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="reset-title"
+            aria-describedby="reset-desc"
+            className="relative z-10 w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 shadow-lg transition-all duration-150"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3
+              id="reset-title"
+              className="text-lg font-semibold text-amber-900"
+            >
+              Reset progress
+            </h3>
+            <p id="reset-desc" className="mt-2 text-sm text-gray-600">
+              Bạn có chắc chắn muốn xoá toàn bộ câu trả lời đã làm? Hành động
+              này không thể hoàn tác.
+            </p>
+
+            <div className="mt-4 flex justify-end gap-3">
+              <button
+                onClick={() => setShowConfirmReset(false)}
+                className="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-amber-200"
+              >
+                Cancel
+              </button>
+
+              <button
+                ref={confirmButtonRef}
+                onClick={doReset}
+                className="rounded-md bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-300"
+              >
+                Confirm reset
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
