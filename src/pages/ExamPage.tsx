@@ -1,14 +1,21 @@
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { getSubjectById } from "../data/subjects";
+import { useExamStore } from "../store/examStore";
 
 export default function ExamPage() {
   const { subjectId } = useParams<{ subjectId: string }>();
 
   const subject = getSubjectById(subjectId ?? "");
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, number>>({});
+  // Lấy nguyên object từ store trước
+  const allAnswers = useExamStore((state) => state.answers);
+  const allCurrentIndex = useExamStore((state) => state.currentIndex);
+
+  const setAnswer = useExamStore((state) => state.setAnswer);
+  const setCurrentIndex = useExamStore((state) => state.setCurrentIndex);
+
+  const answers = subjectId ? (allAnswers[subjectId] ?? {}) : {};
+  const currentIndex = subjectId ? (allCurrentIndex[subjectId] ?? 0) : 0;
 
   if (!subject) {
     return (
@@ -33,12 +40,9 @@ export default function ExamPage() {
   const selectedAnswer = answers[question.id];
 
   const handleAnswer = (answerIndex: number) => {
-    if (selectedAnswer !== undefined) return;
+    if (selectedAnswer !== undefined || !subjectId) return;
 
-    setAnswers((prev) => ({
-      ...prev,
-      [question.id]: answerIndex,
-    }));
+    setAnswer(subjectId, question.id, answerIndex);
   };
 
   const isCorrectOption = (index: number) => {
@@ -95,14 +99,12 @@ export default function ExamPage() {
 
               if (selectedAnswer === undefined) {
                 className += "hover:bg-blue-50 hover:border-blue-400";
+              } else if (isCorrectOption(index)) {
+                className += "bg-green-500 border-green-500 text-white";
+              } else if (selectedAnswer === index) {
+                className += "bg-red-500 border-red-500 text-white";
               } else {
-                if (isCorrectOption(index)) {
-                  className += "bg-green-500 border-green-500 text-white";
-                } else if (selectedAnswer === index) {
-                  className += "bg-red-500 border-red-500 text-white";
-                } else {
-                  className += "bg-gray-100";
-                }
+                className += "bg-gray-100";
               }
 
               return (
@@ -125,8 +127,8 @@ export default function ExamPage() {
             <div
               className={`mt-6 rounded-xl p-5 ${
                 userCorrect
-                  ? "bg-green-100 border border-green-400"
-                  : "bg-red-100 border border-red-400"
+                  ? "border border-green-400 bg-green-100"
+                  : "border border-red-400 bg-red-100"
               }`}
             >
               <h3 className="mb-2 text-lg font-bold">
@@ -159,7 +161,10 @@ export default function ExamPage() {
 
         <div className="mt-8 flex justify-between">
           <button
-            onClick={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))}
+            onClick={() =>
+              subjectId &&
+              setCurrentIndex(subjectId, Math.max(currentIndex - 1, 0))
+            }
             disabled={currentIndex === 0}
             className="rounded-lg bg-gray-700 px-6 py-3 font-semibold text-white disabled:opacity-40"
           >
@@ -168,8 +173,10 @@ export default function ExamPage() {
 
           <button
             onClick={() =>
-              setCurrentIndex((prev) =>
-                Math.min(prev + 1, questions.length - 1),
+              subjectId &&
+              setCurrentIndex(
+                subjectId,
+                Math.min(currentIndex + 1, questions.length - 1),
               )
             }
             disabled={currentIndex === questions.length - 1}
