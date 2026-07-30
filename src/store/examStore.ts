@@ -4,12 +4,19 @@ import { persist } from "zustand/middleware";
 interface ExamState {
   answers: Record<string, Record<number, number>>;
   currentIndex: Record<string, number>;
+  // Ghi chú học tập của người dùng cho từng môn
+  notes: Record<string, string>;
 
   setAnswer: (subjectId: string, questionId: number, answer: number) => void;
 
   setCurrentIndex: (subjectId: string, index: number) => void;
 
   clearExam: (subjectId: string) => void;
+
+  // Mở lại (xoá) đáp án của các câu hỏi cụ thể để người học làm lại (dùng cho "Làm lại câu sai")
+  clearAnswers: (subjectId: string, questionIds: number[]) => void;
+
+  setNote: (subjectId: string, note: string) => void;
 }
 
 export const useExamStore = create<ExamState>()(
@@ -17,6 +24,7 @@ export const useExamStore = create<ExamState>()(
     (set) => ({
       answers: {},
       currentIndex: {},
+      notes: {},
 
       setAnswer: (subjectId, questionId, answer) =>
         set((state) => ({
@@ -50,6 +58,27 @@ export const useExamStore = create<ExamState>()(
             currentIndex,
           };
         }),
+
+      clearAnswers: (subjectId, questionIds) =>
+        set((state) => {
+          const subjectAnswers = { ...state.answers[subjectId] };
+          questionIds.forEach((id) => delete subjectAnswers[id]);
+
+          return {
+            answers: {
+              ...state.answers,
+              [subjectId]: subjectAnswers,
+            },
+          };
+        }),
+
+      setNote: (subjectId, note) =>
+        set((state) => ({
+          notes: {
+            ...state.notes,
+            [subjectId]: note,
+          },
+        })),
     }),
     {
       name: "quiz-storage",

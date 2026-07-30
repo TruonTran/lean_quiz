@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { getSubjectById } from "../data/subjects";
 import { useExamStore } from "../store/examStore";
 
@@ -7,20 +7,48 @@ export default function ExamPage() {
   const { subjectId } = useParams<{ subjectId: string }>();
 
   const subject = getSubjectById(subjectId ?? "");
+  const location = useLocation();
+
+  // Danh sách id câu hỏi cần làm lại (ví dụ khi bấm "Làm lại câu sai" ở trang kết quả)
+  const retryIds = (location.state as { retryIds?: number[] } | null)?.retryIds;
+  const isRetryMode = Boolean(retryIds && retryIds.length > 0);
 
   // Lấy nguyên object từ store trước
   const allAnswers = useExamStore((state) => state.answers);
   const allCurrentIndex = useExamStore((state) => state.currentIndex);
+  const allNotes = useExamStore((state) => state.notes);
 
   const setAnswer = useExamStore((state) => state.setAnswer);
   const setCurrentIndex = useExamStore((state) => state.setCurrentIndex);
   const clearExam = useExamStore((state) => state.clearExam);
+  const setNote = useExamStore((state) => state.setNote);
 
   // Memoize answers so reference doesn't change every render (fix exhaustive-deps)
   const answers = useMemo(
     () => (subjectId ? (allAnswers[subjectId] ?? {}) : {}),
     [allAnswers, subjectId],
   );
+
+  const note = subjectId ? (allNotes[subjectId] ?? "") : "";
+
+  const retryKey = retryIds && retryIds.length > 0 ? retryIds.join(",") : "";
+
+  // Danh sách câu hỏi cho lượt làm bài hiện tại:
+  // ưu tiên hàng đợi "làm lại câu sai" (retryIds) nếu có, mặc định là toàn bộ ngân hàng câu hỏi.
+  const questions = useMemo(() => {
+    if (!subject) return [];
+
+    if (retryIds && retryIds.length > 0) {
+      const byId = new Map(subject.questions.map((q) => [q.id, q]));
+      const filtered = retryIds
+        .map((id) => byId.get(id))
+        .filter((q): q is NonNullable<typeof q> => q !== undefined);
+      if (filtered.length > 0) return filtered;
+    }
+
+    return subject.questions;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subject, retryKey]);
 
   const currentIndex = subjectId ? (allCurrentIndex[subjectId] ?? 0) : 0;
 
@@ -45,12 +73,12 @@ export default function ExamPage() {
           subjectId,
           Math.min(
             currentIndex + 1,
-            subject?.questions.length ? subject.questions.length - 1 : 0,
+            questions.length ? questions.length - 1 : 0,
           ),
         );
       } else if (/^[1-9]$/.test(e.key)) {
         const idx = parseInt(e.key, 10) - 1;
-        const question = subject?.questions[currentIndex];
+        const question = questions[currentIndex];
         if (!question) return;
         if (idx >= 0 && idx < question.options.length) {
           // emulate click (only if not answered yet)
@@ -64,7 +92,7 @@ export default function ExamPage() {
 
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [subjectId, currentIndex, answers, setAnswer, setCurrentIndex, subject]);
+  }, [subjectId, currentIndex, answers, setAnswer, setCurrentIndex, questions]);
 
   // Close confirm modal on Escape and manage focus when modal opens/closes
   useEffect(() => {
@@ -108,8 +136,6 @@ export default function ExamPage() {
     );
   }
 
-  const questions = subject.questions;
-
   if (questions.length === 0) {
     return (
       <div className="flex h-screen items-center justify-center text-2xl font-semibold">
@@ -141,7 +167,6 @@ export default function ExamPage() {
     (Array.isArray(question.answer)
       ? question.answer.includes(selectedAnswer)
       : selectedAnswer === question.answer);
-
   const progress = ((currentIndex + 1) / questions.length) * 100;
 
   return (
@@ -155,6 +180,14 @@ export default function ExamPage() {
           </div>
 
           <div className="flex items-center gap-3">
+            <span className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-300">
+              {currentIndex + 1}/{questions.length}
+            </span>
+            {isRetryMode && (
+              <span className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-300">
+                Đang làm lại câu sai
+              </span>
+            )}
             <Link
               to={`/exam/${subjectId}/results`}
               className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-300"
@@ -263,6 +296,24 @@ export default function ExamPage() {
               )}
             </div>
           )}
+        </div>
+
+        {/* Ghi chú học tập của người dùng cho môn này */}
+        <div className="mt-6 rounded-xl border border-amber-200 bg-white p-5 shadow-sm">
+          <h3 className="mb-2 flex items-center gap-2 font-semibold text-amber-900">
+            📝 Ghi chú của bạn
+          </h3>
+          <p className="mb-3 text-xs text-gray-500">
+            Ghi lại kiến thức, mẹo nhớ, hoặc điểm cần ôn thêm cho môn{" "}
+            {subject.code}. Ghi chú được lưu tự động trên trình duyệt này.
+          </p>
+          <textarea
+            value={note}
+            onChange={(e) => subjectId && setNote(subjectId, e.target.value)}
+            placeholder="Nhập ghi chú của bạn ở đây..."
+            rows={4}
+            className="w-full resize-y rounded-lg border border-amber-200 p-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-300"
+          />
         </div>
 
         <div className="mt-8 flex items-center justify-between">

@@ -16,6 +16,7 @@ export default function ResultsPage() {
   const allAnswers = useExamStore((state) => state.answers);
   const setCurrentIndex = useExamStore((state) => state.setCurrentIndex);
   const clearExam = useExamStore((state) => state.clearExam);
+  const clearAnswers = useExamStore((state) => state.clearAnswers);
 
   if (!subject || !subjectId) {
     return (
@@ -48,8 +49,14 @@ export default function ResultsPage() {
 
   const reviewWrongOnly = () => {
     if (wrongQuestions.length === 0) return;
-    setCurrentIndex(subjectId, wrongQuestions[0].index);
-    navigate(`/exam/${subjectId}`);
+
+    const retryIds = wrongQuestions.map(({ q }) => q.id);
+
+    // Mở lại các câu đã trả lời sai để người học có thể chọn lại đáp án
+    clearAnswers(subjectId, retryIds);
+    setCurrentIndex(subjectId, 0);
+
+    navigate(`/exam/${subjectId}`, { state: { retryIds } });
   };
 
   return (
@@ -100,7 +107,7 @@ export default function ResultsPage() {
             disabled={wrongQuestions.length === 0}
             className="rounded-lg bg-amber-600 px-5 py-2.5 font-semibold text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            Ôn lại câu sai ({wrongQuestions.length})
+            Làm lại câu sai ({wrongQuestions.length})
           </button>
           <button
             onClick={() => {
