@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getSubjectById } from "../data/subjects";
 import { useExamStore } from "../store/examStore";
 
@@ -152,15 +152,15 @@ export default function ExamPage() {
             <h1 className="text-3xl font-extrabold text-amber-800">
               {subject.code} - {subject.name}
             </h1>
-
-            <div className="mt-3 flex items-center gap-3 text-sm">
-              <span className="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-amber-800">
-                {currentIndex + 1}/{questions.length}
-              </span>
-            </div>
           </div>
 
           <div className="flex items-center gap-3">
+            <Link
+              to={`/exam/${subjectId}/results`}
+              className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-300"
+            >
+              Xem kết quả
+            </Link>
             <button
               ref={resetButtonRef}
               onClick={() => setShowConfirmReset(true)}
