@@ -130,7 +130,7 @@ export default function ExamPage() {
 
   if (!subject) {
     return (
-      <div className="flex h-screen items-center justify-center text-2xl font-semibold">
+      <div className="flex h-screen items-center justify-center bg-[#08090c] text-2xl font-semibold text-zinc-200">
         Subject not found
       </div>
     );
@@ -138,7 +138,7 @@ export default function ExamPage() {
 
   if (questions.length === 0) {
     return (
-      <div className="flex h-screen items-center justify-center text-2xl font-semibold">
+      <div className="flex h-screen items-center justify-center bg-[#08090c] text-2xl font-semibold text-zinc-200">
         No questions found
       </div>
     );
@@ -170,50 +170,53 @@ export default function ExamPage() {
   const progress = ((currentIndex + 1) / questions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-amber-50 py-10">
-      <div className="mx-auto max-w-5xl rounded-2xl bg-white p-8 shadow-xl">
-        <div className="mb-6 flex items-center justify-between gap-4">
+    <div className="relative min-h-screen overflow-hidden bg-[#08090c] py-10">
+      <div className="bg-ambient" />
+
+      <div className="glass-panel relative z-10 mx-auto max-w-5xl rounded-2xl bg-zinc-900/40 p-8 shadow-2xl shadow-black/50">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-extrabold text-amber-800">
-              {subject.code} - {subject.name}
+            <h1 className="text-3xl font-extrabold text-white">
+              {subject.code}{" "}
+              <span className="text-yellow-400">- {subject.name}</span>
             </h1>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-300">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="font-mono-brand rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 focus:outline-none focus:ring-2 focus:ring-yellow-300">
               {currentIndex + 1}/{questions.length}
             </span>
             {isRetryMode && (
-              <span className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-300">
+              <span className="rounded-lg border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm font-semibold text-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-300">
                 Đang làm lại câu sai
               </span>
             )}
             <Link
               to={`/exam/${subjectId}/results`}
-              className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-300"
+              className="rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-500/20 focus:outline-none focus:ring-2 focus:ring-yellow-300"
             >
               Xem kết quả
             </Link>
             <button
               ref={resetButtonRef}
               onClick={() => setShowConfirmReset(true)}
-              className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-amber-700 ring-1 ring-amber-200 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-200"
+              className="rounded-lg border border-yellow-400/25 bg-white/5 px-4 py-2 text-sm font-semibold text-yellow-200 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-300"
             >
               Reset
             </button>
           </div>
         </div>
 
-        <div className="mb-6 h-3 overflow-hidden rounded-full bg-amber-100">
+        <div className="mb-6 h-3 overflow-hidden rounded-full bg-white/5">
           <div
-            className="h-full bg-amber-500 transition-all"
+            className="h-full rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
 
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-white/10 bg-black/30 p-6 shadow-sm">
           <div className="mb-4 flex items-start justify-between gap-4">
-            <h2 className="text-xl font-semibold text-amber-900">
+            <h2 className="text-xl font-semibold text-zinc-100">
               {question.question}
             </h2>
 
@@ -222,7 +225,7 @@ export default function ExamPage() {
                 {selectedAnswer === undefined ? (
                   <button
                     onClick={() => setShowHint((s) => !s)}
-                    className="rounded-md bg-amber-100 px-3 py-1 text-sm font-medium text-amber-800 ring-1 ring-amber-200 hover:bg-amber-200 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                    className="rounded-md border border-yellow-400/25 bg-yellow-400/10 px-3 py-1 text-sm font-medium text-yellow-200 hover:bg-yellow-400/20 focus:outline-none focus:ring-2 focus:ring-yellow-300"
                   >
                     Hint
                   </button>
@@ -237,13 +240,15 @@ export default function ExamPage() {
                 "w-full rounded-xl border p-4 text-left transition font-medium ";
 
               if (selectedAnswer === undefined) {
-                className += "hover:bg-amber-50 hover:border-amber-300";
+                className +=
+                  "border-white/10 bg-white/[0.03] text-zinc-200 hover:border-yellow-400/40 hover:bg-yellow-400/5";
               } else if (isCorrectOption(index)) {
-                className += "bg-amber-600 border-amber-600 text-white";
+                className +=
+                  "bg-gradient-to-r from-yellow-400 to-amber-500 border-yellow-400 text-zinc-950";
               } else if (selectedAnswer === index) {
-                className += "bg-red-500 border-red-500 text-white";
+                className += "bg-red-500/90 border-red-500 text-white";
               } else {
-                className += "bg-gray-100";
+                className += "border-white/10 bg-white/[0.02] text-zinc-500";
               }
 
               return (
@@ -253,7 +258,15 @@ export default function ExamPage() {
                   className={className}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="mt-0.5 font-bold text-amber-800">
+                    <div
+                      className={`mt-0.5 font-bold ${
+                        selectedAnswer === undefined
+                          ? "text-yellow-300"
+                          : isCorrectOption(index)
+                            ? "text-zinc-950"
+                            : "text-zinc-400"
+                      }`}
+                    >
                       {String.fromCharCode(65 + index)}.
                     </div>
 
@@ -266,8 +279,8 @@ export default function ExamPage() {
 
           {/* Hint panel shown when user requests hint and hasn't answered yet */}
           {selectedAnswer === undefined && showHint && (
-            <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-800">
-              <h3 className="mb-1 font-semibold">Hint</h3>
+            <div className="mt-6 rounded-xl border border-yellow-400/25 bg-yellow-400/5 p-4 text-yellow-100">
+              <h3 className="mb-1 font-semibold text-yellow-300">Hint</h3>
               <p>{question.hint ?? "No hint available for this question."}</p>
             </div>
           )}
@@ -277,12 +290,12 @@ export default function ExamPage() {
             <div
               className={`mt-6 rounded-xl p-5 ${
                 userCorrect
-                  ? "border border-amber-400 bg-amber-50"
-                  : "border border-red-400 bg-red-100"
+                  ? "border border-yellow-400/30 bg-yellow-400/5 text-yellow-50"
+                  : "border border-red-400/40 bg-red-500/10 text-red-50"
               }`}
             >
               <p className="mb-2">
-                <strong>Correct answer:</strong>{" "}
+                <strong className="text-yellow-300">Correct answer:</strong>{" "}
                 {Array.isArray(question.answer)
                   ? question.answer
                       .map((i) => String.fromCharCode(65 + i))
@@ -291,7 +304,8 @@ export default function ExamPage() {
               </p>
               {question.rationale && (
                 <p>
-                  <strong>Explanation:</strong> {question.rationale}
+                  <strong className="text-yellow-300">Explanation:</strong>{" "}
+                  {question.rationale}
                 </p>
               )}
             </div>
@@ -299,11 +313,11 @@ export default function ExamPage() {
         </div>
 
         {/* Ghi chú học tập của người dùng cho môn này */}
-        <div className="mt-6 rounded-xl border border-amber-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-2 flex items-center gap-2 font-semibold text-amber-900">
+        <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-5 shadow-sm">
+          <h3 className="mb-2 flex items-center gap-2 font-semibold text-white">
             📝 Ghi chú của bạn
           </h3>
-          <p className="mb-3 text-xs text-gray-500">
+          <p className="mb-3 text-xs text-zinc-500">
             Ghi lại kiến thức, mẹo nhớ, hoặc điểm cần ôn thêm cho môn{" "}
             {subject.code}. Ghi chú được lưu tự động trên trình duyệt này.
           </p>
@@ -312,7 +326,7 @@ export default function ExamPage() {
             onChange={(e) => subjectId && setNote(subjectId, e.target.value)}
             placeholder="Nhập ghi chú của bạn ở đây..."
             rows={4}
-            className="w-full resize-y rounded-lg border border-amber-200 p-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-300"
+            className="w-full resize-y rounded-lg border border-white/10 bg-white/[0.03] p-3 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-yellow-400/40"
           />
         </div>
 
@@ -325,7 +339,7 @@ export default function ExamPage() {
               }
             }}
             disabled={currentIndex === 0}
-            className="rounded-lg bg-amber-700 px-6 py-3 font-semibold text-white hover:bg-amber-800 disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-amber-300"
+            className="rounded-lg border border-white/10 bg-white/5 px-6 py-3 font-semibold text-zinc-200 transition hover:border-yellow-400/30 hover:bg-white/10 disabled:opacity-30 focus:outline-none focus:ring-2 focus:ring-yellow-300"
           >
             ← Previous
           </button>
@@ -342,7 +356,7 @@ export default function ExamPage() {
                 }
               }}
               disabled={currentIndex === questions.length - 1}
-              className="rounded-lg bg-amber-600 px-6 py-3 font-semibold text-white hover:bg-amber-700 disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-amber-300"
+              className="rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 px-6 py-3 font-semibold text-zinc-950 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-500/20 disabled:opacity-30 disabled:hover:translate-y-0 focus:outline-none focus:ring-2 focus:ring-yellow-300"
             >
               Next →
             </button>
@@ -365,16 +379,16 @@ export default function ExamPage() {
             aria-modal="true"
             aria-labelledby="reset-title"
             aria-describedby="reset-desc"
-            className="relative z-10 w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 shadow-lg transition-all duration-150"
+            className="glass-panel relative z-10 w-full max-w-md transform overflow-hidden rounded-lg bg-zinc-900/90 p-6 shadow-2xl transition-all duration-150"
             onClick={(e) => e.stopPropagation()}
           >
             <h3
               id="reset-title"
-              className="text-lg font-semibold text-amber-900"
+              className="text-lg font-semibold text-white"
             >
               Reset progress
             </h3>
-            <p id="reset-desc" className="mt-2 text-sm text-gray-600">
+            <p id="reset-desc" className="mt-2 text-sm text-zinc-400">
               Bạn có chắc chắn muốn xoá toàn bộ câu trả lời đã làm? Hành động
               này không thể hoàn tác.
             </p>
@@ -382,7 +396,7 @@ export default function ExamPage() {
             <div className="mt-4 flex justify-end gap-3">
               <button
                 onClick={() => setShowConfirmReset(false)}
-                className="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                className="rounded-md border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-zinc-200 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-300"
               >
                 Cancel
               </button>
@@ -390,7 +404,7 @@ export default function ExamPage() {
               <button
                 ref={confirmButtonRef}
                 onClick={doReset}
-                className="rounded-md bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-300"
+                className="rounded-md bg-gradient-to-r from-yellow-400 to-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-500/20 focus:outline-none focus:ring-2 focus:ring-yellow-300"
               >
                 Confirm reset
               </button>
