@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { getSubjectById } from "../data/subjects";
 import { useExamStore } from "../store/examStore";
@@ -50,7 +50,40 @@ export default function ExamPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subject, retryKey]);
 
-  const currentIndex = subjectId ? (allCurrentIndex[subjectId] ?? 0) : 0;
+  // Vị trí câu hỏi khi ở chế độ "làm lại câu sai" được lưu RIÊNG (state local),
+  // không dùng chung currentIndex với bài thi chính trong store.
+  // => Khi thoát chế độ làm lại, người dùng sẽ quay lại đúng câu đang làm dở ở ngoài.
+  const [retryIndex, setRetryIndex] = useState(0);
+
+  // prevRetryKeyRef stored outside render; we do NOT access .current during render.
+  const prevRetryKeyRef = useRef<string>("");
+
+  // Reset vị trí làm lại về 0 mỗi khi bắt đầu một lượt "làm lại câu sai" mới.
+  // Thực hiện trong useLayoutEffect để tránh flicker trước paint.
+  useLayoutEffect(() => {
+    if (prevRetryKeyRef.current !== retryKey) {
+      prevRetryKeyRef.current = retryKey;
+      // đặt về 0 mỗi khi key thay đổi (nếu đã là 0 thì không có tác dụng)
+      setRetryIndex(0);
+    }
+    // chỉ phụ thuộc vào retryKey và setter
+  }, [retryKey, setRetryIndex]);
+
+  const currentIndex = isRetryMode
+    ? retryIndex
+    : subjectId
+      ? (allCurrentIndex[subjectId] ?? 0)
+      : 0;
+
+  // Điều hướng: nếu đang ở chế độ làm lại thì cập nhật state local,
+  // ngược lại cập nhật currentIndex của bài thi chính trong store (giữ nguyên hành vi cũ).
+  const goToIndex = (index: number) => {
+    if (isRetryMode) {
+      setRetryIndex(index);
+    } else if (subjectId) {
+      setCurrentIndex(subjectId, index);
+    }
+  };
 
   const [showHint, setShowHint] = useState(false);
   const [showConfirmReset, setShowConfirmReset] = useState(false);
@@ -66,11 +99,10 @@ export default function ExamPage() {
 
       if (e.key === "ArrowLeft") {
         setShowHint(false);
-        setCurrentIndex(subjectId, Math.max(currentIndex - 1, 0));
+        goToIndex(Math.max(currentIndex - 1, 0));
       } else if (e.key === "ArrowRight") {
         setShowHint(false);
-        setCurrentIndex(
-          subjectId,
+        goToIndex(
           Math.min(
             currentIndex + 1,
             questions.length ? questions.length - 1 : 0,
@@ -92,7 +124,8 @@ export default function ExamPage() {
 
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [subjectId, currentIndex, answers, setAnswer, setCurrentIndex, questions]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subjectId, currentIndex, answers, setAnswer, questions, isRetryMode]);
 
   // Close confirm modal on Escape and manage focus when modal opens/closes
   useEffect(() => {
@@ -124,6 +157,7 @@ export default function ExamPage() {
 
     clearExam(subjectId);
     setCurrentIndex(subjectId, 0);
+    setRetryIndex(0);
     setShowHint(false);
     setShowConfirmReset(false);
   };
@@ -187,9 +221,17 @@ export default function ExamPage() {
               {currentIndex + 1}/{questions.length}
             </span>
             {isRetryMode && (
-              <span className="rounded-lg border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm font-semibold text-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-300">
-                Đang làm lại câu sai
-              </span>
+              <>
+                <span className="rounded-lg border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm font-semibold text-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-300">
+                  Đang làm lại câu sai
+                </span>
+                <Link
+                  to={`/exam/${subjectId}`}
+                  className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-200 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+                >
+                  ← Thoát làm lại, về bài đang làm
+                </Link>
+              </>
             )}
             <Link
               to={`/exam/${subjectId}/results`}
@@ -334,9 +376,7 @@ export default function ExamPage() {
           <button
             onClick={() => {
               setShowHint(false);
-              if (subjectId) {
-                setCurrentIndex(subjectId, Math.max(currentIndex - 1, 0));
-              }
+              goToIndex(Math.max(currentIndex - 1, 0));
             }}
             disabled={currentIndex === 0}
             className="rounded-lg border border-white/10 bg-white/5 px-6 py-3 font-semibold text-zinc-200 transition hover:border-yellow-400/30 hover:bg-white/10 disabled:opacity-30 focus:outline-none focus:ring-2 focus:ring-yellow-300"
@@ -348,12 +388,7 @@ export default function ExamPage() {
             <button
               onClick={() => {
                 setShowHint(false);
-                if (subjectId) {
-                  setCurrentIndex(
-                    subjectId,
-                    Math.min(currentIndex + 1, questions.length - 1),
-                  );
-                }
+                goToIndex(Math.min(currentIndex + 1, questions.length - 1));
               }}
               disabled={currentIndex === questions.length - 1}
               className="rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 px-6 py-3 font-semibold text-zinc-950 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-500/20 disabled:opacity-30 disabled:hover:translate-y-0 focus:outline-none focus:ring-2 focus:ring-yellow-300"
@@ -382,10 +417,7 @@ export default function ExamPage() {
             className="glass-panel relative z-10 w-full max-w-md transform overflow-hidden rounded-lg bg-zinc-900/90 p-6 shadow-2xl transition-all duration-150"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3
-              id="reset-title"
-              className="text-lg font-semibold text-white"
-            >
+            <h3 id="reset-title" className="text-lg font-semibold text-white">
               Reset progress
             </h3>
             <p id="reset-desc" className="mt-2 text-sm text-zinc-400">

@@ -53,8 +53,9 @@ export default function ResultsPage() {
     const retryIds = wrongQuestions.map(({ q }) => q.id);
 
     // Mở lại các câu đã trả lời sai để người học có thể chọn lại đáp án
+    // (không đụng tới currentIndex của bài thi chính, để khi thoát chế độ
+    // làm lại người dùng quay lại đúng câu đang làm dở ở ngoài)
     clearAnswers(subjectId, retryIds);
-    setCurrentIndex(subjectId, 0);
 
     navigate(`/exam/${subjectId}`, { state: { retryIds } });
   };
@@ -66,8 +67,7 @@ export default function ResultsPage() {
       <div className="glass-panel relative z-10 mx-auto max-w-4xl rounded-2xl bg-zinc-900/40 p-8 shadow-2xl shadow-black/50">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-3xl font-extrabold text-white">
-            Kết quả -{" "}
-            <span className="text-yellow-400">{subject.code}</span>
+            Kết quả - <span className="text-yellow-400">{subject.code}</span>
           </h1>
           <Link
             to={`/exam/${subjectId}`}
@@ -82,9 +82,7 @@ export default function ResultsPage() {
             <div className="text-3xl font-extrabold text-yellow-300">
               {scorePct}%
             </div>
-            <div className="mt-1 text-sm text-yellow-100/80">
-              Độ chính xác
-            </div>
+            <div className="mt-1 text-sm text-yellow-100/80">Độ chính xác</div>
           </div>
           <div className="rounded-xl border border-yellow-400/15 bg-yellow-400/5 p-4 text-center">
             <div className="text-3xl font-extrabold text-yellow-300">

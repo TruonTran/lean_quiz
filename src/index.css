@@ -16,17 +16,94 @@
   --text: #f5f5f4;
   --muted: #a1a1aa;
   --ease: cubic-bezier(0.19, 1, 0.22, 1);
+
+  color-scheme: dark;
+}
+
+/* ============================================================
+   LIGHT THEME — kích hoạt qua <html data-theme="light">
+   ============================================================ */
+[data-theme="light"] {
+  --bg: #f9f8f4;
+  --bg-soft: #f2f0e8;
+  --panel: rgba(0, 0, 0, 0.035);
+  --panel-strong: rgba(0, 0, 0, 0.06);
+  --panel-border: rgba(180, 130, 0, 0.22);
+  --gold: #ca8a04;
+  --gold-deep: #a16207;
+  --gold-soft: #eab308;
+  --text: #1c1c1e;
+  --muted: #52525b;
+
+  color-scheme: light;
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg);
+  transition: background-color 0.25s var(--ease);
 }
 
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  font-family:
+    "Plus Jakarta Sans",
+    system-ui,
+    -apple-system,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.25s var(--ease),
+    color 0.25s var(--ease);
+}
+
+/* ---------- Ghi đè các class Tailwind "hard-coded" cho theme sáng ---------- */
+[data-theme="light"] .bg-\[\#08090c\] {
+  background-color: var(--bg) !important;
+}
+[data-theme="light"] .bg-zinc-900\/40 {
+  background-color: rgba(0, 0, 0, 0.035) !important;
+}
+[data-theme="light"] .text-white {
+  color: #18181b !important;
+}
+[data-theme="light"] .text-zinc-100,
+[data-theme="light"] .text-zinc-200 {
+  color: #27272a !important;
+}
+[data-theme="light"] .text-zinc-300,
+[data-theme="light"] .text-zinc-400 {
+  color: #52525b !important;
+}
+[data-theme="light"] .text-zinc-500,
+[data-theme="light"] .text-zinc-600 {
+  color: #71717a !important;
+}
+[data-theme="light"] .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+[data-theme="light"] .bg-white\/5,
+[data-theme="light"] .bg-white\/\[0\.03\],
+[data-theme="light"] .bg-white\/\[0\.02\] {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+[data-theme="light"] .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+[data-theme="light"] .bg-black\/30,
+[data-theme="light"] .bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+[data-theme="light"] .shadow-black\/40,
+[data-theme="light"] .shadow-black\/50 {
+  --tw-shadow-color: rgba(0, 0, 0, 0.12) !important;
+}
+[data-theme="light"] .bg-zinc-900\/90 {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+}
+[data-theme="light"] .theme-toggle-btn {
+  color: #1c1c1e;
 }
 
 h1,
@@ -43,6 +120,10 @@ h3 {
 ::selection {
   background: rgba(250, 204, 21, 0.3);
   color: #fff;
+}
+[data-theme="light"] ::selection {
+  background: rgba(202, 138, 4, 0.25);
+  color: #1c1c1e;
 }
 
 button:focus-visible,
@@ -78,8 +159,29 @@ textarea:focus-visible {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(650px 500px at 8% 0%, rgba(250, 204, 21, 0.1), transparent 60%),
-    radial-gradient(700px 600px at 95% 100%, rgba(250, 204, 21, 0.06), transparent 60%);
+    radial-gradient(
+      650px 500px at 8% 0%,
+      rgba(250, 204, 21, 0.1),
+      transparent 60%
+    ),
+    radial-gradient(
+      700px 600px at 95% 100%,
+      rgba(250, 204, 21, 0.06),
+      transparent 60%
+    );
+}
+[data-theme="light"] .bg-ambient {
+  background:
+    radial-gradient(
+      650px 500px at 8% 0%,
+      rgba(202, 138, 4, 0.08),
+      transparent 60%
+    ),
+    radial-gradient(
+      700px 600px at 95% 100%,
+      rgba(202, 138, 4, 0.05),
+      transparent 60%
+    );
 }
 
 /* ---------- Cursor glow effect (theo con trỏ chuột) ---------- */
@@ -92,7 +194,11 @@ textarea:focus-visible {
   margin-left: -230px;
   margin-top: -230px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(250, 204, 21, 0.16), transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(250, 204, 21, 0.16),
+    transparent 70%
+  );
   pointer-events: none;
   z-index: 1;
   mix-blend-mode: screen;
@@ -124,7 +230,9 @@ textarea:focus-visible {
   pointer-events: none;
   z-index: 2;
   will-change: transform;
-  transition: transform 0.08s linear, opacity 0.2s ease;
+  transition:
+    transform 0.08s linear,
+    opacity 0.2s ease;
 }
 @media (pointer: coarse) {
   .cursor-dot {

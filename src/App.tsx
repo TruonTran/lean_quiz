@@ -4,11 +4,13 @@ import HomePage from "./pages/HomePage";
 import ExamPage from "./pages/ExamPage";
 import ResultsPage from "./pages/Resultspage";
 import CursorGlow from "./components/CursorGlow";
+import ThemeToggle from "./components/ThemeToggle";
 
 export default function App() {
   return (
     <BrowserRouter>
       <CursorGlow />
+      <ThemeToggle />
       <Routes>
         <Route path="/" element={<HomePage />} />
 
