@@ -19,7 +19,7 @@ export default function HomePage() {
           <h1 className="mt-5 text-4xl font-extrabold text-white sm:text-5xl">
             Quiz{" "}
             <span className="bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent">
-              Platform
+              Cùng T
             </span>
           </h1>
           <p className="mt-4 text-base text-zinc-400 sm:text-lg">
