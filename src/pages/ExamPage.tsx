@@ -435,33 +435,27 @@ export default function ExamPage() {
           )}
         </div>
 
-        {/* Ghi chú học tập của người dùng cho môn này */}
+        {/* Ghi chú học tập của người dùng cho môn này - chỉ hiện khi bấm mở */}
         <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-5 shadow-sm">
-          <div className="mb-2 flex items-center justify-between gap-4">
-            <h3 className="flex items-center gap-2 font-semibold text-white">
-              📝 Ghi chú của bạn
-            </h3>
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h3 className="flex items-center gap-2 font-semibold text-white">
+                📝 Ghi chú của bạn
+              </h3>
+              <p className="mt-1 text-xs text-zinc-500">
+                {note
+                  ? "Bạn đã có ghi chú cho câu này."
+                  : "Chưa có ghi chú cho câu này."}
+              </p>
+            </div>
             <button
               type="button"
               onClick={() => setShowNotesModal(true)}
               className="shrink-0 rounded-md border border-yellow-400/25 bg-yellow-400/10 px-3 py-1 text-xs font-medium text-yellow-200 transition hover:bg-yellow-400/20"
             >
-              Xem nội dung ghi chú
+              {note ? "Xem / sửa ghi chú" : "Thêm ghi chú"}
             </button>
           </div>
-          <p className="mb-3 text-xs text-zinc-500">
-            Ghi chú riêng cho câu hỏi này (câu {currentIndex + 1}). Lưu tự động
-            trên trình duyệt.
-          </p>
-          <textarea
-            value={note}
-            onChange={(e) =>
-              subjectId && setNote(subjectId, question.id, e.target.value)
-            }
-            placeholder="Nhập ghi chú của bạn ở đây..."
-            rows={4}
-            className="w-full resize-y rounded-lg border border-white/10 bg-white/[0.03] p-3 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-yellow-400/40"
-          />
         </div>
 
         <div className="mt-8 flex items-center justify-between">
