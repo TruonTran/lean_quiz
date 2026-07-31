@@ -29,8 +29,6 @@ export default function ExamPage() {
     [allAnswers, subjectId],
   );
 
-  const note = subjectId ? (allNotes[subjectId] ?? "") : "";
-
   const retryKey = retryIds && retryIds.length > 0 ? retryIds.join(",") : "";
 
   // Danh sách câu hỏi cho lượt làm bài hiện tại:
@@ -88,6 +86,18 @@ export default function ExamPage() {
   const [showHint, setShowHint] = useState(false);
   const [showConfirmReset, setShowConfirmReset] = useState(false);
   const [showNotesModal, setShowNotesModal] = useState(false);
+  // Các lựa chọn tạm (chưa nộp) cho câu hỏi chọn nhiều đáp án
+  const [pendingSelection, setPendingSelection] = useState<number[]>([]);
+  const prevPendingKeyRef = useRef<string>("");
+
+  // Reset lựa chọn tạm mỗi khi chuyển sang câu hỏi khác
+  useLayoutEffect(() => {
+    const key = `${subjectId ?? ""}:${currentIndex}`;
+    if (prevPendingKeyRef.current !== key) {
+      prevPendingKeyRef.current = key;
+      setPendingSelection([]);
+    }
+  }, [subjectId, currentIndex]);
 
   // Refs for focus management when modal opens/closes
   const resetButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -114,10 +124,17 @@ export default function ExamPage() {
         const question = questions[currentIndex];
         if (!question) return;
         if (idx >= 0 && idx < question.options.length) {
-          // emulate click (only if not answered yet)
           const selectedAnswer = answers[question.id];
           if (selectedAnswer === undefined) {
-            setAnswer(subjectId, question.id, idx);
+            if (Array.isArray(question.answer)) {
+              setPendingSelection((prev) =>
+                prev.includes(idx)
+                  ? prev.filter((i) => i !== idx)
+                  : [...prev, idx],
+              );
+            } else {
+              setAnswer(subjectId, question.id, idx);
+            }
           }
         }
       }
@@ -182,11 +199,41 @@ export default function ExamPage() {
   const question = questions[currentIndex];
 
   const selectedAnswer = answers[question.id];
+  const isAnswered = selectedAnswer !== undefined;
+  const isMultiChoice = Array.isArray(question.answer);
 
-  const handleAnswer = (answerIndex: number) => {
-    if (selectedAnswer !== undefined || !subjectId) return;
+  const note = subjectId ? (allNotes[subjectId]?.[question.id] ?? "") : "";
 
-    setAnswer(subjectId, question.id, answerIndex);
+  const isOptionChecked = (index: number) => {
+    if (isAnswered) {
+      return Array.isArray(selectedAnswer)
+        ? selectedAnswer.includes(index)
+        : selectedAnswer === index;
+    }
+    return isMultiChoice && pendingSelection.includes(index);
+  };
+
+  const handleOptionClick = (index: number) => {
+    if (isAnswered || !subjectId) return;
+
+    if (isMultiChoice) {
+      setPendingSelection((prev) =>
+        prev.includes(index)
+          ? prev.filter((i) => i !== index)
+          : [...prev, index],
+      );
+    } else {
+      setAnswer(subjectId, question.id, index);
+    }
+  };
+
+  const submitMultiChoice = () => {
+    if (!subjectId || pendingSelection.length === 0) return;
+    setAnswer(
+      subjectId,
+      question.id,
+      [...pendingSelection].sort((a, b) => a - b),
+    );
   };
 
   const isCorrectOption = (index: number) => {
@@ -198,9 +245,11 @@ export default function ExamPage() {
   };
 
   const userCorrect =
-    selectedAnswer !== undefined &&
+    isAnswered &&
     (Array.isArray(question.answer)
-      ? question.answer.includes(selectedAnswer)
+      ? Array.isArray(selectedAnswer) &&
+        selectedAnswer.length === question.answer.length &&
+        question.answer.every((a) => selectedAnswer.includes(a))
       : selectedAnswer === question.answer);
   const progress = ((currentIndex + 1) / questions.length) * 100;
 
@@ -218,7 +267,7 @@ export default function ExamPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <span className="font-mono-brand rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 focus:outline-none focus:ring-2 focus:ring-yellow-300">
+            <span className="font-mono-brand rounded-lg bg-linear-to-r from-yellow-400 to-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 focus:outline-none focus:ring-2 focus:ring-yellow-300">
               {currentIndex + 1}/{questions.length}
             </span>
             {isRetryMode && (
@@ -236,7 +285,7 @@ export default function ExamPage() {
             )}
             <Link
               to={`/exam/${subjectId}/results`}
-              className="rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-500/20 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              className="rounded-lg bg-linear-to-r from-yellow-400 to-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-500/20 focus:outline-none focus:ring-2 focus:ring-yellow-300"
             >
               Xem kết quả
             </Link>
@@ -252,7 +301,7 @@ export default function ExamPage() {
 
         <div className="mb-6 h-3 overflow-hidden rounded-full bg-white/5">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 transition-all"
+            className="h-full rounded-full bg-linear-to-r from-yellow-400 to-amber-500 transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -261,11 +310,16 @@ export default function ExamPage() {
           <div className="mb-4 flex items-start justify-between gap-4">
             <h2 className="text-xl font-semibold text-zinc-100">
               {question.question}
+              {isMultiChoice && (
+                <span className="ml-2 rounded-md border border-yellow-400/30 bg-yellow-400/10 px-2 py-0.5 align-middle text-xs font-semibold text-yellow-200">
+                  Chọn nhiều đáp án
+                </span>
+              )}
             </h2>
 
             <div className="flex flex-col items-end gap-2">
               <div className="flex gap-2">
-                {selectedAnswer === undefined ? (
+                {!isAnswered ? (
                   <button
                     onClick={() => setShowHint((s) => !s)}
                     className="rounded-md border border-yellow-400/25 bg-yellow-400/10 px-3 py-1 text-sm font-medium text-yellow-200 hover:bg-yellow-400/20 focus:outline-none focus:ring-2 focus:ring-yellow-300"
@@ -279,16 +333,18 @@ export default function ExamPage() {
 
           <div className="space-y-3">
             {question.options.map((option, index) => {
+              const checked = isOptionChecked(index);
               let className =
                 "w-full rounded-xl border p-4 text-left transition font-medium ";
 
-              if (selectedAnswer === undefined) {
-                className +=
-                  "border-white/10 bg-white/[0.03] text-zinc-200 hover:border-yellow-400/40 hover:bg-yellow-400/5";
+              if (!isAnswered) {
+                className += checked
+                  ? "border-yellow-400/60 bg-yellow-400/10 text-zinc-100"
+                  : "border-white/10 bg-white/[0.03] text-zinc-200 hover:border-yellow-400/40 hover:bg-yellow-400/5";
               } else if (isCorrectOption(index)) {
                 className +=
                   "bg-gradient-to-r from-yellow-400 to-amber-500 border-yellow-400 text-zinc-950";
-              } else if (selectedAnswer === index) {
+              } else if (checked) {
                 className += "bg-red-500/90 border-red-500 text-white";
               } else {
                 className += "border-white/10 bg-white/[0.02] text-zinc-500";
@@ -297,13 +353,26 @@ export default function ExamPage() {
               return (
                 <button
                   key={index}
-                  onClick={() => handleAnswer(index)}
+                  onClick={() => handleOptionClick(index)}
                   className={className}
                 >
                   <div className="flex items-start gap-3">
+                    {isMultiChoice && (
+                      <div
+                        className={`mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
+                          checked
+                            ? "border-current bg-current/20"
+                            : "border-zinc-500"
+                        }`}
+                      >
+                        {checked && (
+                          <span className="h-2 w-2 rounded-sm bg-current" />
+                        )}
+                      </div>
+                    )}
                     <div
                       className={`mt-0.5 font-bold ${
-                        selectedAnswer === undefined
+                        !isAnswered
                           ? "text-yellow-300"
                           : isCorrectOption(index)
                             ? "text-zinc-950"
@@ -320,8 +389,19 @@ export default function ExamPage() {
             })}
           </div>
 
+          {/* Nút nộp đáp án cho câu hỏi chọn nhiều */}
+          {isMultiChoice && !isAnswered && (
+            <button
+              onClick={submitMultiChoice}
+              disabled={pendingSelection.length === 0}
+              className="mt-4 w-full rounded-lg bg-linear-to-r from-yellow-400 to-amber-500 px-6 py-3 font-semibold text-zinc-950 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-500/20 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:translate-y-0"
+            >
+              Nộp đáp án ({pendingSelection.length} đã chọn)
+            </button>
+          )}
+
           {/* Hint panel shown when user requests hint and hasn't answered yet */}
-          {selectedAnswer === undefined && showHint && (
+          {!isAnswered && showHint && (
             <div className="mt-6 rounded-xl border border-yellow-400/25 bg-yellow-400/5 p-4 text-yellow-100">
               <h3 className="mb-1 font-semibold text-yellow-300">Hint</h3>
               <p>{question.hint ?? "No hint available for this question."}</p>
@@ -329,7 +409,7 @@ export default function ExamPage() {
           )}
 
           {/* Result panel shown after answering */}
-          {selectedAnswer !== undefined && (
+          {isAnswered && (
             <div
               className={`mt-6 rounded-xl p-5 ${
                 userCorrect
@@ -370,12 +450,14 @@ export default function ExamPage() {
             </button>
           </div>
           <p className="mb-3 text-xs text-zinc-500">
-            Ghi lại kiến thức, mẹo nhớ, hoặc điểm cần ôn thêm cho môn{" "}
-            {subject.code}. Ghi chú được lưu tự động trên trình duyệt này.
+            Ghi chú riêng cho câu hỏi này (câu {currentIndex + 1}). Lưu tự động
+            trên trình duyệt.
           </p>
           <textarea
             value={note}
-            onChange={(e) => subjectId && setNote(subjectId, e.target.value)}
+            onChange={(e) =>
+              subjectId && setNote(subjectId, question.id, e.target.value)
+            }
             placeholder="Nhập ghi chú của bạn ở đây..."
             rows={4}
             className="w-full resize-y rounded-lg border border-white/10 bg-white/[0.03] p-3 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-yellow-400/40"
@@ -427,7 +509,7 @@ export default function ExamPage() {
           >
             <div className="mb-3 flex items-center justify-between gap-4">
               <h3 id="notes-title" className="text-lg font-semibold text-white">
-                📝 Ghi chú - {subject.code}
+                📝 Ghi chú - Câu {currentIndex + 1}
               </h3>
               <button
                 type="button"
@@ -440,7 +522,9 @@ export default function ExamPage() {
 
             <textarea
               value={note}
-              onChange={(e) => subjectId && setNote(subjectId, e.target.value)}
+              onChange={(e) =>
+                subjectId && setNote(subjectId, question.id, e.target.value)
+              }
               placeholder="Nhập ghi chú của bạn ở đây..."
               rows={14}
               autoFocus

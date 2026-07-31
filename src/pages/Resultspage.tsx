@@ -2,10 +2,24 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { getSubjectById } from "../data/subjects";
 import { useExamStore } from "../store/examStore";
 
-function isCorrect(question: { answer: number | number[] }, selected: number) {
-  return Array.isArray(question.answer)
-    ? question.answer.includes(selected)
-    : question.answer === selected;
+function isCorrect(
+  question: { answer: number | number[] },
+  selected: number | number[],
+) {
+  if (Array.isArray(question.answer)) {
+    if (!Array.isArray(selected)) return false;
+    return (
+      selected.length === question.answer.length &&
+      question.answer.every((a) => selected.includes(a))
+    );
+  }
+  return question.answer === selected;
+}
+
+function formatAnswer(value: number | number[]) {
+  return Array.isArray(value)
+    ? value.map((i) => String.fromCharCode(65 + i)).join(", ")
+    : String.fromCharCode(65 + value);
 }
 
 export default function ResultsPage() {
@@ -148,15 +162,11 @@ export default function ResultsPage() {
                     <p className="mt-1 text-sm text-zinc-400">
                       Bạn chọn:{" "}
                       <span className="font-semibold text-red-400">
-                        {String.fromCharCode(65 + answers[q.id])}
+                        {formatAnswer(answers[q.id])}
                       </span>{" "}
                       — Đáp án đúng:{" "}
                       <span className="font-semibold text-yellow-300">
-                        {Array.isArray(q.answer)
-                          ? q.answer
-                              .map((i) => String.fromCharCode(65 + i))
-                              .join(", ")
-                          : String.fromCharCode(65 + q.answer)}
+                        {formatAnswer(q.answer)}
                       </span>
                     </p>
                     {q.rationale && (

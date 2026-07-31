@@ -2,12 +2,16 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface ExamState {
-  answers: Record<string, Record<number, number>>;
+  answers: Record<string, Record<number, number | number[]>>;
   currentIndex: Record<string, number>;
-  // Ghi chú học tập của người dùng cho từng môn
-  notes: Record<string, string>;
+  // Ghi chú học tập của người dùng cho từng câu hỏi, theo từng môn
+  notes: Record<string, Record<number, string>>;
 
-  setAnswer: (subjectId: string, questionId: number, answer: number) => void;
+  setAnswer: (
+    subjectId: string,
+    questionId: number,
+    answer: number | number[],
+  ) => void;
 
   setCurrentIndex: (subjectId: string, index: number) => void;
 
@@ -16,7 +20,7 @@ interface ExamState {
   // Mở lại (xoá) đáp án của các câu hỏi cụ thể để người học làm lại (dùng cho "Làm lại câu sai")
   clearAnswers: (subjectId: string, questionIds: number[]) => void;
 
-  setNote: (subjectId: string, note: string) => void;
+  setNote: (subjectId: string, questionId: number, note: string) => void;
 }
 
 export const useExamStore = create<ExamState>()(
@@ -72,11 +76,14 @@ export const useExamStore = create<ExamState>()(
           };
         }),
 
-      setNote: (subjectId, note) =>
+      setNote: (subjectId, questionId, note) =>
         set((state) => ({
           notes: {
             ...state.notes,
-            [subjectId]: note,
+            [subjectId]: {
+              ...state.notes[subjectId],
+              [questionId]: note,
+            },
           },
         })),
     }),

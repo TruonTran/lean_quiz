@@ -139,7 +139,7 @@ Dự án đã cấu hình sẵn ESLint. Để bật thêm các rule _type-aware_
 
 ## 🧭 Định hướng phát triển
 
-- [ ] Chế độ **Dark/Light toggle**, lưu lựa chọn vào `localStorage`.
+- [✅] Chế độ **Dark/Light toggle**, lưu lựa chọn vào `localStorage`.
 - [ ] Hiệu ứng **confetti** khi hoàn thành bài với điểm cao.
 - [ ] Chế độ **thi có giờ** (timer theo câu hoặc toàn bài).
 - [ ] **Export kết quả** ra CSV/PDF.
