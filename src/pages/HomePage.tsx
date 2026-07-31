@@ -23,9 +23,15 @@ export default function HomePage() {
             </span>
           </h1>
           <p className="mt-4 text-base text-zinc-400 sm:text-lg">
-            Chọn môn học bên dưới để bắt đầu ôn tập và theo dõi tiến độ của
-            bạn.
+            Chọn môn học bên dưới để bắt đầu ôn tập và theo dõi tiến độ của bạn.
           </p>
+
+          <Link
+            to="/notes"
+            className="mt-5 inline-flex items-center gap-2 rounded-lg border border-yellow-400/25 bg-white/5 px-4 py-2 text-sm font-semibold text-yellow-200 transition hover:bg-white/10"
+          >
+            📝 Ghi chú của bạn
+          </Link>
         </div>
 
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

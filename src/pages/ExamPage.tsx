@@ -87,6 +87,7 @@ export default function ExamPage() {
 
   const [showHint, setShowHint] = useState(false);
   const [showConfirmReset, setShowConfirmReset] = useState(false);
+  const [showNotesModal, setShowNotesModal] = useState(false);
 
   // Refs for focus management when modal opens/closes
   const resetButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -356,9 +357,18 @@ export default function ExamPage() {
 
         {/* Ghi chú học tập của người dùng cho môn này */}
         <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-5 shadow-sm">
-          <h3 className="mb-2 flex items-center gap-2 font-semibold text-white">
-            📝 Ghi chú của bạn
-          </h3>
+          <div className="mb-2 flex items-center justify-between gap-4">
+            <h3 className="flex items-center gap-2 font-semibold text-white">
+              📝 Ghi chú của bạn
+            </h3>
+            <button
+              type="button"
+              onClick={() => setShowNotesModal(true)}
+              className="shrink-0 rounded-md border border-yellow-400/25 bg-yellow-400/10 px-3 py-1 text-xs font-medium text-yellow-200 transition hover:bg-yellow-400/20"
+            >
+              Xem nội dung ghi chú
+            </button>
+          </div>
           <p className="mb-3 text-xs text-zinc-500">
             Ghi lại kiến thức, mẹo nhớ, hoặc điểm cần ôn thêm cho môn{" "}
             {subject.code}. Ghi chú được lưu tự động trên trình duyệt này.
@@ -398,6 +408,47 @@ export default function ExamPage() {
           </div>
         </div>
       </div>
+
+      {/* Notes Modal - xem/sửa ghi chú đầy đủ của môn hiện tại */}
+      {showNotesModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setShowNotesModal(false)}
+            aria-hidden="true"
+          />
+
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="notes-title"
+            className="glass-panel relative z-10 w-full max-w-2xl transform overflow-hidden rounded-lg bg-zinc-900/90 p-6 shadow-2xl transition-all duration-150"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-3 flex items-center justify-between gap-4">
+              <h3 id="notes-title" className="text-lg font-semibold text-white">
+                📝 Ghi chú - {subject.code}
+              </h3>
+              <button
+                type="button"
+                onClick={() => setShowNotesModal(false)}
+                className="rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm font-medium text-zinc-200 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              >
+                Đóng
+              </button>
+            </div>
+
+            <textarea
+              value={note}
+              onChange={(e) => subjectId && setNote(subjectId, e.target.value)}
+              placeholder="Nhập ghi chú của bạn ở đây..."
+              rows={14}
+              autoFocus
+              className="w-full resize-y rounded-lg border border-white/10 bg-white/[0.03] p-3 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-yellow-400/40"
+            />
+          </div>
+        </div>
+      )}
 
       {/* Confirm Reset Modal */}
       {showConfirmReset && (
