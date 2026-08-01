@@ -9,33 +9,60 @@ export default function HomePage() {
     <div className="relative min-h-screen overflow-hidden bg-[#08090c] p-6 sm:p-10">
       <div className="bg-ambient" />
 
+      {/* Orb trôi nổi trang trí - thuần hiệu ứng, không ảnh hưởng bố cục */}
+      <div
+        aria-hidden="true"
+        className="floating-orb -left-16 top-10 h-72 w-72 bg-yellow-400/10"
+        style={{ animationDelay: "0s", animationDuration: "8s" }}
+      />
+      <div
+        aria-hidden="true"
+        className="floating-orb right-0 top-1/3 h-56 w-56 bg-amber-500/10"
+        style={{ animationDelay: "1.2s", animationDuration: "9s" }}
+      />
+      <div
+        aria-hidden="true"
+        className="floating-orb bottom-0 left-1/3 h-64 w-64 bg-yellow-300/10"
+        style={{ animationDelay: "2.4s", animationDuration: "7s" }}
+      />
+
       <div className="relative z-10">
         <div className="mx-auto mb-12 max-w-3xl text-center">
-          <span className="font-mono-brand inline-flex items-center gap-2 rounded-full border border-yellow-400/20 bg-yellow-400/5 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-yellow-300">
+          <span
+            className="fade-up font-mono-brand inline-flex items-center gap-2 rounded-full border border-yellow-400/20 bg-yellow-400/5 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-yellow-300"
+            style={{ animationDelay: "0.05s" }}
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-yellow-400 shadow-[0_0_10px_theme(colors.yellow.400)]" />
             Nền tảng ôn luyện
           </span>
 
-          <h1 className="mt-5 text-4xl font-extrabold text-white sm:text-5xl">
+          <h1
+            className="fade-up mt-5 text-4xl font-extrabold text-white sm:text-5xl"
+            style={{ animationDelay: "0.15s" }}
+          >
             Quiz{" "}
-            <span className="bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent">
+            <span className="text-gradient-animate bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-300 bg-clip-text text-transparent">
               Cùng T
             </span>
           </h1>
-          <p className="mt-4 text-base text-zinc-400 sm:text-lg">
+          <p
+            className="fade-up mt-4 text-base text-zinc-400 sm:text-lg"
+            style={{ animationDelay: "0.25s" }}
+          >
             Chọn môn học bên dưới để bắt đầu ôn tập và theo dõi tiến độ của bạn.
           </p>
 
           <Link
             to="/notes"
-            className="mt-5 inline-flex items-center gap-2 rounded-lg border border-yellow-400/25 bg-white/5 px-4 py-2 text-sm font-semibold text-yellow-200 transition hover:bg-white/10"
+            className="fade-up mt-5 inline-flex items-center gap-2 rounded-lg border border-yellow-400/25 bg-white/5 px-4 py-2 text-sm font-semibold text-yellow-200 transition hover:bg-white/10"
+            style={{ animationDelay: "0.35s" }}
           >
             📝 Ghi chú của bạn
           </Link>
         </div>
 
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {subjects.map((subject) => {
+          {subjects.map((subject, i) => {
             const answered = Object.keys(allAnswers[subject.id] ?? {}).length;
             const total = subject.questions.length;
             const started = answered > 0;
@@ -44,7 +71,8 @@ export default function HomePage() {
               <Link
                 key={subject.id}
                 to={`/exam/${subject.id}`}
-                className="glass-panel glow-hover group relative overflow-hidden rounded-2xl bg-zinc-900/40 p-6 shadow-lg shadow-black/40"
+                className="glass-panel glow-hover fade-up group relative overflow-hidden rounded-2xl bg-zinc-900/40 p-6 shadow-lg shadow-black/40"
+                style={{ animationDelay: `${0.4 + i * 0.08}s` }}
               >
                 <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-yellow-400/10 blur-2xl transition-opacity duration-300 group-hover:opacity-100 opacity-60" />
 
@@ -70,7 +98,7 @@ export default function HomePage() {
                   </div>
                 )}
 
-                <button className="relative mt-5 w-full rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 py-2 font-semibold text-zinc-950 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:shadow-yellow-500/20">
+                <button className="shine-sweep relative mt-5 w-full rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 py-2 font-semibold text-zinc-950 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:shadow-yellow-500/20">
                   {started ? "Tiếp tục làm bài" : "Start Exam"}
                 </button>
               </Link>

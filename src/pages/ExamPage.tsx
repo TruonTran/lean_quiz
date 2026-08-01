@@ -3,6 +3,19 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { getSubjectById } from "../data/subjects";
 import { useExamStore } from "../store/examStore";
 
+// Nhắc nghỉ ngơi sau mỗi 30 phút học liên tục
+const BREAK_REMINDER_INTERVAL = 30 * 60 * 1000;
+const BREAK_SNOOZE_INTERVAL = 10 * 60 * 1000;
+
+// Vài lời động viên khác nhau, random mỗi lần hiện để đỡ nhàm
+const BREAK_MESSAGES = [
+  "Bạn đã học được 30 phút rồi đó! Đứng dậy vươn vai, uống miếng nước nhé 💧",
+  "Não bộ cũng cần nạp lại năng lượng. Nghỉ 5 phút rồi quay lại chinh chiến tiếp nào 💪",
+  "Giỏi lắm! Nghỉ mắt một chút, nhìn ra xa cho đỡ mỏi nha 👀",
+  "Bạn đang làm rất tốt rồi đó! Hít thở sâu, thư giãn vai gáy một chút nhé 🌿",
+  "30 phút tập trung không phải chuyện đùa đâu, cho bản thân một lời khen đi nào 🌟",
+];
+
 export default function ExamPage() {
   const { subjectId } = useParams<{ subjectId: string }>();
 
@@ -73,9 +86,15 @@ export default function ExamPage() {
       ? (allCurrentIndex[subjectId] ?? 0)
       : 0;
 
+  // Hướng trượt khi chuyển câu (để chạy animation slide-in đúng chiều)
+  const [slideDir, setSlideDir] = useState<"next" | "prev">("next");
+
   // Điều hướng: nếu đang ở chế độ làm lại thì cập nhật state local,
   // ngược lại cập nhật currentIndex của bài thi chính trong store (giữ nguyên hành vi cũ).
   const goToIndex = (index: number) => {
+    if (index === currentIndex) return;
+    setSlideDir(index > currentIndex ? "next" : "prev");
+
     if (isRetryMode) {
       setRetryIndex(index);
     } else if (subjectId) {
@@ -85,7 +104,117 @@ export default function ExamPage() {
 
   const [showHint, setShowHint] = useState(false);
   const [showConfirmReset, setShowConfirmReset] = useState(false);
-  const [showNotesModal, setShowNotesModal] = useState(false);
+
+  // ---- Nhắc nghỉ ngơi sau mỗi 30 phút học liên tục ----
+  const [showBreakReminder, setShowBreakReminder] = useState(false);
+  const [breakMessage, setBreakMessage] = useState(BREAK_MESSAGES[0]);
+  const breakTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const scheduleBreakReminder = (delay: number = BREAK_REMINDER_INTERVAL) => {
+    if (breakTimerRef.current) clearTimeout(breakTimerRef.current);
+    breakTimerRef.current = setTimeout(() => {
+      setBreakMessage(
+        BREAK_MESSAGES[Math.floor(Math.random() * BREAK_MESSAGES.length)],
+      );
+      setShowBreakReminder(true);
+    }, delay);
+  };
+
+  // Bắt đầu đếm 30 phút ngay khi vào trang làm bài
+  useEffect(() => {
+    scheduleBreakReminder();
+    return () => {
+      if (breakTimerRef.current) clearTimeout(breakTimerRef.current);
+    };
+    // chỉ chạy 1 lần khi mount, không phụ thuộc gì thêm
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const dismissBreakReminder = () => {
+    setShowBreakReminder(false);
+    scheduleBreakReminder(); // đếm lại 30 phút tiếp theo
+  };
+
+  const snoozeBreakReminder = () => {
+    setShowBreakReminder(false);
+    scheduleBreakReminder(BREAK_SNOOZE_INTERVAL); // nhắc lại sau 10 phút
+  };
+  const [showNotesPanel, setShowNotesPanel] = useState(false);
+  // Chiều cao khung ghi chú (px) - người dùng có thể kéo tay cầm để chỉnh
+  const [noteHeight, setNoteHeight] = useState(160);
+  const dragStateRef = useRef<{ startY: number; startHeight: number } | null>(
+    null,
+  );
+
+  // Kéo tay cầm để thay đổi chiều cao khung ghi chú.
+  // Chỉ theo dõi trục dọc (Y) nên không có cảm giác "trôi" ngang như resize mặc định của trình duyệt.
+  const handleNoteDragStart = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    dragStateRef.current = { startY: e.clientY, startHeight: noteHeight };
+
+    const onMove = (ev: PointerEvent) => {
+      if (!dragStateRef.current) return;
+      const delta = ev.clientY - dragStateRef.current.startY;
+      const next = Math.min(
+        480,
+        Math.max(100, dragStateRef.current.startHeight + delta),
+      );
+      setNoteHeight(next);
+    };
+
+    const onUp = () => {
+      dragStateRef.current = null;
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+    };
+
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+  };
+
+  // ---- Vuốt trái/phải để chuyển câu (swipe navigation) ----
+  const touchStartRef = useRef<{
+    x: number;
+    y: number;
+    isTextInput: boolean;
+  } | null>(null);
+  const SWIPE_THRESHOLD = 60; // px tối thiểu để tính là vuốt
+
+  const handleCardTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const t = e.touches[0];
+    const target = e.target as HTMLElement;
+    touchStartRef.current = {
+      x: t.clientX,
+      y: t.clientY,
+      // Bỏ qua vuốt nếu người dùng đang chạm vào ô nhập ghi chú (để không phá thao tác chọn văn bản)
+      isTextInput: target.closest("textarea, input") !== null,
+    };
+  };
+
+  const handleCardTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!start || start.isTextInput) return;
+
+    const t = e.changedTouches[0];
+    const dx = t.clientX - start.x;
+    const dy = t.clientY - start.y;
+
+    // Chỉ tính là vuốt ngang khi đủ xa và rõ ràng ngang hơn dọc (tránh nhầm với cuộn trang)
+    if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy) * 1.5) {
+      return;
+    }
+
+    setShowHint(false);
+    if (dx < 0) {
+      // vuốt sang trái -> câu tiếp theo
+      goToIndex(Math.min(currentIndex + 1, questions.length - 1));
+    } else {
+      // vuốt sang phải -> câu trước
+      goToIndex(Math.max(currentIndex - 1, 0));
+    }
+  };
+
   // Các lựa chọn tạm (chưa nộp) cho câu hỏi chọn nhiều đáp án
   const [pendingSelection, setPendingSelection] = useState<number[]>([]);
   const prevPendingKeyRef = useRef<string>("");
@@ -306,7 +435,14 @@ export default function ExamPage() {
           />
         </div>
 
-        <div className="rounded-xl border border-white/10 bg-black/30 p-6 shadow-sm">
+        <div
+          key={currentIndex}
+          className={`touch-pan-y rounded-xl border border-white/10 bg-black/30 p-6 shadow-sm ${
+            slideDir === "next" ? "slide-in-next" : "slide-in-prev"
+          }`}
+          onTouchStart={handleCardTouchStart}
+          onTouchEnd={handleCardTouchEnd}
+        >
           <div className="mb-4 flex items-start justify-between gap-4">
             <h2 className="text-xl font-semibold text-zinc-100">
               {question.question}
@@ -327,6 +463,17 @@ export default function ExamPage() {
                     Hint
                   </button>
                 ) : null}
+                <button
+                  type="button"
+                  onClick={() => setShowNotesPanel((s) => !s)}
+                  className={`rounded-md border px-3 py-1 text-sm font-medium transition ${
+                    showNotesPanel
+                      ? "border-yellow-400/50 bg-yellow-400/20 text-yellow-100"
+                      : "border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10"
+                  }`}
+                >
+                  📝 {note ? "Ghi chú" : "Thêm ghi chú"}
+                </button>
               </div>
             </div>
           </div>
@@ -343,9 +490,10 @@ export default function ExamPage() {
                   : "border-white/10 bg-white/[0.03] text-zinc-200 hover:border-yellow-400/40 hover:bg-yellow-400/5";
               } else if (isCorrectOption(index)) {
                 className +=
-                  "bg-gradient-to-r from-yellow-400 to-amber-500 border-yellow-400 text-zinc-950";
+                  "bg-gradient-to-r from-yellow-400 to-amber-500 border-yellow-400 text-zinc-950 pop-correct";
               } else if (checked) {
-                className += "bg-red-500/90 border-red-500 text-white";
+                className +=
+                  "bg-red-500/90 border-red-500 text-white shake-wrong";
               } else {
                 className += "border-white/10 bg-white/[0.02] text-zinc-500";
               }
@@ -389,6 +537,31 @@ export default function ExamPage() {
             })}
           </div>
 
+          {/* Ghi chú của người dùng - nằm dưới đáp án, kéo được để đổi chiều cao */}
+          {showNotesPanel && (
+            <div className="mt-4 rounded-lg border border-white/10 bg-white/[0.03] p-3">
+              <textarea
+                value={note}
+                onChange={(e) =>
+                  subjectId && setNote(subjectId, question.id, e.target.value)
+                }
+                placeholder="Nhập ghi chú của bạn ở đây..."
+                style={{ height: noteHeight, resize: "none" }}
+                className="w-full rounded-md border border-white/10 bg-black/20 p-3 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-yellow-400/40"
+              />
+              {/* Tay cầm kéo tùy chỉnh - chỉ nhận thao tác kéo dọc, không bị lệch ngang */}
+              <div
+                onPointerDown={handleNoteDragStart}
+                className="group mx-auto mt-1 flex h-4 w-full cursor-ns-resize touch-none items-center justify-center"
+                role="separator"
+                aria-orientation="horizontal"
+                aria-label="Kéo để đổi chiều cao khung ghi chú"
+              >
+                <div className="h-1 w-10 rounded-full bg-white/15 transition group-hover:bg-yellow-400/50" />
+              </div>
+            </div>
+          )}
+
           {/* Nút nộp đáp án cho câu hỏi chọn nhiều */}
           {isMultiChoice && !isAnswered && (
             <button
@@ -402,7 +575,7 @@ export default function ExamPage() {
 
           {/* Hint panel shown when user requests hint and hasn't answered yet */}
           {!isAnswered && showHint && (
-            <div className="mt-6 rounded-xl border border-yellow-400/25 bg-yellow-400/5 p-4 text-yellow-100">
+            <div className="fade-up mt-6 rounded-xl border border-yellow-400/25 bg-yellow-400/5 p-4 text-yellow-100">
               <h3 className="mb-1 font-semibold text-yellow-300">Hint</h3>
               <p>{question.hint ?? "No hint available for this question."}</p>
             </div>
@@ -411,7 +584,7 @@ export default function ExamPage() {
           {/* Result panel shown after answering */}
           {isAnswered && (
             <div
-              className={`mt-6 rounded-xl p-5 ${
+              className={`fade-up mt-6 rounded-xl p-5 ${
                 userCorrect
                   ? "border border-yellow-400/30 bg-yellow-400/5 text-yellow-50"
                   : "border border-red-400/40 bg-red-500/10 text-red-50"
@@ -435,28 +608,9 @@ export default function ExamPage() {
           )}
         </div>
 
-        {/* Ghi chú học tập của người dùng cho môn này - chỉ hiện khi bấm mở */}
-        <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-5 shadow-sm">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <h3 className="flex items-center gap-2 font-semibold text-white">
-                📝 Ghi chú của bạn
-              </h3>
-              <p className="mt-1 text-xs text-zinc-500">
-                {note
-                  ? "Bạn đã có ghi chú cho câu này."
-                  : "Chưa có ghi chú cho câu này."}
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowNotesModal(true)}
-              className="shrink-0 rounded-md border border-yellow-400/25 bg-yellow-400/10 px-3 py-1 text-xs font-medium text-yellow-200 transition hover:bg-yellow-400/20"
-            >
-              {note ? "Xem / sửa ghi chú" : "Thêm ghi chú"}
-            </button>
-          </div>
-        </div>
+        <p className="mt-6 text-center text-xs text-zinc-500 sm:hidden">
+          👆 Vuốt trái/phải trên câu hỏi để chuyển câu
+        </p>
 
         <div className="mt-8 flex items-center justify-between">
           <button
@@ -485,45 +639,44 @@ export default function ExamPage() {
         </div>
       </div>
 
-      {/* Notes Modal - xem/sửa ghi chú đầy đủ của môn hiện tại */}
-      {showNotesModal && (
+      {/* Nhắc nghỉ ngơi sau 30 phút học liên tục */}
+      {showBreakReminder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setShowNotesModal(false)}
+            className="absolute inset-0 bg-black/50"
+            onClick={dismissBreakReminder}
             aria-hidden="true"
           />
 
           <div
             role="dialog"
             aria-modal="true"
-            aria-labelledby="notes-title"
-            className="glass-panel relative z-10 w-full max-w-2xl transform overflow-hidden rounded-lg bg-zinc-900/90 p-6 shadow-2xl transition-all duration-150"
+            aria-labelledby="break-title"
+            className="fade-up glass-panel relative z-10 w-full max-w-md transform overflow-hidden rounded-2xl bg-zinc-900/90 p-6 text-center shadow-2xl transition-all duration-150"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mb-3 flex items-center justify-between gap-4">
-              <h3 id="notes-title" className="text-lg font-semibold text-white">
-                📝 Ghi chú - Câu {currentIndex + 1}
-              </h3>
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-yellow-400/10 text-3xl">
+              🧘
+            </div>
+            <h3 id="break-title" className="text-lg font-bold text-white">
+              Đến giờ nghỉ ngơi rồi!
+            </h3>
+            <p className="mt-2 text-sm text-zinc-300">{breakMessage}</p>
+
+            <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-center">
               <button
-                type="button"
-                onClick={() => setShowNotesModal(false)}
-                className="rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm font-medium text-zinc-200 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+                onClick={dismissBreakReminder}
+                className="rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 px-5 py-2 text-sm font-semibold text-zinc-950 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-500/20 focus:outline-none focus:ring-2 focus:ring-yellow-300"
               >
-                Đóng
+                Đã nghỉ xong, học tiếp
+              </button>
+              <button
+                onClick={snoozeBreakReminder}
+                className="rounded-lg border border-white/10 bg-white/5 px-5 py-2 text-sm font-semibold text-zinc-200 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              >
+                Nhắc lại sau 10 phút
               </button>
             </div>
-
-            <textarea
-              value={note}
-              onChange={(e) =>
-                subjectId && setNote(subjectId, question.id, e.target.value)
-              }
-              placeholder="Nhập ghi chú của bạn ở đây..."
-              rows={14}
-              autoFocus
-              className="w-full resize-y rounded-lg border border-white/10 bg-white/[0.03] p-3 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-yellow-400/40"
-            />
           </div>
         </div>
       )}

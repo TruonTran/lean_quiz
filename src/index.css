@@ -280,3 +280,169 @@ textarea:focus-visible {
   box-shadow: 0 16px 40px -12px rgba(250, 204, 21, 0.28);
   border-color: rgba(250, 204, 21, 0.4);
 }
+
+/* ============================================================
+   CHUYỂN CÂU (ExamPage) — trượt vào theo hướng Next/Previous
+   ============================================================ */
+@keyframes slide-in-next {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes slide-in-prev {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.slide-in-next {
+  animation: slide-in-next 0.32s var(--ease);
+}
+.slide-in-prev {
+  animation: slide-in-prev 0.32s var(--ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .slide-in-next,
+  .slide-in-prev {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   KIỂM TRA ĐÚNG/SAI — hiệu ứng sinh động khi chọn đáp án
+   ============================================================ */
+@keyframes pop-correct {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.04);
+    box-shadow: 0 0 0 4px rgba(250, 204, 21, 0.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes shake-wrong {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+.pop-correct {
+  animation: pop-correct 0.45s var(--ease);
+}
+.shake-wrong {
+  animation: shake-wrong 0.4s var(--ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pop-correct,
+  .shake-wrong {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   HOMEPAGE — hiệu ứng "lung linh": orb trôi nổi, chữ gradient
+   chuyển động, thẻ môn học bay vào và ánh sáng lướt qua nút
+   ============================================================ */
+.floating-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(40px);
+  pointer-events: none;
+  animation: float-orb 7s ease-in-out infinite;
+}
+@keyframes float-orb {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -26px, 0) scale(1.06);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: fade-up 0.6s var(--ease) both;
+}
+
+.text-gradient-animate {
+  background-size: 200% auto;
+  animation: gradient-shift 4s ease-in-out infinite;
+}
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Ánh sáng lướt qua nút khi hover thẻ môn học */
+.shine-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.shine-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 45%,
+    transparent 60%
+  );
+  transform: translateX(-120%);
+  pointer-events: none;
+  transition: transform 0.7s var(--ease);
+}
+.group:hover .shine-sweep::after {
+  transform: translateX(120%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-orb {
+    animation: none;
+  }
+  .fade-up {
+    animation: none;
+  }
+  .text-gradient-animate {
+    animation: none;
+  }
+}
