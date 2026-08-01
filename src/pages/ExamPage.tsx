@@ -386,7 +386,33 @@ export default function ExamPage() {
     <div className="relative min-h-screen overflow-hidden bg-[#08090c] py-10">
       <div className="bg-ambient" />
 
-      <div className="glass-panel relative z-10 mx-auto max-w-5xl rounded-2xl bg-zinc-900/40 p-8 shadow-2xl shadow-black/50">
+      <div className="relative z-10 mx-auto flex max-w-6xl items-start gap-3 px-3 lg:gap-6 lg:px-6">
+        {/* Nút Previous dạng mũi tên bên trái - chỉ hiện từ lg trở lên, đứng yên theo chiều dọc màn hình, không bị đẩy khi nội dung card cao thêm */}
+        <button
+          onClick={() => {
+            setShowHint(false);
+            goToIndex(Math.max(currentIndex - 1, 0));
+          }}
+          disabled={currentIndex === 0}
+          aria-label="Câu trước"
+          className="group glass-panel sticky top-1/2 hidden h-14 w-14 shrink-0 -translate-y-1/2 items-center justify-center rounded-full text-zinc-300 transition-all duration-300 ease-out hover:border-yellow-400/40 hover:bg-white/10 hover:text-yellow-300 hover:shadow-lg hover:shadow-yellow-500/10 active:scale-90 disabled:pointer-events-none disabled:opacity-0 lg:flex focus:outline-none focus:ring-2 focus:ring-yellow-300"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            className="h-5 w-5 transition-transform duration-300 ease-out group-hover:-translate-x-0.5"
+          >
+            <path
+              d="M15 6l-6 6 6 6"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+
+        <div className="glass-panel relative z-10 min-w-0 flex-1 rounded-2xl bg-zinc-900/40 p-8 shadow-2xl shadow-black/50">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-extrabold text-white">
@@ -492,8 +518,7 @@ export default function ExamPage() {
                 className +=
                   "bg-gradient-to-r from-yellow-400 to-amber-500 border-yellow-400 text-zinc-950 pop-correct";
               } else if (checked) {
-                className +=
-                  "bg-red-500/90 border-red-500 text-white shake-wrong";
+                className += "bg-red-500/90 border-red-500 text-white shake-wrong";
               } else {
                 className += "border-white/10 bg-white/[0.02] text-zinc-500";
               }
@@ -608,11 +633,12 @@ export default function ExamPage() {
           )}
         </div>
 
-        <p className="mt-6 text-center text-xs text-zinc-500 sm:hidden">
+        <p className="mt-6 text-center text-xs text-zinc-500 lg:hidden">
           👆 Vuốt trái/phải trên câu hỏi để chuyển câu
         </p>
 
-        <div className="mt-8 flex items-center justify-between">
+        {/* Thanh Previous/Next cũ - chỉ dùng cho màn hình nhỏ hơn lg, nơi không đủ chỗ đặt nút 2 bên */}
+        <div className="glass-panel sticky bottom-4 z-20 mt-8 flex items-center justify-between rounded-xl bg-zinc-900/85 p-3 shadow-lg shadow-black/40 backdrop-blur-md lg:hidden">
           <button
             onClick={() => {
               setShowHint(false);
@@ -637,6 +663,32 @@ export default function ExamPage() {
             </button>
           </div>
         </div>
+        </div>
+
+        {/* Nút Next dạng mũi tên bên phải - đối xứng với nút Previous */}
+        <button
+          onClick={() => {
+            setShowHint(false);
+            goToIndex(Math.min(currentIndex + 1, questions.length - 1));
+          }}
+          disabled={currentIndex === questions.length - 1}
+          aria-label="Câu tiếp theo"
+          className="group glass-panel sticky top-1/2 hidden h-14 w-14 shrink-0 -translate-y-1/2 items-center justify-center rounded-full text-zinc-300 transition-all duration-300 ease-out hover:border-yellow-400/40 hover:bg-white/10 hover:text-yellow-300 hover:shadow-lg hover:shadow-yellow-500/10 active:scale-90 disabled:pointer-events-none disabled:opacity-0 lg:flex focus:outline-none focus:ring-2 focus:ring-yellow-300"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            className="h-5 w-5 transition-transform duration-300 ease-out group-hover:translate-x-0.5"
+          >
+            <path
+              d="M9 6l6 6-6 6"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
       </div>
 
       {/* Nhắc nghỉ ngơi sau 30 phút học liên tục */}
@@ -658,7 +710,10 @@ export default function ExamPage() {
             <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-yellow-400/10 text-3xl">
               🧘
             </div>
-            <h3 id="break-title" className="text-lg font-bold text-white">
+            <h3
+              id="break-title"
+              className="text-lg font-bold text-white"
+            >
               Đến giờ nghỉ ngơi rồi!
             </h3>
             <p className="mt-2 text-sm text-zinc-300">{breakMessage}</p>
