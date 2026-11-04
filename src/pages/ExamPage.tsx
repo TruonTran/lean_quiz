@@ -1,6 +1,7 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { getSubjectById } from "../data/subjects";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { errMsg } from "../data/api";
+import { useSubject } from "../data/hooks";
 import { useExamStore } from "../store/examStore";
 import { ExamThemeProvider, useExamTheme } from "../theme/ThemeContext";
 import type { SlideDir } from "../types/types";
@@ -22,7 +23,8 @@ function ExamPageContent() {
   const { theme } = useExamTheme();
   const { subjectId } = useParams<{ subjectId: string }>();
   const location = useLocation();
-  const subject = getSubjectById(subjectId ?? "");
+  const subjectQuery = useSubject(subjectId);
+  const subject = subjectQuery.data;
 
   /* ---------- store ---------- */
   const allAnswers = useExamStore((s) => s.answers);
@@ -182,6 +184,27 @@ function ExamPageContent() {
   });
 
   /* ---------- render ---------- */
+  if (subjectQuery.isPending) {
+    return (
+      <div className={`flex h-screen items-center justify-center text-xl font-semibold ${theme.page} ${theme.text}`}>
+        Đang tải đề…
+      </div>
+    );
+  }
+  if (subjectQuery.isError) {
+    return (
+      <div className={`flex h-screen flex-col items-center justify-center gap-4 px-6 text-center ${theme.page} ${theme.text}`}>
+        <p className="text-xl font-semibold">Không tải được đề</p>
+        <p className={`text-sm ${theme.muted}`}>{errMsg(subjectQuery.error)}</p>
+        <button
+          onClick={() => subjectQuery.refetch()}
+          className={`rounded-lg px-5 py-2 text-sm font-semibold ${theme.softBtn}`}
+        >
+          Thử lại
+        </button>
+      </div>
+    );
+  }
   if (!subject) {
     return (
       <div className={`flex h-screen items-center justify-center text-2xl font-semibold ${theme.page} ${theme.text}`}>
@@ -191,8 +214,11 @@ function ExamPageContent() {
   }
   if (!question) {
     return (
-      <div className={`flex h-screen items-center justify-center text-2xl font-semibold ${theme.page} ${theme.text}`}>
-        No questions found
+      <div className={`flex h-screen flex-col items-center justify-center gap-4 px-6 text-center ${theme.page} ${theme.text}`}>
+        <p className="text-2xl font-semibold">Môn này chưa có câu hỏi nào</p>
+        <Link to="/subjects" className={`rounded-lg px-5 py-2 text-sm font-semibold ${theme.softBtn}`}>
+          ← Chọn môn khác
+        </Link>
       </div>
     );
   }
