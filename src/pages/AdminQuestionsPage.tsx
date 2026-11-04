@@ -11,6 +11,7 @@ import {
 import { useSubject } from "../data/hooks";
 import PageShell from "../components/PageShell";
 import QuestionForm from "../components/QuestionForm";
+import BulkImportPanel from "../components/BulkImportPanel";
 import { ErrorBox, Loading } from "../components/LoadState";
 import {
   dangerBtn,
@@ -29,6 +30,7 @@ export default function AdminQuestionsPage() {
   const subject = subjectQuery.data;
 
   const [adding, setAdding] = useState(false);
+  const [importing, setImporting] = useState(false);
   const [formKey, setFormKey] = useState(0); // đổi key để xoá trắng form sau khi thêm
   const [editing, setEditing] = useState<number | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -84,12 +86,20 @@ export default function AdminQuestionsPage() {
     add.reset();
     setNotice(null);
     setEditing(null);
+    setImporting(false);
     setAdding(true);
+  };
+  const startImport = () => {
+    setNotice(null);
+    setEditing(null);
+    setAdding(false);
+    setImporting(true);
   };
   const startEdit = (qid: number) => {
     update.reset();
     setNotice(null);
     setAdding(false);
+    setImporting(false);
     setEditing(qid);
   };
 
@@ -121,10 +131,29 @@ export default function AdminQuestionsPage() {
       backLabel="← Quản lý môn"
     >
       <div className="space-y-5">
-        {!adding && (
-          <button onClick={startAdd} className={primaryBtn}>
-            + Thêm câu hỏi
-          </button>
+        {!adding && !importing && (
+          <div className="flex flex-wrap gap-2">
+            <button onClick={startAdd} className={primaryBtn}>
+              + Thêm câu hỏi
+            </button>
+            <button onClick={startImport} className={ghostBtn + " !px-5 !py-2 !text-sm"}>
+              Nhập hàng loạt
+            </button>
+          </div>
+        )}
+
+        {importing && (
+          <BulkImportPanel
+            subjectId={id}
+            existing={questions.map((q) => q.question)}
+            onClose={() => setImporting(false)}
+            onImported={({ count, first, last }) => {
+              setImporting(false);
+              setSearch("");
+              setPage(9999); // nhảy tới trang cuối, nơi các câu mới nằm
+              setNotice(`Đã nhập ${count} câu (#${first}–#${last}).`);
+            }}
+          />
         )}
 
         {adding && (

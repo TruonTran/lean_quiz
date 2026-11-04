@@ -249,19 +249,51 @@ export async function deleteSubject(id: string): Promise<void> {
   if (!data || data.length === 0) throw new Error(DENIED);
 }
 
-/** Thêm câu hỏi vào cuối môn, id = id lớn nhất hiện có + 1. Trả về id mới. */
-export async function createQuestion(
-  subjectId: string,
-  payload: QuestionPayload,
-): Promise<number> {
-  const { data, error: maxError } = await supabase
+/** id kế tiếp của môn = id lớn nhất hiện có + 1 (hoặc 1 nếu môn còn trống). */
+async function nextQuestionId(subjectId: string): Promise<number> {
+  const { data, error } = await supabase
     .from("questions")
     .select("id")
     .eq("subject_id", subjectId)
     .order("id", { ascending: false })
     .limit(1);
-  if (maxError) raise(maxError);
-  const id = ((data?.[0] as { id: number } | undefined)?.id ?? 0) + 1;
+  if (error) raise(error);
+  return ((data?.[0] as { id: number } | undefined)?.id ?? 0) + 1;
+}
+
+const BULK_CHUNK = 500;
+
+/**
+ * Thêm nhiều câu hỏi một lượt, id liên tiếp từ id lớn nhất + 1.
+ * Gửi theo lô 500 câu (mỗi lô là một giao dịch). Nếu một lô giữa chừng lỗi,
+ * các lô trước đó đã được lưu — thông báo lỗi nói rõ đã nhập được bao nhiêu câu.
+ */
+export async function createQuestionsBulk(
+  subjectId: string,
+  payloads: QuestionPayload[],
+): Promise<{ first: number; last: number }> {
+  if (payloads.length === 0) throw new Error("Không có câu hỏi nào để nhập.");
+  const first = await nextQuestionId(subjectId);
+  const rows = payloads.map((p, i) => ({ subject_id: subjectId, id: first + i, ...p }));
+
+  for (let i = 0; i < rows.length; i += BULK_CHUNK) {
+    const { error } = await supabase.from("questions").insert(rows.slice(i, i + BULK_CHUNK));
+    if (error) {
+      if (i === 0) raise(error);
+      throw new Error(
+        `Đã nhập được ${i} câu đầu rồi gặp lỗi: ${errMsg(error)}. Hãy kiểm tra lại danh sách câu hỏi của môn trước khi nhập tiếp.`,
+      );
+    }
+  }
+  return { first, last: first + rows.length - 1 };
+}
+
+/** Thêm câu hỏi vào cuối môn, id = id lớn nhất hiện có + 1. Trả về id mới. */
+export async function createQuestion(
+  subjectId: string,
+  payload: QuestionPayload,
+): Promise<number> {
+  const id = await nextQuestionId(subjectId);
 
   const { error } = await supabase
     .from("questions")
