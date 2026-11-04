@@ -38,7 +38,7 @@
 
 |                             |                                                                          |
 | --------------------------- | ------------------------------------------------------------------------ |
-| ⚡ **Siêu nhẹ**             | Khởi động tức thì nhờ Vite, không phụ thuộc backend.                     |
+| ⚡ **Siêu nhẹ**             | Khởi động tức thì nhờ Vite; dữ liệu đọc từ Supabase, chỉ tải môn đang học.                     |
 | 📦 **Dữ liệu dạng TS**      | Ngân hàng câu hỏi lưu bằng file `.ts` — dễ đọc, dễ chỉnh, dễ import Git. |
 | 💾 **Tự lưu tiến độ**       | Trạng thái làm bài được lưu cục bộ (persist), quay lại là làm tiếp.      |
 | ⌨️ **Điều hướng bằng phím** | Mũi tên để chuyển câu, số `1–9` để chọn đáp án.                          |
@@ -74,18 +74,51 @@
 ```bash
 # 1. Clone dự án
 git clone https://github.com/TruonTran/lean_quiz.git
-cd quiz-cung-t
+cd lean_quiz
 
 # 2. Cài đặt phụ thuộc
 npm install
 # hoặc: yarn
 
-# 3. Chạy môi trường phát triển
+# 3. Cấu hình Supabase (xem mục "Thiết lập Supabase" bên dưới)
+cp .env.example .env.local   # rồi điền URL + anon key
+
+# 4. Chạy môi trường phát triển
 npm run dev
 # hoặc: yarn dev
 ```
 
 Sau đó mở trình duyệt tại địa chỉ được Vite in ra (mặc định `http://localhost:5173`).
+
+<br/>
+
+## ☁️ Thiết lập Supabase
+
+Câu hỏi và tóm tắt kiến thức nằm trong Supabase. **Ai cũng đọc được, chỉ admin mới ghi được** (do Row Level Security trong DB chặn, không phải do giao diện). Ghi chú và đáp án vẫn lưu trên trình duyệt của từng người.
+
+1. **Tạo project** tại [supabase.com](https://supabase.com).
+2. **Tạo bảng + phân quyền:** mở *SQL Editor*, dán toàn bộ `supabase/schema.sql` rồi chạy.
+3. **Tạo tài khoản admin:** *Authentication → Users → Add user* (email + mật khẩu của bạn). Rồi vào *Authentication → Sign In / Providers* và **tắt "Allow new users to sign up"** để không ai khác tạo được tài khoản.
+4. **Cấp quyền admin** cho chính bạn (SQL Editor, đổi email):
+   ```sql
+   insert into public.admins (user_id)
+   select id from auth.users where email = 'email-cua-ban@example.com';
+   ```
+5. **Điền khoá cho web:** `cp .env.example .env.local`, điền `VITE_SUPABASE_URL` và `VITE_SUPABASE_ANON_KEY` (*Project Settings → API*). Khoá anon/publishable được phép lộ ở web.
+6. **Nạp câu hỏi lên DB:**
+   ```bash
+   npm run db:dry-run                     # kiểm tra dữ liệu trước
+   cp .env.migrate.example .env.migrate.local   # điền SUPABASE_URL + SERVICE_ROLE_KEY
+   npm run db:migrate
+   ```
+   Script an toàn khi chạy lại: mặc định **không ghi đè** dòng đã có (giữ chỉnh sửa của admin). Dùng `-- --overwrite` nếu muốn ép ghi đè.
+7. **Triển khai (Vercel):** thêm hai biến `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` trong *Project → Settings → Environment Variables*.
+
+> ⚠️ `SERVICE_ROLE_KEY` bỏ qua mọi phân quyền: chỉ dùng trong `.env.migrate.local`, **không** commit, **không** đưa lên Vercel, **không** đưa vào code web.
+
+**Chỉnh sửa tóm tắt kiến thức:** đăng nhập tại `/admin`, rồi vào *Tóm tắt kiến thức → chọn môn* sẽ thấy các nút thêm / sửa / xoá / đổi thứ tự.
+
+> Sau khi migrate xong, **Supabase là nguồn dữ liệu thật**. Các file trong `src/data/subjects/` chỉ còn là bản sao lưu ban đầu.
 
 <br/>
 
@@ -97,6 +130,8 @@ Sau đó mở trình duyệt tại địa chỉ được Vite in ra (mặc đị
 | `npm run build`   | Kiểm tra kiểu (`tsc -b`) rồi đóng gói cho production |
 | `npm run preview` | Xem trước bản build production                       |
 | `npm run lint`    | Chạy ESLint kiểm tra chất lượng code                 |
+| `npm run db:dry-run` | Kiểm tra dữ liệu `src/data/subjects` (không cần kết nối) |
+| `npm run db:migrate` | Đẩy câu hỏi từ file `.ts` lên Supabase               |
 
 <br/>
 
@@ -106,10 +141,14 @@ Sau đó mở trình duyệt tại địa chỉ được Vite in ra (mặc đị
 src/
 ├── components/       # CursorGlow và các component tái sử dụng
 ├── pages/            # HomePage, ExamPage, Resultspage
-├── data/subjects/    # Ngân hàng câu hỏi theo từng môn (.ts)
+├── data/api.ts       # Đọc/ghi Supabase;  hooks.ts: react-query hooks
+├── data/subjects/    # Dữ liệu gốc (seed) — CHỈ script migrate dùng, app không import
+├── lib/supabase.ts   # Supabase client
 ├── store/            # Zustand store: exam state, quiz state
 ├── types/            # Kiểu dữ liệu Question, Subject
 └── index.css         # Design tokens + theme vàng-đen, hiệu ứng con trỏ
+supabase/schema.sql   # Bảng + RLS (chạy trong SQL Editor)
+scripts/              # migrate-to-supabase.ts
 ```
 
 <br/>

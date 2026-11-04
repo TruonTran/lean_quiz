@@ -621,7 +621,7 @@ export const prm393: Subject = {
     },
 
     {
-      id: 1,
+      id: 49,
       question: "Which Dart feature supports objectoriented programming?",
       options: [
         "Widgets",
@@ -635,7 +635,7 @@ export const prm393: Subject = {
         "Classes and objects are the fundamental building blocks of Object-Oriented Programming (OOP) in Dart.",
     },
     {
-      id: 2,
+      id: 50,
       question: "Which method retrieves data from SharedPreferences?",
       options: ["get()", "read()", "fetch()", "load()"],
       answer: 0,
@@ -644,7 +644,7 @@ export const prm393: Subject = {
         "SharedPreferences uses get() (or specific typed methods like getString, getBool, getInt) to retrieve stored data.",
     },
     {
-      id: 3,
+      id: 51,
       question: "What is Flutter primarily used for?",
       options: [
         "Designing databases for mobile apps",
@@ -658,7 +658,7 @@ export const prm393: Subject = {
         "Flutter is Google's UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase.",
     },
     {
-      id: 4,
+      id: 52,
       question: "Why should state be kept as local as possible?",
       options: [
         "Better animations",
@@ -672,7 +672,7 @@ export const prm393: Subject = {
         "Keeping state local limits the scope of widget rebuilds to only the necessary components, improving performance.",
     },
     {
-      id: 5,
+      id: 53,
       question: "Which command builds a release APK?",
       options: [
         "flutter run",
@@ -686,7 +686,7 @@ export const prm393: Subject = {
         "`flutter build apk` compiles the Flutter app into a release APK for Android.",
     },
     {
-      id: 6,
+      id: 54,
       question: "What happens after successful login?",
       options: [
         "App closes",
@@ -700,7 +700,7 @@ export const prm393: Subject = {
         "Successful authentication initiates a user session, granting access to protected app resources/screens.",
     },
     {
-      id: 7,
+      id: 55,
       question: "What is implicit animation?",
       options: [
         "Manual animation control",
@@ -714,7 +714,7 @@ export const prm393: Subject = {
         "Implicit animations (e.g., AnimatedContainer, AnimatedOpacity) manage their own AnimationController internally, requiring no manual controller management.",
     },
     {
-      id: 8,
+      id: 56,
       question: "Which Flutter concept supports reactive Ul updates?",
       options: [
         "Manual refresh",
@@ -728,7 +728,7 @@ export const prm393: Subject = {
         "Flutter's reactive model automatically rebuilds the widget tree when the underlying state changes.",
     },
     {
-      id: 9,
+      id: 57,
       question: "Why is clean architecture beneficial?",
       options: [
         "Fewer files",
@@ -742,7 +742,7 @@ export const prm393: Subject = {
         "Clean Architecture decouples business logic from UI and data layers, making the codebase easier to maintain, test, and scale.",
     },
     {
-      id: 10,
+      id: 58,
       question: "What is Dart primarily designed for in the Flutter ecosystem?",
       options: [
         "Database management",
@@ -756,7 +756,7 @@ export const prm393: Subject = {
         "Dart is a client-optimized, general-purpose programming language tailored specifically for fast UI development.",
     },
     {
-      id: 11,
+      id: 59,
       question: "What is the benefit of composing widgets in Flutter?",
       options: [
         "Faster compilation",
@@ -770,7 +770,7 @@ export const prm393: Subject = {
         "Composing small, single-purpose widgets enhances code reusability, modularity, and visual consistency across the app.",
     },
     {
-      id: 12,
+      id: 60,
       question: "Which Flutter test focuses on UI components?",
       options: ["Unit test", "Widget test", "Integration test", "Load test"],
       answer: 1,
@@ -779,7 +779,7 @@ export const prm393: Subject = {
         "Widget tests (component tests) verify that UI widgets render correctly and respond as expected to user interactions.",
     },
     {
-      id: 13,
+      id: 61,
       question: "Why are const widgets recommended?",
       options: [
         "They improve readability",
@@ -793,7 +793,7 @@ export const prm393: Subject = {
         "`const` widgets are instantiated once at compile-time and reused, preventing unnecessary rebuilds and conserving resources.",
     },
     {
-      id: 14,
+      id: 62,
       question:
         "What happens if a non-nullable variable is not initialized in Dart?",
       options: [
@@ -808,7 +808,7 @@ export const prm393: Subject = {
         "With Dart Sound Null Safety, declaring a non-nullable variable without an initial value triggers a compile-time error.",
     },
     {
-      id: 15,
+      id: 63,
       question: "What is the main risk of improper state management?",
       options: [
         "UI inconsistency",
@@ -822,7 +822,7 @@ export const prm393: Subject = {
         "Poor state management can cause the UI to become out of sync with the underlying data, resulting in UI inconsistency and bugs.",
     },
     {
-      id: 16,
+      id: 64,
       question: "What is technical debt?",
       options: [
         "UI lag",
@@ -836,7 +836,7 @@ export const prm393: Subject = {
         "Technical debt refers to the implied cost of additional rework caused by choosing an easy/expedient solution now instead of a better approach.",
     },
     {
-      id: 17,
+      id: 65,
       question: "What does golden testing verify?",
       options: [
         "API responses",
@@ -850,7 +850,7 @@ export const prm393: Subject = {
         "Golden testing compares a rendered widget's visual pixel output against a reference image file to ensure UI appearance consistency.",
     },
     {
-      id: 18,
+      id: 66,
       question: "Which Flutter tool helps debug network requests?",
       options: ["DevTools", "Inspector", "Emulator", "Hot reload"],
       answer: 0,
@@ -859,7 +859,7 @@ export const prm393: Subject = {
         "Flutter DevTools includes a Network Profiler to inspect incoming/outgoing HTTP/HTTPS requests, responses, and performance.",
     },
     {
-      id: 19,
+      id: 67,
       question:
         "Which platforms can Flutter applications target using a single codebase?",
       options: [
@@ -874,7 +874,7 @@ export const prm393: Subject = {
         "Flutter provides cross-platform support for Android, iOS, Web, Windows, macOS, and Linux from a single codebase.",
     },
     {
-      id: 20,
+      id: 68,
       question: "Which widget reacts to async data from local storage?",
       options: ["FutureBuilder", "StreamBuilder", "ListView", "Provider"],
       answer: 0,
@@ -883,7 +883,7 @@ export const prm393: Subject = {
         "FutureBuilder listens to a `Future` (commonly returned by local storage reads) and builds itself based on the latest snapshot of data.",
     },
     {
-      id: 21,
+      id: 69,
       question: "Why are widgets lightweight in Flutter?",
       options: [
         "They manage system resources",
@@ -897,7 +897,7 @@ export const prm393: Subject = {
         "Widgets are cheap, immutable configuration objects; heavy rendering and layout work is delegated to the RenderObject tree.",
     },
     {
-      id: 22,
+      id: 70,
       question: "Which approach helps reduce unnecessary widget rebuilds?",
       options: [
         "Using global variables",
@@ -911,7 +911,7 @@ export const prm393: Subject = {
         "Fine-grained state management targets state changes to specific, small widgets rather than rebuilding broad parts of the UI hierarchy.",
     },
     {
-      id: 23,
+      id: 71,
       question: "Which action best demonstrates Flutter's reactive UI model?",
       options: [
         "Manually updating UI elements",
@@ -925,7 +925,7 @@ export const prm393: Subject = {
         "In a reactive framework like Flutter, UI is a function of state ($UI = f(state)$), rebuilding automatically as state evolves.",
     },
     {
-      id: 24,
+      id: 72,
       question: "Which package supports BLoC architecture?",
       options: ["provider", "flutter_bloc", "sqflite", "http"],
       answer: 1,
@@ -934,7 +934,7 @@ export const prm393: Subject = {
         "`flutter_bloc` is the standard Flutter package designed specifically for integrating the BLoC (Business Logic Component) pattern.",
     },
     {
-      id: 25,
+      id: 73,
       question:
         "Which widget can hide user input text when configured for password entry?",
       options: ["TextField", "ObscureText", "SecureInput", "PasswordField"],
@@ -944,7 +944,7 @@ export const prm393: Subject = {
         "TextField is the standard text input widget, which hides password text when setting `obscureText: true`.",
     },
     {
-      id: 26,
+      id: 74,
       question: "What is the purpose of SliverAppBar?",
       options: [
         "Static app bar",
@@ -958,7 +958,7 @@ export const prm393: Subject = {
         "SliverAppBar integrates with custom scroll views to provide flexible, expandable, and collapsible app bar behaviors on scroll.",
     },
     {
-      id: 27,
+      id: 75,
       question: "Which method resets all form fields?",
       options: ["clear()", "reset()", "dispose()", "remove()"],
       answer: 1,
@@ -967,7 +967,7 @@ export const prm393: Subject = {
         "`FormState.reset()` resets all `FormField` descendants back to their initial values and clears validation errors.",
     },
     {
-      id: 28,
+      id: 76,
       question: "Why is secure authentication critical in mobile apps?",
       options: [
         "UI quality",
@@ -981,7 +981,7 @@ export const prm393: Subject = {
         "Secure authentication protects sensitive user data and prevents unauthorized access to personal information.",
     },
     {
-      id: 29,
+      id: 77,
       question: "Which HTTP method is typically used to retrieve data?",
       options: ["POST", "PUT", "GET", "DELETE"],
       answer: 2,
@@ -990,7 +990,7 @@ export const prm393: Subject = {
         "The HTTP GET method is designed to request and retrieve data from a specified server resource.",
     },
     {
-      id: 30,
+      id: 78,
       question: "Why is Chapter 13 considered optional (Plus)?",
       options: [
         "It replaces core concepts",
@@ -1004,7 +1004,7 @@ export const prm393: Subject = {
         "Advanced optimization topics are supplemental; basic applications function properly without deep, complex performance tuning.",
     },
     {
-      id: 31,
+      id: 79,
       question: "Why should authentication state be centralized?",
       options: [
         "Reduce UI code",
@@ -1018,7 +1018,7 @@ export const prm393: Subject = {
         "Centralizing auth state provides a single source of truth for user credentials, ensuring consistent access control across all screens.",
     },
     {
-      id: 32,
+      id: 80,
       question:
         "Which Dart keyword is used to define a constant value at compile time?",
       options: ["final", "static", "const", "var"],
@@ -1028,7 +1028,7 @@ export const prm393: Subject = {
         "`const` is used for compile-time constants whose values must be known at build time.",
     },
     {
-      id: 33,
+      id: 81,
       question: "Which status code indicates server error?",
       options: ["200", "301", "404", "500"],
       answer: 3,
@@ -1037,7 +1037,7 @@ export const prm393: Subject = {
         "HTTP 500 Internal Server Error indicates that the server encountered an unexpected condition that prevented it from fulfilling the request.",
     },
     {
-      id: 34,
+      id: 82,
       question: "What is the role of events in BLoC?",
       options: [
         "Store UI",
@@ -1051,7 +1051,7 @@ export const prm393: Subject = {
         "Events are inputs to a BLoC that represent user actions or system triggers, causing the BLoC to emit new states.",
     },
     {
-      id: 35,
+      id: 83,
       question: "Which widget allows overlapping of its child widgets?",
       options: ["Column", "Row", "Stack", "Expanded"],
       answer: 2,
@@ -1060,7 +1060,7 @@ export const prm393: Subject = {
         "Stack layers multiple child widgets on top of one another along the Z-axis.",
     },
     {
-      id: 36,
+      id: 84,
       question: "What does CurvedAnimation provide?",
       options: [
         "Layout control",
@@ -1074,7 +1074,7 @@ export const prm393: Subject = {
         "CurvedAnimation applies a non-linear rate of change (easing curves like Curves.easeInOut) to an animation progression.",
     },
     {
-      id: 37,
+      id: 85,
       question: "Which type of test checks individual functions or classes?",
       options: ["Widget test", "Integration test", "Unit test", "System test"],
       answer: 2,
@@ -1083,7 +1083,7 @@ export const prm393: Subject = {
         "Unit tests focus on verifying the correctness of a single function, method, or class in isolation.",
     },
     {
-      id: 38,
+      id: 86,
       question: "What is the main purpose of hot reload in Flutter?",
       options: [
         "Improve runtime performance",
@@ -1097,7 +1097,7 @@ export const prm393: Subject = {
         "Hot Reload injects updated code files into the running Dart VM, letting developers see UI changes instantly without restarting the app.",
     },
     {
-      id: 39,
+      id: 87,
       question: "Which phase involves gathering requirements?",
       options: ["Implementation", "Design", "Analysis", "Testing"],
       answer: 2,
@@ -1106,7 +1106,7 @@ export const prm393: Subject = {
         "The Analysis phase focuses on collecting, organizing, and understanding software requirements and scope.",
     },
     {
-      id: 40,
+      id: 88,
       question: "Why are forms important in mobile applications?",
       options: [
         "UI decoration",
@@ -1120,7 +1120,7 @@ export const prm393: Subject = {
         "Forms allow mobile apps to collect, validate, and submit user inputs like login credentials or profile details.",
     },
     {
-      id: 41,
+      id: 89,
       question: "Why should database operations be asynchronous?",
       options: [
         "Simplify syntax",
@@ -1134,7 +1134,7 @@ export const prm393: Subject = {
         "Database operations perform disk I/O; making them asynchronous prevents freezing or blocking the main UI thread.",
     },
     {
-      id: 42,
+      id: 90,
       question:
         "Which widget applies a theme to an entire Flutter application?",
       options: ["Scaffold", "Theme", "MaterialApp", "Container"],
@@ -1144,7 +1144,7 @@ export const prm393: Subject = {
         "MaterialApp defines the application's overall `theme` and `darkTheme` properties applied across the entire widget tree.",
     },
     {
-      id: 43,
+      id: 91,
       question: "What is the purpose of parsing JSON?",
       options: [
         "Encrypt data",
@@ -1158,7 +1158,7 @@ export const prm393: Subject = {
         "JSON parsing converts raw JSON string/map data received from network APIs into strongly-typed Dart model objects.",
     },
     {
-      id: 44,
+      id: 92,
       question: "How can data be passed to a new screen?",
       options: [
         "Using global variables",
@@ -1172,7 +1172,7 @@ export const prm393: Subject = {
         "Passing arguments through constructor parameters is the standard, strongly-typed way to share data when navigating to a new Widget/Screen.",
     },
     {
-      id: 45,
+      id: 93,
       question:
         "What is the main benefit of Flutter's widget-based architecture?",
       options: [
@@ -1187,7 +1187,7 @@ export const prm393: Subject = {
         "Because Flutter renders widgets using its own engine, widget code behaves and renders identically across different platforms.",
     },
     {
-      id: 46,
+      id: 94,
       question:
         "Which Dart data structure is best suited for storing an ordered collection of items?",
       options: ["Set", "Map", "List", "Queue"],
@@ -1197,7 +1197,7 @@ export const prm393: Subject = {
         "`List` is an ordered collection of elements accessible by zero-based integer indices.",
     },
     {
-      id: 47,
+      id: 95,
       question: "Which Flutter widget reacts to authentication state changes?",
       options: ["FutureBuilder", "StreamBuilder", "ListView", "Form"],
       answer: 1,
@@ -1206,7 +1206,7 @@ export const prm393: Subject = {
         "Auth state changes (like Firebase Auth state) are usually emitted as a `Stream`, which `StreamBuilder` listens to for reactive UI rebuilds.",
     },
     {
-      id: 48,
+      id: 96,
       question: "Why should animations be disposed properly?",
       options: [
         "Improve UI",
@@ -1220,7 +1220,7 @@ export const prm393: Subject = {
         "Failing to dispose AnimationControllers leaves Tickers active in memory, causing memory leaks and performance degradation.",
     },
     {
-      id: 49,
+      id: 97,
       question: "Which widget is best used to add fixed empty space?",
       options: ["Padding", "Expanded", "SizedBox", "Container"],
       answer: 2,
@@ -1229,7 +1229,7 @@ export const prm393: Subject = {
         "`SizedBox` with a fixed `width` or `height` is the most performant and clean way to insert fixed blank spacing.",
     },
     {
-      id: 50,
+      id: 98,
       question:
         "Which step is required before running a Flutter app for the first time?",
       options: [
@@ -1245,7 +1245,7 @@ export const prm393: Subject = {
     },
 
     {
-      id: 1,
+      id: 99,
       question: "What is Flutter?",
       options: [
         "A new programming language developed by Google",
@@ -1259,7 +1259,7 @@ export const prm393: Subject = {
         "Flutter là bộ công cụ UI (UI toolkit) của Google dùng để xây dựng ứng dụng biên dịch native từ một codebase duy nhất. A sai vì Flutter không phải là ngôn ngữ lập trình; C sai vì Flutter đa nền tảng chứ không chỉ web; D sai vì Flutter không phải hệ điều hành.",
     },
     {
-      id: 2,
+      id: 100,
       question:
         "Which programming language and rendering engine does Flutter use?",
       options: [
@@ -1274,7 +1274,7 @@ export const prm393: Subject = {
         "Flutter sử dụng ngôn ngữ Dart cùng rendering engine Skia. Các đáp án A, C, D đều ghép sai ngôn ngữ/engine.",
     },
     {
-      id: 3,
+      id: 101,
       question:
         "Flutter's architecture has three main layers. What is the correct top-to-bottom order (closest to the developer to closest to the hardware)?",
       options: [
@@ -1289,7 +1289,7 @@ export const prm393: Subject = {
         "Thứ tự kiến trúc là Framework (Dart) → Engine (C++) → Embedder, đúng như slide 'Flutter Architecture Overview'. Các đáp án khác đảo ngược thứ tự sai.",
     },
     {
-      id: 4,
+      id: 102,
       question:
         "Which layer of the Flutter architecture is written in C++ and uses Skia to handle rendering, accessibility, and text layout?",
       options: [
@@ -1304,7 +1304,7 @@ export const prm393: Subject = {
         "Lớp Engine viết bằng C++ và dùng Skia để xử lý rendering, accessibility và text layout. Framework Layer là lớp Dart phía trên; Embedder xử lý tích hợp nền tảng; 'Widget Layer' không phải tên chính thức của lớp kiến trúc này.",
     },
     {
-      id: 5,
+      id: 103,
       question:
         "What is the main role of the Embedder Layer in Flutter's architecture?",
       options: [
@@ -1319,7 +1319,7 @@ export const prm393: Subject = {
         "Lớp Embedder đảm nhận việc tích hợp nền tảng cụ thể, xử lý input, vòng đời (lifecycle) và quản lý cửa sổ (window management). A và D thuộc về lớp Framework/networking; B là công việc của trình biên dịch AOT chứ không phải Embedder.",
     },
     {
-      id: 6,
+      id: 104,
       question:
         "A startup wants to build an MVP quickly, running on both Android and iOS, with a limited development team and no need for extreme graphics performance. According to the lecture, this situation is:",
       options: [
@@ -1334,7 +1334,7 @@ export const prm393: Subject = {
         "Bài giảng nêu Flutter phù hợp cho MVP, startup, giảm chi phí phát triển và rút ngắn thời gian ra thị trường — khớp chính xác với tình huống này. A, C, D đều mâu thuẫn với nội dung bài giảng.",
     },
     {
-      id: 7,
+      id: 105,
       question:
         "Which of the following is the best example of a case where you should NOT choose Flutter and should build natively instead?",
       options: [
@@ -1349,7 +1349,7 @@ export const prm393: Subject = {
         "Game đồ họa thời gian thực đòi hỏi truy cập phần cứng mức thấp là ví dụ kinh điển cho 'khi nào nên phát triển native'. A, B, D đều là các trường hợp Flutter vẫn phù hợp.",
     },
     {
-      id: 8,
+      id: 106,
       question:
         "Flutter communicates with native features (Camera, Bluetooth, NFC...) that it does not support directly through which mechanism?",
       options: [
@@ -1364,7 +1364,7 @@ export const prm393: Subject = {
         "Flutter tích hợp với các tính năng native qua Platform Channels. A, C, D không phải cơ chế được đề cập trong bài giảng.",
     },
     {
-      id: 9,
+      id: 107,
       question:
         "Which combined compilation model does Dart use to support both fast development and optimized production performance?",
       options: [
@@ -1379,7 +1379,7 @@ export const prm393: Subject = {
         "Dart kết hợp cả JIT (phát triển nhanh, hot reload) và AOT (biên dịch hiệu năng cao cho production). A và B chỉ nêu một nửa sự thật; D hoàn toàn sai.",
     },
     {
-      id: 10,
+      id: 108,
       question:
         "In the framework comparison table from Module 1, what is the core difference between Flutter and React Native?",
       options: [
@@ -1394,7 +1394,7 @@ export const prm393: Subject = {
         "Flutter dùng Dart và biên dịch ra native UI với engine riêng, trong khi React Native dùng JavaScript và cầu nối (bridge) tới thành phần native. B sai vì React Native cần bridge; C và D là các khẳng định không có cơ sở.",
     },
     {
-      id: 11,
+      id: 109,
       question:
         "In a Flutter project, which file is the entry point of the app?",
       options: [
@@ -1409,7 +1409,7 @@ export const prm393: Subject = {
         "`lib/main.dart` là entry point, theo bảng cấu trúc dự án. A là file cấu hình dependency; C, D là file cấu hình nền tảng, không phải entry point.",
     },
     {
-      id: 12,
+      id: 110,
       question:
         "Which folder in the Flutter project structure holds dependency and asset configuration?",
       options: ["lib/", "test/", "pubspec.yaml", "android/"],
@@ -1419,7 +1419,7 @@ export const prm393: Subject = {
         "`pubspec.yaml` chứa cấu hình dependencies và assets. A chứa mã Dart chính; B chứa unit test; D chứa mã riêng cho Android.",
     },
     {
-      id: 13,
+      id: 111,
       question: "What is the `flutter doctor` command used for?",
       options: [
         "Automatically fix errors in Dart source code",
@@ -1433,7 +1433,7 @@ export const prm393: Subject = {
         "`flutter doctor` kiểm tra môi trường cài đặt SDK Flutter và các công cụ liên quan. A, C, D mô tả sai chức năng lệnh này.",
     },
     {
-      id: 14,
+      id: 112,
       question:
         "A student creates an emulator on a low-spec PC. According to the lecture's recommendation, which emulator configuration is more suitable to reduce the load on the machine?",
       options: [
@@ -1448,7 +1448,7 @@ export const prm393: Subject = {
         "Bài giảng khuyến nghị Pixel 3a / API 30 cho máy cấu hình yếu. A, C, D là các cấu hình nặng hơn, không phù hợp cho máy yếu.",
     },
     {
-      id: 15,
+      id: 113,
       question:
         "How does DartPad differ from VS Code/Android Studio when developing Flutter?",
       options: [
@@ -1463,7 +1463,7 @@ export const prm393: Subject = {
         "DartPad là môi trường trực tuyến, không cần cài đặt, chạy trực tiếp trên trình duyệt. A sai vì DartPad không cần SDK đầy đủ; C sai vì DartPad hỗ trợ Text, Column; D sai vì đây là Dart/Flutter chứ không phải Kotlin.",
     },
     {
-      id: 16,
+      id: 114,
       question:
         "Consider the following code running in main.dart:\nimport 'package:flutter/material.dart';\nvoid main() => runApp(const MaterialApp(\n  home: Scaffold(\n    body: Center(\n      child: Text('Hello, World',\n        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),\n    ),\n  ),\n));\nIf the `const` keyword before `MaterialApp` is removed, what happens to the app's behavior?",
       options: [
@@ -1478,7 +1478,7 @@ export const prm393: Subject = {
         "`const` giúp Flutter tối ưu việc so sánh cây widget (tree-diffing); bỏ `const` ứng dụng vẫn chạy đúng nhưng mất lợi ích tối ưu này. A sai vì không gây lỗi biên dịch; C sai vì Text vẫn hiển thị bình thường; D không liên quan.",
     },
     {
-      id: 17,
+      id: 115,
       question:
         "According to Flutter's architecture, which statement best describes the concept of a 'Widget'?",
       options: [
@@ -1493,7 +1493,7 @@ export const prm393: Subject = {
         "'Mọi thứ đều là Widget' — mọi thứ hiển thị trên màn hình đều được xây dựng qua Widget. A giới hạn sai phạm vi; C, D sai về nơi/loại widget tồn tại.",
     },
     {
-      id: 18,
+      id: 116,
       question:
         "According to the development history timeline mentioned in the lecture, what platform support did Flutter 2.0 (2021) add?",
       options: [
@@ -1508,7 +1508,7 @@ export const prm393: Subject = {
         "Flutter 2.0 (2021) bổ sung hỗ trợ Web và Desktop theo mốc thời gian trong bài giảng. A, C, D không khớp với mốc được nêu.",
     },
     {
-      id: 19,
+      id: 117,
       question: "What order does Flutter's rendering workflow follow?",
       options: [
         "GPU Rendering → Widget Tree → Render Tree → Composited Scene",
@@ -1522,7 +1522,7 @@ export const prm393: Subject = {
         "Quy trình render: Widget Tree → Render Tree → Composited Scene → GPU Rendering, đúng thứ tự trong slide. Các đáp án khác đảo ngược thứ tự sai.",
     },
     {
-      id: 20,
+      id: 118,
       question:
         "An instructor creates a new Flutter project with Organization ID `com.fptu.movies` and project name `movies`. What is the main purpose of the Organization ID during project creation?",
       options: [
@@ -1537,7 +1537,7 @@ export const prm393: Subject = {
         "Organization ID quyết định package name/bundle identifier duy nhất khi đóng gói ứng dụng cho Android/iOS. A, C, D mô tả sai vai trò kỹ thuật của nó.",
     },
     {
-      id: 21,
+      id: 119,
       question:
         "According to the lecture, when should a development team consider using native code (Kotlin/Swift) instead of pure Flutter?",
       options: [
@@ -1552,7 +1552,7 @@ export const prm393: Subject = {
         "Nên cân nhắc native khi ứng dụng cần truy cập phần cứng mức thấp hoặc yêu cầu UI/UX đặc thù nền tảng nghiêm ngặt — khớp với 'khi nào nên phát triển native'. B, C, D là các trường hợp Flutter vẫn phù hợp hoặc không liên quan.",
     },
     {
-      id: 22,
+      id: 120,
       question:
         "In the 'Hello World' example run across three environments (DartPad, VS Code, Android Studio), what is the most important common point emphasized?",
       options: [
@@ -1567,7 +1567,7 @@ export const prm393: Subject = {
         "Điểm chung quan trọng: tất cả công cụ đều biên dịch về cùng Flutter runtime, cho kết quả giống hệt nhau trên DartPad/VS Code/Android Studio. A, C, D đều sai theo bài giảng.",
     },
     {
-      id: 23,
+      id: 121,
       question:
         "Given the comparison table: Flutter (Dart, Native UI + Engine), React Native (JS, Bridge to Native), Native (Kotlin/Swift, Pure Native). Which statement best analyzes the trade-off among these three approaches?",
       options: [
@@ -1582,7 +1582,7 @@ export const prm393: Subject = {
         "Flutter đạt hiệu năng gần native nhờ renderer engine riêng (Skia) mà không cần bridge như React Native, trong khi Native đạt hiệu năng tối đa nhưng mất lợi thế chia sẻ codebase — đây là đánh đổi chính xác theo bảng so sánh. A, B, D sai hoặc quá đơn giản hóa.",
     },
     {
-      id: 24,
+      id: 122,
       question:
         "According to the lecture, what tool does macOS need to build a Flutter app for iOS?",
       options: ["Android Studio", "Xcode", "Visual Studio", "IntelliJ IDEA"],
@@ -1592,7 +1592,7 @@ export const prm393: Subject = {
         "macOS cần Xcode để build cho iOS, theo ghi chú 'macOS users need Xcode for iOS builds'. A, C, D không phải công cụ được nêu cho mục đích này.",
     },
     {
-      id: 25,
+      id: 123,
       question:
         "Which statement is FALSE regarding the reasons to choose Flutter ('Why Flutter')?",
       options: [
@@ -1607,7 +1607,7 @@ export const prm393: Subject = {
         "'Chỉ chạy được trên một nền tảng duy nhất' là SAI vì Flutter đa nền tảng (Android, iOS, Web, Desktop) — đây chính là điểm mạnh cốt lõi của Flutter, ngược hoàn toàn với những gì 'Why Flutter' nêu. A, B, D đều là các lý do hợp lệ được nêu trong bài giảng.",
     },
     {
-      id: 26,
+      id: 124,
       question:
         "In Dart, what is the basic difference between `final` and `const`?",
       options: [
@@ -1622,7 +1622,7 @@ export const prm393: Subject = {
         "`final` là giá trị được gán một lần tại runtime; `const` là giá trị hằng được biết trước tại compile-time. B đảo ngược định nghĩa; D sai vì không có từ khóa nào giới hạn cho một kiểu dữ liệu cụ thể.",
     },
     {
-      id: 27,
+      id: 125,
       question:
         'Consider:\ndynamic x = 10;\nx = "Hello";\nprint(x);\nWhat happens when this code runs?',
       options: [
@@ -1637,7 +1637,7 @@ export const prm393: Subject = {
         '`dynamic` cho phép kiểu dữ liệu thay đổi tại runtime, nên in ra "Hello". A sai vì đây là hành vi hợp lệ của `dynamic`; C, D sai vì không có lỗi và giá trị cuối cùng là "Hello".',
     },
     {
-      id: 28,
+      id: 126,
       question:
         "Given:\nList<int> nums = [1, 2, 3, 4, 5];\nvar result = nums.map((e) => e * 2).where((e) => e > 4).toList();\nprint(result);\nWhat is printed?",
       options: [
@@ -1652,7 +1652,7 @@ export const prm393: Subject = {
         "`[1,2,3,4,5].map(x*2) = [2,4,6,8,10]`, sau đó `.where(e>4) = [6,8,10]`. A chỉ dừng ở bước map; C, D không khớp với phép biến đổi.",
     },
     {
-      id: 29,
+      id: 127,
       question:
         "In Dart, `Set<int> s = {1, 2, 2, 3};` — after initialization, what is `s.length`?",
       options: [
@@ -1667,7 +1667,7 @@ export const prm393: Subject = {
         "Set tự động loại bỏ trùng lặp: `{1,2,2,3}` trở thành `{1,2,3}` → length = 3. A đếm nhầm phần tử trùng; C thiếu một phần tử; D sai vì Set vẫn cho phép khai báo trùng, chỉ tự loại bỏ khi lưu trữ.",
     },
     {
-      id: 30,
+      id: 128,
       question:
         "Consider this named constructor code:\nclass Point {\n  int x, y;\n  Point(this.x, this.y);\n  Point.origin() : x = 0, y = 0;\n}\nvoid main() {\n  var p1 = Point(3, 4);\n  var p2 = Point.origin();\n  print('${p1.x},${p1.y} - ${p2.x},${p2.y}');\n}\nWhat is printed?",
       options: [
@@ -1682,7 +1682,7 @@ export const prm393: Subject = {
         '`Point(3,4)` gán x=3,y=4; `Point.origin()` gán x=0,y=0 qua initializer list — in ra "3,4 - 0,0". A đảo ngược kết quả; C sai vì Dart hỗ trợ constructor đặt tên; D sai vì giá trị được gán đúng, không phải null.',
     },
     {
-      id: 31,
+      id: 129,
       question: "What does the `??` operator do in Dart?",
       options: [
         "Type equality comparison",
@@ -1696,7 +1696,7 @@ export const prm393: Subject = {
         "`??` trả về giá trị bên trái nếu khác null, ngược lại trả về giá trị bên phải (null-coalescing). A, C, D mô tả sai chức năng toán tử này.",
     },
     {
-      id: 32,
+      id: 130,
       question:
         'Given:\nString? name;\nprint(name ?? "Guest");\nname = "Minh";\nprint(name!.length);\nWhat is printed, in order?',
       options: [
@@ -1711,7 +1711,7 @@ export const prm393: Subject = {
         '`name` ban đầu là null nên in "Guest"; sau khi gán "Minh" (4 ký tự), `name!.length` = 4 → kết quả "Guest, 4". A sai giá trị đầu; C sai độ dài (phải là 4, không phải 5); D sai vì `!` hợp lệ về cú pháp khi biến chắc chắn khác null tại điểm đó.',
     },
     {
-      id: 33,
+      id: 131,
       question:
         'In the following code, what is printed to the console?\nvoid main() {\n  try {\n    int result = 10 ~/ 0;\n    print(result);\n  } catch (e) {\n    print("Error: $e");\n  } finally {\n    print("Done");\n  }\n}',
       options: [
@@ -1726,7 +1726,7 @@ export const prm393: Subject = {
         'Chia nguyên cho 0 bằng `~/` ném ra `IntegerDivisionByZeroException`, được `catch` bắt, in "Error: ..." rồi "Done" (finally luôn chạy). B, C sai vì có ngoại lệ xảy ra; D sai vì catch xử lý lỗi, chương trình không crash hoàn toàn.',
     },
     {
-      id: 34,
+      id: 132,
       question:
         "What is the difference between `for-in` and `forEach` when iterating a List in Dart?",
       options: [
@@ -1741,7 +1741,7 @@ export const prm393: Subject = {
         "`for-in` là cú pháp duyệt từng phần tử của collection; `forEach` là hàm bậc cao gọi callback theo phong cách lập trình hàm cho từng phần tử. A sai vì for-in dùng được với List; B đảo ngược mô tả; D sai vì có sự khác biệt về phong cách.",
     },
     {
-      id: 35,
+      id: 133,
       question:
         'Given this function:\nvoid greet({String name = "Guest", int age = 18}) {\n  print("$name is $age");\n}\nWhat does calling `greet(name: "Lan");` print?',
       options: [
@@ -1756,7 +1756,7 @@ export const prm393: Subject = {
         '`greet(name: "Lan")` chỉ truyền name; age dùng giá trị mặc định 18 → "Lan is 18". A sai vì age có giá trị mặc định; C sai vì name đã được truyền; D sai vì age rõ ràng có mặc định.',
     },
     {
-      id: 36,
+      id: 134,
       question:
         'Consider this OOP code:\nclass Animal {\n  String sound() => "Some sound";\n}\nclass Dog extends Animal {\n  @override\n  String sound() => "Woof";\n}\nvoid main() {\n  Animal a = Dog();\n  print(a.sound());\n}\nWhat is printed, and which OOP concept does it illustrate?',
       options: [
@@ -1771,7 +1771,7 @@ export const prm393: Subject = {
         'Đây là minh họa Đa hình (Polymorphism): biến kiểu Animal gọi phương thức đã override của Dog tại runtime, in ra "Woof". A gán sai khái niệm; C sai vì upcasting hợp lệ; D sai vì chỉ một phương thức được gọi.',
     },
     {
-      id: 37,
+      id: 135,
       question:
         'Given `Map<String, int> scores = {"Anna": 95};`, what happens when accessing `scores["Ben"]` (a nonexistent key)?',
       options: [
@@ -1786,7 +1786,7 @@ export const prm393: Subject = {
         "Truy cập Map với key không tồn tại trả về null trong Dart. A, B, D không khớp với hành vi mặc định của Map trong Dart.",
     },
     {
-      id: 38,
+      id: 136,
       question:
         'Consider this code illustrating Dart\'s Event Loop:\nimport \'dart:async\';\nvoid main() {\n  print("A");\n  scheduleMicrotask(() => print("micro"));\n  Future(() => print("future"));\n  print("B");\n}\nWhat is the correct output order?',
       options: [
@@ -1801,7 +1801,7 @@ export const prm393: Subject = {
         'Microtask có độ ưu tiên cao hơn Event queue nhưng vẫn chạy sau mã đồng bộ đang thực thi: in "A", "B" (đồng bộ trước), rồi microtask "micro" chạy trước Future "future". Đáp án đúng: A, B, micro, future.',
     },
     {
-      id: 39,
+      id: 137,
       question:
         "Given this Stream code:\nStream<int> countUp() async* {\n  for (int i = 1; i <= 3; i++) {\n    yield i;\n  }\n}\nvoid main() async {\n  await for (var value in countUp()) {\n    print(value);\n  }\n}\nWhat is printed?",
       options: [
@@ -1816,7 +1816,7 @@ export const prm393: Subject = {
         "Vòng lặp `async`/`yield` sinh ra 1, 2, 3 theo thứ tự, mỗi số một dòng qua `await for`. A chỉ liệt kê một giá trị; C đảo ngược thứ tự; D sai vì Dart hỗ trợ đầy đủ `async`.",
     },
     {
-      id: 40,
+      id: 138,
       question:
         "In Dart's try/catch, what does the `catch (e, s)` syntax allow a developer to do?",
       options: [
@@ -1831,7 +1831,7 @@ export const prm393: Subject = {
         "`catch (e, s)` bắt cả đối tượng lỗi và stack trace tương ứng. A, C, D mô tả sai chức năng cú pháp này.",
     },
     {
-      id: 41,
+      id: 139,
       question:
         "Which statement is correct about the differences between `List`, `Set`, and `Map` in Dart?",
       options: [
@@ -1846,7 +1846,7 @@ export const prm393: Subject = {
         "List có thứ tự; Set là tập hợp các phần tử duy nhất (không thứ tự); Map lưu cặp key-value — định nghĩa chuẩn. A, C, D đều mô tả sai đặc điểm cơ bản.",
     },
     {
-      id: 42,
+      id: 140,
       question:
         'Given this string interpolation code:\nString name = "FPT University";\nprint("Hello $name");\nprint("Length: ${name.length}");\nprint("Upper: ${name.toUpperCase()[0]}");\nWhat character does the third line print?',
       options: [
@@ -1861,7 +1861,7 @@ export const prm393: Subject = {
         "`name.toUpperCase()` = \"FPT UNIVERSITY\", index [0] = 'F'. A sai chữ hoa/thường; C không phải một ký tự đơn; D sai vì Dart cho phép index trực tiếp vào kết quả hàm trong string interpolation.",
     },
     {
-      id: 43,
+      id: 141,
       question: "In Dart, what is the `Never` type used for?",
       options: [
         "A variable that is never assigned a value",
@@ -1875,7 +1875,7 @@ export const prm393: Subject = {
         "`Never` dùng cho các hàm không bao giờ trả về bình thường (luôn throw hoặc lặp vô hạn). A, C, D mô tả sai mục đích của kiểu Never.",
     },
     {
-      id: 44,
+      id: 142,
       question: "In Dart, what is the role of the `main()` function?",
       options: [
         "It's a callback called last when the app closes",
@@ -1889,7 +1889,7 @@ export const prm393: Subject = {
         "`main()` là điểm bắt đầu thực thi của mọi chương trình Dart. A, C, D mô tả sai vai trò của hàm main.",
     },
     {
-      id: 45,
+      id: 143,
       question:
         "What is the difference between an arrow function (`=>`) and a function block (`{ return ...; }`) in Dart?",
       options: [
@@ -1904,7 +1904,7 @@ export const prm393: Subject = {
         "Hàm mũi tên là cách viết tắt cho hàm chỉ có một biểu thức trả về, còn hàm dạng block cho phép nhiều câu lệnh. A, C, D không khớp với đặc điểm cú pháp này.",
     },
     {
-      id: 46,
+      id: 144,
       question:
         'Consider this code, predict the result:\nFuture<String> fetchData() async {\n  await Future.delayed(Duration(seconds: 1));\n  return "Data loaded";\n}\nvoid main() {\n  print("Start");\n  fetchData().then((value) => print(value));\n  print("End");\n}\nWhat order is printed to console?',
       options: [
@@ -1919,7 +1919,7 @@ export const prm393: Subject = {
         'Vì `fetchData()` không được await trong `main()`, nó không chặn các lệnh tiếp theo — `.then()` không đồng bộ, nên "Start", "End" in trước, sau 1 giây "Data loaded" mới in ra. A, C sai thứ tự; D sai vì "Data loaded" vẫn được in ra cuối cùng.',
     },
     {
-      id: 47,
+      id: 145,
       question:
         "In Dart's switch-case, why is `break` (or `return`) usually needed after each case?",
       options: [
@@ -1934,7 +1934,7 @@ export const prm393: Subject = {
         "Dart rơi xuyên (fall-through) như C nếu thiếu break, có thể vô tình thực thi case kế tiếp. B, C, D mô tả sai vai trò của break trong switch-case.",
     },
     {
-      id: 48,
+      id: 146,
       question:
         "In `List<int> nums = [1,2,3]; for(var x in nums) print(x);`, what is the main purpose of using `var` instead of `int` for variable `x`?",
       options: [
@@ -1949,7 +1949,7 @@ export const prm393: Subject = {
         "`var` giúp Dart suy luận kiểu (int) từ các phần tử của List, giữ code ngắn gọn nhưng vẫn strongly typed. A sai vì int cũng hợp lệ; C sai vì var khác dynamic; D sai vì vẫn có sự khác biệt về suy luận kiểu dù kết quả runtime trông giống nhau.",
     },
     {
-      id: 49,
+      id: 147,
       question:
         "According to the lecture, what common pitfall is emphasized for students new to Dart?",
       options: [
@@ -1964,7 +1964,7 @@ export const prm393: Subject = {
         "Các lỗi phổ biến được nêu: bỏ qua cảnh báo null-safety và trộn lẫn không đúng cách code đồng bộ/bất đồng bộ. A, C, D không phải nội dung được nhấn mạnh trong bài giảng.",
     },
     {
-      id: 50,
+      id: 148,
       question:
         'Consider the Student class and mini-lab:\nclass Student {\n  String name;\n  Student(this.name);\n}\nvoid main() async {\n  var list = [Student("An"), Student("Binh")];\n  await Future.delayed(Duration(seconds: 1));\n  list.forEach((s) => print(s.name));\n}\nIf the `await` keyword before `Future.delayed(...)` is removed, what happens?',
       options: [
@@ -1979,7 +1979,7 @@ export const prm393: Subject = {
         'Không await `Future.delayed` khiến `main()` tiếp tục thực thi các câu lệnh sau mà không chờ đủ 1 giây — dù `forEach` vẫn thực thi tên đúng thứ tự, nó có thể chạy trước khi "delay" hoàn tất (không có ảnh hưởng thực tế ở đây vì không có gì phụ thuộc vào delay). A sai vì không phải lỗi biên dịch; C sai vì không crash; D sai vì thứ tự tên vẫn được giữ nguyên.',
     },
     {
-      id: 51,
+      id: 149,
       question: "What characterizes an abstract class in Dart?",
       options: [
         "It cannot have any methods with a body",
@@ -1993,7 +1993,7 @@ export const prm393: Subject = {
         "Abstract class định nghĩa cấu trúc mà không có đầy đủ hành vi, buộc lớp con phải implement các phương thức không có thân hàm. A sai vì abstract class có thể có phương thức có thân hàm; C sai vì hoạt động cả trong Dart thuần; D sai vì abstract class không thể khởi tạo trực tiếp.",
     },
     {
-      id: 52,
+      id: 150,
       question:
         "In Flutter, `State<T>` is a textbook example of which concept from Module 3?",
       options: [
@@ -2008,7 +2008,7 @@ export const prm393: Subject = {
         "`State<T>` là một abstract class, buộc StatefulWidget phải override phương thức để định nghĩa hành vi. A, C, D mô tả sai bản chất của State<T>.",
     },
     {
-      id: 53,
+      id: 151,
       question:
         "Given the comparison table of `extends`, `implements`, `with`, which best describes `implements`?",
       options: [
@@ -2023,7 +2023,7 @@ export const prm393: Subject = {
         "`implements` chỉ lấy 'chữ ký' (signature) của lớp/interface, buộc phải viết lại toàn bộ hành vi tùy chỉnh — dùng để định nghĩa một hợp đồng (contract). A mô tả `extends`; C mô tả `mixin`; D sai vì Dart hỗ trợ đầy đủ implements.",
     },
     {
-      id: 54,
+      id: 152,
       question:
         'Given this code, predict the result of calling `Eagle().fly()`:\nclass Bird {\n  void fly() => print("Bird flying");\n}\nclass Eagle implements Bird {\n  @override\n  void fly() => print("Eagle gliding");\n}',
       options: [
@@ -2038,7 +2038,7 @@ export const prm393: Subject = {
         'Vì `implements` chỉ lấy signature, Eagle phải tự định nghĩa lại toàn bộ fly() → in ra "Eagle gliding". A sai vì implements không kế thừa thân hàm; C sai vì không cần constructor ở đây; D sai vì chỉ một phương thức được gọi.',
     },
     {
-      id: 55,
+      id: 153,
       question: "What is a mixin used for in Dart?",
       options: [
         "Fully replaces constructors",
@@ -2052,7 +2052,7 @@ export const prm393: Subject = {
         "Mixin dùng để chia sẻ hành vi giữa nhiều lớp mà không cần chuỗi kế thừa truyền thống. A, C, D mô tả sai mục đích của mixin.",
     },
     {
-      id: 56,
+      id: 154,
       question:
         'Consider this constrained mixin code:\nclass Pet {\n  String name;\n  Pet(this.name);\n}\nmixin CanBark on Pet {\n  void bark() => print("$name says woof!");\n}\nclass Dog extends Pet with CanBark {\n  Dog() : super("Buddy");\n}\nclass Fish {\n  // want to apply "with CanBark" here\n}\nIf class `Fish` (not extending `Pet`) tries to declare `class Fish with CanBark {}`, what happens?',
       options: [
@@ -2067,7 +2067,7 @@ export const prm393: Subject = {
         "Mixin `CanBark on Pet` bị ràng buộc chỉ áp dụng được cho các lớp kế thừa Pet; vì Fish không kế thừa Pet nên biên dịch lỗi. A, C, D không khớp với cách ràng buộc mixin hoạt động.",
     },
     {
-      id: 57,
+      id: 155,
       question:
         "How does a factory constructor differ from a regular constructor in Dart?",
       options: [
@@ -2082,7 +2082,7 @@ export const prm393: Subject = {
         "Factory constructor kiểm soát việc tạo instance — có thể trả về instance đã tồn tại hoặc parse dữ liệu, thay vì luôn tạo mới. A sai vì đây chính xác là điểm khác biệt; C, D sai về cú pháp/phạm vi.",
     },
     {
-      id: 58,
+      id: 156,
       question:
         "Given:\nclass User {\n  final String name;\n  factory User.fromJson(Map j) => User._(j['name']);\n  User._(this.name);\n}\nWhy is the `User._` constructor made private (with `_`)?",
       options: [
@@ -2097,7 +2097,7 @@ export const prm393: Subject = {
         "Đặt constructor ở chế độ private ngăn code bên ngoài gọi trực tiếp constructor thường, buộc phải dùng qua `fromJson` — kiểm soát cách tạo object. A, C, D không phải lý do chính xác trong factory pattern này.",
     },
     {
-      id: 59,
+      id: 157,
       question:
         "What is the main benefit that generics (`List<T>`, `Future<T>`, `Map<K,V>`) bring in Dart?",
       options: [
@@ -2112,7 +2112,7 @@ export const prm393: Subject = {
         "Generics đảm bảo an toàn kiểu tại compile-time, tránh lỗi do lạm dụng kiểu dynamic. A, C, D mô tả sai lợi ích cốt lõi của generics.",
     },
     {
-      id: 60,
+      id: 158,
       question:
         'Given this generic class code:\nclass Box<T> {\n  T value;\n  Box(this.value);\n  void show() => print("Value = $value");\n}\nvoid main() => Box<int>(10).show();\nIf `Box<int>(10)` is replaced with `Box<String>(10)`, what happens?',
       options: [
@@ -2127,7 +2127,7 @@ export const prm393: Subject = {
         "`Box<String>(10)` biên dịch lỗi vì 10 (int) không khớp với kiểu String đã khai báo, vi phạm kiểm tra kiểu generic nghiêm ngặt. A, C, D không khớp với cách Dart kiểm tra kiểu generic chặt chẽ.",
     },
     {
-      id: 61,
+      id: 159,
       question:
         'Given this generic constraint:\nabstract class Animal { String sound(); }\nclass Cat extends Animal { sound() => "Meow"; }\nclass Box<T extends Animal> {\n  T pet;\n  Box(this.pet);\n  void play() => print(pet.sound());\n}\nWhat does the `<T extends Animal>` syntax mean?',
       options: [
@@ -2142,7 +2142,7 @@ export const prm393: Subject = {
         "`<T extends Animal>` giới hạn kiểu generic T là Animal hoặc lớp con của Animal, đảm bảo T luôn có phương thức sound(). A sai vì lớp con vẫn được chấp nhận; C sai vì đây là cú pháp hợp lệ; D nhầm lẫn `extends` của ràng buộc generic với kế thừa lớp.",
     },
     {
-      id: 62,
+      id: 160,
       question:
         "What does collection-if / collection-for syntax allow in Dart?",
       options: [
@@ -2157,7 +2157,7 @@ export const prm393: Subject = {
         "Collection-if/for cho phép xây dựng collection linh hoạt bằng cách chèn phần tử có điều kiện hoặc sinh phần tử từ vòng lặp ngay trong khai báo. A, C, D mô tả sai phạm vi áp dụng.",
     },
     {
-      id: 63,
+      id: 161,
       question:
         "Given:\nvar base = [1, 2, 3];\nvar list = [\n  ...base,\n  if (true) 99,\n  for (var x in base) x * 10\n];\nprint(list);\nWhat is printed?",
       options: [
@@ -2172,7 +2172,7 @@ export const prm393: Subject = {
         "`[...base, if(true) 99, for(x in base) x*10]` = [1,2,3, 99, 10,20,30]. B, C sai thứ tự; D sai vì Dart cho phép kết hợp các cú pháp này.",
     },
     {
-      id: 64,
+      id: 162,
       question:
         "What benefit does a Custom Exception in Dart (e.g. `class LoginException implements Exception`) offer over throwing an ordinary error string?",
       options: [
@@ -2187,7 +2187,7 @@ export const prm393: Subject = {
         "Custom Exception cung cấp ngữ cảnh lỗi cụ thể theo nghiệp vụ, giúp dễ debug và xử lý logic ở tầng UI/Repository. A, C, D không khớp với lợi ích thực sự được nêu.",
     },
     {
-      id: 65,
+      id: 163,
       question:
         "In Dart, which queue has HIGHER priority between the Microtask queue and the Event queue?",
       options: [
@@ -2202,7 +2202,7 @@ export const prm393: Subject = {
         "Microtask queue có độ ưu tiên cao hơn — tất cả microtask chạy trước khi Dart tiếp tục xử lý Event queue (Future, timer, sự kiện UI). A đảo ngược điều này; C, D không khớp với cơ chế event loop của Dart.",
     },
     {
-      id: 66,
+      id: 164,
       question:
         "Given this Future chaining code:\nFuture(() => 1)\n  .then((v) => v + 1)\n  .then((v) => print(v));\nWhat value is printed?",
       options: ["1", "2", "0", "Nothing is printed because await is missing"],
@@ -2212,7 +2212,7 @@ export const prm393: Subject = {
         "`Future(()=>1).then((v)=>v+1).then((v)=>print(v))` → 1+1 = 2, in ra 2. A, C sai giá trị; D sai vì code vẫn thực thi dù không có await tường minh ở main.",
     },
     {
-      id: 67,
+      id: 165,
       question:
         "Comparing Future chaining (`.then()`) with `async/await`, which statement is most accurate?",
       options: [
@@ -2227,7 +2227,7 @@ export const prm393: Subject = {
         "`.then()` phù hợp cho chuỗi bất đồng bộ đơn giản không cần biến trung gian; `async/await` giúp code đọc tuyến tính, dễ theo dõi khi có nhiều bước phụ thuộc nhau. A sai vì chúng có thể dùng cùng nhau; C sai vì async/await vẫn là bất đồng bộ; D không có cơ sở về hiệu năng tuyệt đối.",
     },
     {
-      id: 68,
+      id: 166,
       question:
         "How does `StreamController.broadcast()` differ from the default single-subscription Stream?",
       options: [
@@ -2242,7 +2242,7 @@ export const prm393: Subject = {
         "Broadcast cho phép nhiều listener nghe đồng thời và nhận sự kiện chia sẻ, còn single-subscription chỉ cho phép một listener. A đảo ngược điều này; C, D không khớp với đặc điểm thực sự của hai loại Stream.",
     },
     {
-      id: 69,
+      id: 167,
       question:
         'Given this StreamController.broadcast() code:\nvar c = StreamController<int>.broadcast();\nc.stream.listen((v) => print("A:$v"));\nc.stream.listen((v) => print("B:$v"));\nc..add(1)..add(2);\nWhat is printed, in order?',
       options: [
@@ -2257,7 +2257,7 @@ export const prm393: Subject = {
         "Với `c..add(1)..add(2)`, mỗi lần add sẽ kích hoạt cả hai listener A và B trước khi add tiếp theo: A:1, B:1, A:2, B:2. A sai thứ tự nhóm; C sai vì cả hai listener đều hoạt động; D sai vì broadcast hỗ trợ đầy đủ nhiều listener.",
     },
     {
-      id: 70,
+      id: 168,
       question:
         "What is the main purpose behind introducing the Repository Pattern in Module 3?",
       options: [
@@ -2272,7 +2272,7 @@ export const prm393: Subject = {
         "Repository Pattern tách logic lấy dữ liệu khỏi tầng presentation/UI, giúp code dễ test và bảo trì hơn, đồng thời là nền tảng cho Bloc/Provider/Riverpod. A, C, D mô tả sai mục đích của nó.",
     },
     {
-      id: 71,
+      id: 169,
       question:
         "Given this repository code using a Stream:\nStream<int> counter() async* {\n  for (int i = 1; i <= 3; i++) {\n    await Future.delayed(Duration(milliseconds: 300));\n    yield i;\n  }\n}\nWhen this Stream is bound to `StreamBuilder(stream: repo.counter(), ...)`, how will the UI behave?",
       options: [
@@ -2287,7 +2287,7 @@ export const prm393: Subject = {
         "UI tự động rebuild mỗi khi có giá trị mới được `yield`, tạo hiệu ứng cập nhật thời gian thực. A sai vì StreamBuilder rebuild theo từng sự kiện; C sai vì StreamBuilder hỗ trợ đầy đủ async*; D sai vì delay không chặn toàn bộ UI thread nhờ cơ chế bất đồng bộ.",
     },
     {
-      id: 72,
+      id: 170,
       question:
         'According to the "Performance Best Practices" section of Module 3, which practice is NOT recommended?',
       options: [
@@ -2302,7 +2302,7 @@ export const prm393: Subject = {
         "Chạy một vòng lặp nặng trực tiếp trên main isolate trong khi build UI là thực hành KHÔNG nên làm (ngược với best practice). A, C, D đều là các thực hành được khuyến nghị.",
     },
     {
-      id: 73,
+      id: 171,
       question:
         "In Dart, what is the core difference between an `abstract class` and an `implicit interface` (every class automatically has an interface)?",
       options: [
@@ -2317,7 +2317,7 @@ export const prm393: Subject = {
         "Abstract class có thể chứa cả phương thức có thân và không thân hàm, không thể khởi tạo trực tiếp; trong khi mọi lớp thông thường tự động có một implicit interface mà lớp khác có thể `implements`. A sai vì có sự khác biệt rõ ràng; C sai vì Dart có khái niệm này qua implicit interface; D không có cơ sở về hiệu năng runtime tuyệt đối.",
     },
     {
-      id: 74,
+      id: 172,
       question:
         "In the example `AnimationController implements Listenable` mentioned in the lecture, what does using `implements` instead of `extends` demonstrate?",
       options: [
@@ -2332,7 +2332,7 @@ export const prm393: Subject = {
         "`implements` nghĩa là AnimationController chỉ tuân theo hợp đồng (contract) của Listenable và tự triển khai hành vi riêng, không kế thừa cài đặt có sẵn. A sai vì implements không sao chép code; C sai vì có mối quan hệ rõ ràng qua implements; D sai vì đây là cú pháp Dart hợp lệ.",
     },
     {
-      id: 75,
+      id: 173,
       question:
         'A student writes this Repository:\nclass Repo {\n  Future<String> getUser() async {\n    await Future.delayed(Duration(milliseconds: 300));\n    return "Anna";\n  }\n}\nand calls `var name = repo.getUser();` (without using `await`). What type and value will variable `name` have at the moment of assignment?',
       options: [
@@ -2347,7 +2347,7 @@ export const prm393: Subject = {
         'Không await, `name` có kiểu `Future<String>` — một đối tượng Future đang "pending", chưa phải giá trị String thực sự. A, C, D không khớp với hành vi của Future trong Dart.',
     },
     {
-      id: 76,
+      id: 174,
       question:
         'In Flutter, which widget acts as the "backbone" of a Material screen, providing AppBar, body, and FloatingActionButton?',
       options: ["Container", "Scaffold", "MaterialApp", "Column"],
@@ -2357,7 +2357,7 @@ export const prm393: Subject = {
         "Scaffold là xương sống của một màn hình Material, cung cấp AppBar/body/FAB. A, C, D không mô tả đúng vai trò cấu trúc này.",
     },
     {
-      id: 77,
+      id: 175,
       question:
         "A student places a `ListView` directly inside a `Column` without wrapping it in `Expanded` or `Flexible`. What common error occurs?",
       options: [
@@ -2372,7 +2372,7 @@ export const prm393: Subject = {
         "Đặt ListView trong Column mà không bọc Expanded/Flexible gây lỗi chiều cao không giới hạn (overflow). A sai vì đây chính xác là lỗi phổ biến; C, D không khớp với hành vi thực tế của Flutter.",
     },
     {
-      id: 78,
+      id: 176,
       question:
         "In RadioListTile, what is the role of the `groupValue` property?",
       options: [
@@ -2387,7 +2387,7 @@ export const prm393: Subject = {
         "`groupValue` lưu giá trị hiện đang được chọn của cả nhóm RadioListTile, dùng để so sánh với `value` của từng item. A, C, D mô tả sai chức năng này.",
     },
     {
-      id: 79,
+      id: 177,
       question:
         "Given:\nclass _RadioScreenState extends State<RadioScreen> {\n  String? quality = 'HD';\n  @override\n  Widget build(BuildContext context) {\n    return Column(children: [\n      RadioListTile<String>(\n        title: const Text('SD'), value: 'SD',\n        groupValue: quality,\n        onChanged: (v) => setState(() => quality = v),\n      ),\n      RadioListTile<String>(\n        title: const Text('HD'), value: 'HD',\n        groupValue: quality,\n        onChanged: (v) => setState(() => quality = v),\n      ),\n    ]);\n  }\n}\nIf `setState()` is removed from `onChanged` (keeping only `quality = v`), what happens when the user taps 'SD'?",
       options: [
@@ -2402,7 +2402,7 @@ export const prm393: Subject = {
         "Không có setState, `quality` vẫn được cập nhật trong bộ nhớ nhưng Flutter không biết để rebuild — giao diện không thay đổi. B sai vì không có lỗi runtime; C sai vì Flutter không tự động theo dõi mọi biến trong State; D sai vì quality vẫn thay đổi, chỉ có UI không cập nhật.",
     },
     {
-      id: 80,
+      id: 178,
       question:
         "What is the difference between `Slider` and `Switch` in Flutter?",
       options: [
@@ -2417,7 +2417,7 @@ export const prm393: Subject = {
         "Slider chọn giá trị liên tục trong một khoảng, Switch chỉ bật/tắt giá trị boolean. B, C, D mô tả sai hoặc đảo ngược chức năng hai widget.",
     },
     {
-      id: 81,
+      id: 179,
       question: "What does `ThemeMode.system` mean in `MaterialApp`?",
       options: [
         "Forces the app to always use the light theme",
@@ -2431,7 +2431,7 @@ export const prm393: Subject = {
         'ThemeMode.system làm app tự động theo cài đặt sáng/tối của hệ điều hành thiết bị. A, B cố định một mode, mâu thuẫn với "system"; D sai vì themeMode vẫn có ý nghĩa nhưng cần darkTheme để có hiệu ứng đầy đủ.',
     },
     {
-      id: 82,
+      id: 180,
       question:
         "Given theme/darkTheme/themeMode.dark setup, what is the correct syntax to access the current theme's style (e.g. `titleLarge`)?",
       options: [
@@ -2446,7 +2446,7 @@ export const prm393: Subject = {
         "Theme.of(context).textTheme.titleLarge là cú pháp đúng để truy cập theme hiện tại. A, C, D không phải API hợp lệ của Flutter.",
     },
     {
-      id: 83,
+      id: 181,
       question: "How does `ListView.separated` differ from `ListView.builder`?",
       options: [
         "ListView.separated doesn't support itemBuilder",
@@ -2460,7 +2460,7 @@ export const prm393: Subject = {
         "ListView.separated cho phép chèn separator giữa các item qua separatorBuilder, điều mà ListView.builder không có. A sai vì vẫn có itemBuilder; C sai vì không có giới hạn 10 item; D sai vì hai API khác nhau.",
     },
     {
-      id: 84,
+      id: 182,
       question:
         "In `m['title']!`, what does the `!` mean in the context of Dart's null-safety?",
       options: [
@@ -2475,7 +2475,7 @@ export const prm393: Subject = {
         "! là toán tử null assertion, khẳng định giá trị không null với compiler, sẽ throw runtime error nếu sai. A, C, D mô tả sai ý nghĩa của toán tử này trong null-safety.",
     },
     {
-      id: 85,
+      id: 183,
       question:
         "In the showDatePicker example, what are the firstDate and lastDate parameters used for?",
       options: [
@@ -2490,7 +2490,7 @@ export const prm393: Subject = {
         "firstDate/lastDate giới hạn khoảng ngày hợp lệ người dùng có thể chọn trên calendar. A, C, D mô tả sai chức năng hai tham số này.",
     },
     {
-      id: 86,
+      id: 184,
       question:
         "Why is checking `if (date != null)` needed before calling setState after showDatePicker?",
       options: [
@@ -2505,7 +2505,7 @@ export const prm393: Subject = {
         "Cần kiểm tra null vì người dùng có thể hủy dialog, khiến Future trả về null, và không nên setState với giá trị null không mong muốn. A, C, D không đúng với lý do thực tế.",
     },
     {
-      id: 87,
+      id: 185,
       question:
         "How does the Wrap widget differ from Row, and why does it suit a genre chip list?",
       options: [
@@ -2520,7 +2520,7 @@ export const prm393: Subject = {
         "Wrap tự động xuống dòng khi hết không gian ngang, tránh lỗi overflow mà Row gặp phải khi có quá nhiều phần tử. A, C, D mô tả sai/đảo ngược đặc điểm hai widget.",
     },
     {
-      id: 88,
+      id: 186,
       question:
         'What is the main benefit of extracting repeated UI into a separate function/widget like tile(), in the spirit of "Everything is a Widget"?',
       options: [
@@ -2535,7 +2535,7 @@ export const prm393: Subject = {
         "Tách UI lặp lại thành hàm/widget riêng giúp tái sử dụng và tổ chức UI thành các block, làm code dễ đọc, dễ maintain và nhất quán về spacing hơn. A, C, D không đúng với lợi ích thực tế.",
     },
     {
-      id: 89,
+      id: 187,
       question:
         "According to general recommendations, BottomNavigationBar best fits apps with how many main navigation tabs?",
       options: ["1 tab", "2-5 tabs", "10-15 tabs", "No limit on the number"],
@@ -2545,7 +2545,7 @@ export const prm393: Subject = {
         "BottomNavigationBar phù hợp nhất với 2-5 tab điều hướng chính theo khuyến nghị chung. A, C, D không đúng với số lượng khuyến nghị.",
     },
     {
-      id: 90,
+      id: 188,
       question:
         "In the HomeTabs example, if index were not held inside a StatefulWidget (e.g. declared in a StatelessWidget), what would happen when the user taps a tab?",
       options: [
@@ -2560,7 +2560,7 @@ export const prm393: Subject = {
         "StatelessWidget không có setState, nên không thể lưu và cập nhật state index khi người dùng chạm tab. A, C, D mô tả sai đặc điểm của StatelessWidget.",
     },
     {
-      id: 91,
+      id: 189,
       question: "What is the difference between Image.network and Image.asset?",
       options: [
         "Image.network loads an image from an internet URL, Image.asset loads an image bundled within the project (declared in pubspec.yaml)",
@@ -2574,7 +2574,7 @@ export const prm393: Subject = {
         "Image.network load ảnh từ URL internet, Image.asset load ảnh đóng gói trong project (khai báo trong pubspec.yaml). B, C, D mô tả sai chức năng hai widget ảnh này.",
     },
     {
-      id: 92,
+      id: 190,
       question:
         'In Module 4\'s "Common Errors & Fixes" list, what is the common cause of the UI "not updating" after data changes?',
       options: [
@@ -2589,7 +2589,7 @@ export const prm393: Subject = {
         'Quên gọi setState() sau khi thay đổi giá trị biến trong StatefulWidget là nguyên nhân phổ biến khiến UI không cập nhật, theo checklist "Common Errors & Fixes". A, C, D không phải nguyên nhân được nêu trong bài giảng.',
     },
     {
-      id: 93,
+      id: 191,
       question:
         "Why use ListView (instead of Column) as the root widget for an entire screen containing multiple sections?",
       options: [
@@ -2604,7 +2604,7 @@ export const prm393: Subject = {
         "ListView tự động cho phép scroll khi nội dung vượt quá chiều cao màn hình, còn Column mặc định không scroll được và dễ gây overflow. A, C, D không đúng với lý do kỹ thuật thực tế.",
     },
     {
-      id: 94,
+      id: 192,
       question:
         "According to the lecture, what are Material Icons in Flutter commonly used for?",
       options: [
@@ -2619,7 +2619,7 @@ export const prm393: Subject = {
         "Material Icons dùng cho nút điều hướng, nút hành động, và chỉ báo trạng thái. A, C, D mô tả sai mục đích của chúng.",
     },
     {
-      id: 95,
+      id: 193,
       question:
         "Comparing TimePicker and DatePicker for a booking flow combining both date and time, what is the correct approach per the lecture?",
       options: [
@@ -2634,7 +2634,7 @@ export const prm393: Subject = {
         "Gọi hai hàm async riêng biệt pickDate() và pickTime(), lưu kết quả vào hai biến State riêng, rồi hiển thị kết hợp trên UI — đúng theo cách demo Booking đã dạy. A, C, D không phản ánh cách triển khai được dạy.",
     },
     {
-      id: 96,
+      id: 194,
       question:
         'In VS Code, what does the "Wrap with Widget" feature support for a Flutter developer?',
       options: [
@@ -2649,7 +2649,7 @@ export const prm393: Subject = {
         '"Wrap with Widget" giúp nhanh chóng bọc widget đã chọn bằng Padding/Center/Expanded để refactor layout. A, C, D không đúng với chức năng của feature này.',
     },
     {
-      id: 97,
+      id: 195,
       question:
         "In a basic Scaffold example, where is floatingActionButton typically placed and what is it used for?",
       options: [
@@ -2664,7 +2664,7 @@ export const prm393: Subject = {
         "floatingActionButton thường nổi ở góc dưới phải màn hình, dùng cho một hành động chính nổi bật (ví dụ thêm mới). A, C, D mô tả sai vị trí/vai trò của nó.",
     },
     {
-      id: 98,
+      id: 196,
       question:
         "What role does BuildContext context play when calling Theme.of(context)?",
       options: [
@@ -2679,7 +2679,7 @@ export const prm393: Subject = {
         "BuildContext biểu diễn vị trí của widget trong widget tree, cho phép tìm kiếm InheritedWidget gần nhất (như Theme) phía trên nó. A, C, D mô tả sai vai trò của BuildContext.",
     },
     {
-      id: 99,
+      id: 197,
       question:
         "According to Module 4, when should SingleChildScrollView or Flexible be used to fix overflow on small screens?",
       options: [
@@ -2694,7 +2694,7 @@ export const prm393: Subject = {
         "Dùng SingleChildScrollView/Flexible khi nội dung UI vượt quá kích thước màn hình khả dụng (đặc biệt màn hình nhỏ), cần scroll hoặc resize linh hoạt để tránh overflow. A sai vì Flutter không tự xử lý mọi trường hợp overflow; C, D giới hạn sai phạm vi sử dụng.",
     },
     {
-      id: 100,
+      id: 198,
       question: "What is the correct way to call a SnackBar in Flutter?",
       options: [
         "Text(title).showSnackBar()",
@@ -2708,7 +2708,7 @@ export const prm393: Subject = {
         "ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(title))) là cách gọi đúng. A, C, D không phải API hợp lệ trong Flutter.",
     },
     {
-      id: 101,
+      id: 199,
       question: "In Flutter, what does Navigator.push() do?",
       options: [
         "Clears the entire navigation stack",
@@ -2722,7 +2722,7 @@ export const prm393: Subject = {
         "Navigator.push() thêm (push) một route/screen mới lên đỉnh của navigation stack. A, C, D mô tả sai chức năng của phương thức này.",
     },
     {
-      id: 102,
+      id: 200,
       question: "What does the Navigator.pop(context) method do?",
       options: [
         "Pushes another new screen onto the stack",
@@ -2736,7 +2736,7 @@ export const prm393: Subject = {
         "Navigator.pop(context) gỡ bỏ (pop) màn hình hiện đang ở đỉnh stack, hiển thị màn hình bên dưới nó. A, C, D mô tả sai hành vi này.",
     },
     {
-      id: 103,
+      id: 201,
       question:
         "Why doesn't a plain Navigator.push code with SecondPage() run directly on DartPad?",
       options: [
@@ -2751,7 +2751,7 @@ export const prm393: Subject = {
         "DartPad cần cấu trúc chương trình đầy đủ (main, runApp, MaterialApp); thiếu những thứ này hoặc class được tham chiếu chưa định nghĩa (như SecondPage) gây lỗi. A, C, D không đúng với giải thích của bài giảng.",
     },
     {
-      id: 104,
+      id: 202,
       question:
         "What is the difference between Navigator.push() and Navigator.pushReplacement()?",
       options: [
@@ -2766,7 +2766,7 @@ export const prm393: Subject = {
         "push() giữ route cũ trong stack, còn pushReplacement() xóa route cũ khi thêm route mới. A sai vì có sự khác biệt rõ; C, D không đúng đặc điểm kỹ thuật.",
     },
     {
-      id: 105,
+      id: 203,
       question:
         "Why use Navigator.pushReplacementNamed(context, '/home') instead of pushNamed after a successful login?",
       options: [
@@ -2781,7 +2781,7 @@ export const prm393: Subject = {
         "pushReplacementNamed ngăn người dùng nhấn Back để quay lại Login vì route Login đã bị xóa khỏi stack. A, C, D không đúng lý do.",
     },
     {
-      id: 106,
+      id: 204,
       question:
         "What benefit do Named Routes bring over calling MaterialPageRoute directly everywhere?",
       options: [
@@ -2796,7 +2796,7 @@ export const prm393: Subject = {
         "Named Routes tăng khả năng đọc và mở rộng trong app lớn, đặc biệt khi cần truyền tham số hoặc quản lý tập trung nhiều màn hình. A, C, D không đúng với lợi ích thực tế.",
     },
     {
-      id: 107,
+      id: 205,
       question:
         "What is the core difference between Navigator 1.0 and Navigator 2.0?",
       options: [
@@ -2811,7 +2811,7 @@ export const prm393: Subject = {
         "Navigator 1.0 là imperative (gọi push/pop thủ công); Navigator 2.0 là declarative (mô tả stack mong muốn, framework tự đồng bộ). A đảo ngược; C, D không đúng đặc điểm hai phiên bản.",
     },
     {
-      id: 108,
+      id: 206,
       question:
         "What are the three main components in Navigator 2.0's architecture, as mentioned in the lecture?",
       options: [
@@ -2826,7 +2826,7 @@ export const prm393: Subject = {
         "Ba thành phần chính: RouterDelegate, RouteInformationParser, BackButtonDispatcher — đúng theo slide. A, C, D không đúng tên các thành phần này.",
     },
     {
-      id: 109,
+      id: 207,
       question: "What does deep linking in Flutter allow?",
       options: [
         "Increases app build speed",
@@ -2840,7 +2840,7 @@ export const prm393: Subject = {
         "Deep linking cho phép người dùng mở trực tiếp một màn hình cụ thể trong app qua URL hoặc nguồn bên ngoài (link web, notification). A, C, D mô tả sai mục đích của deep linking.",
     },
     {
-      id: 110,
+      id: 208,
       question:
         "In an Android deep link intent-filter XML snippet, where does it belong and what does it mean?",
       options: [
@@ -2855,7 +2855,7 @@ export const prm393: Subject = {
         "Đoạn này thuộc AndroidManifest.xml, khai báo intent-filter để Android OS nhận diện và định tuyến các link như movieapps://movies đến đúng app. A, C, D là vị trí file sai.",
     },
     {
-      id: 111,
+      id: 209,
       question:
         "On iOS, to support a custom URL scheme (e.g. movieapps://), where does the configuration need to be added?",
       options: [
@@ -2870,7 +2870,7 @@ export const prm393: Subject = {
         "Cấu hình custom URL scheme trên iOS nằm trong Info.plist (URL Types → URL Schemes). A, B, D không phải vị trí đúng.",
     },
     {
-      id: 112,
+      id: 210,
       question:
         "What is the basic difference between StatelessWidget and StatefulWidget?",
       options: [
@@ -2885,7 +2885,7 @@ export const prm393: Subject = {
         "StatelessWidget không có mutable state và không tự rebuild; StatefulWidget có State object và rebuild qua setState(). A, C, D mô tả sai đặc điểm cơ bản hai loại widget.",
     },
     {
-      id: 113,
+      id: 211,
       question:
         "In the CounterPage example, if increment() only did count++; WITHOUT calling setState(), what happens?",
       options: [
@@ -2900,7 +2900,7 @@ export const prm393: Subject = {
         "Không gọi setState, count vẫn tăng trong memory, nhưng Flutter không biết để rebuild — UI hiển thị giá trị không đổi. B sai vì không có lỗi compile; C sai vì Flutter không tự track mọi biến; D sai vì count không bị reset.",
     },
     {
-      id: 114,
+      id: 212,
       question: 'What does "Lifting State Up" mean in Flutter?',
       options: [
         "Removing all state from the app",
@@ -2914,7 +2914,7 @@ export const prm393: Subject = {
         "Lifting State Up là đưa state chung lên widget ancestor chung để các widget con truy cập và đồng bộ dữ liệu, giảm logic trùng lặp. A, C, D mô tả sai khái niệm này.",
     },
     {
-      id: 115,
+      id: 213,
       question:
         "In the AppData InheritedWidget example, what is its main purpose?",
       options: [
@@ -2929,7 +2929,7 @@ export const prm393: Subject = {
         "InheritedWidget truyền dữ liệu xuống toàn bộ widget tree hiệu quả mà không cần truyền tham số qua từng constructor trung gian. A, C, D mô tả sai mục đích.",
     },
     {
-      id: 116,
+      id: 214,
       question:
         "What foundation does Provider (ChangeNotifierProvider + Consumer) build on, and what benefit does it bring over plain InheritedWidget?",
       options: [
@@ -2944,7 +2944,7 @@ export const prm393: Subject = {
         "Provider xây dựng trên InheritedWidget nhưng giảm boilerplate code, giúp chia sẻ và lắng nghe state dễ dàng hơn. A, C, D không đúng nền tảng kỹ thuật thực tế của Provider.",
     },
     {
-      id: 117,
+      id: 215,
       question:
         "In CounterModel with ChangeNotifier, if notifyListeners() is removed from increment(), what happens?",
       options: [
@@ -2959,7 +2959,7 @@ export const prm393: Subject = {
         "Không có notifyListeners(), count vẫn tăng trong memory nhưng widget Consumer không được thông báo để rebuild — UI không hiện giá trị mới. A, C, D mô tả sai hành vi này.",
     },
     {
-      id: 118,
+      id: 216,
       question:
         "In code where appState.loggedIn determines the pushNamed route, what principle does this illustrate?",
       options: [
@@ -2974,7 +2974,7 @@ export const prm393: Subject = {
         "Đoạn code minh họa state của app quyết định luồng điều hướng — kết hợp logic quản lý state với quyết định hiển thị route nào. A, C, D mô tả sai ý nghĩa/tính hợp lệ của code.",
     },
     {
-      id: 119,
+      id: 217,
       question:
         "In the Stateless/Stateful comparison table, which usage example fits StatelessWidget?",
       options: [
@@ -2989,7 +2989,7 @@ export const prm393: Subject = {
         "Logo tĩnh/text không đổi phù hợp với StatelessWidget vì không cần rebuild. A, B, D đều cần StatefulWidget do có state thay đổi.",
     },
     {
-      id: 120,
+      id: 218,
       question:
         "In Navigator 2.0, which component's role does the AppRouterDelegate build() code illustrate?",
       options: [
@@ -3004,7 +3004,7 @@ export const prm393: Subject = {
         "Đoạn code minh họa RouterDelegate — xây dựng page stack hiện tại và xử lý sự kiện pop. A, C, D gán sai vai trò cho thành phần khác của Navigator 2.0.",
     },
     {
-      id: 121,
+      id: 219,
       question:
         "In the MovieDetailPage Hero Banner example (Stack with Image.network + Positioned gradient), why is Stack used instead of Column?",
       options: [
@@ -3019,7 +3019,7 @@ export const prm393: Subject = {
         "Stack cho phép các widget con chồng lên nhau tại cùng vị trí, cần thiết để đặt lớp gradient lên trên ảnh poster. A, C, D không đúng lý do kỹ thuật của lựa chọn này.",
     },
     {
-      id: 122,
+      id: 220,
       question: "What is the main purpose of onGenerateRoute in MaterialApp?",
       options: [
         "Only handles network errors",
@@ -3033,7 +3033,7 @@ export const prm393: Subject = {
         "onGenerateRoute cho phép app parse tên route (và tham số) từ link bên ngoài, rồi trả về route/screen tương ứng động, thường dùng để xử lý deep link. A, C, D mô tả sai mục đích.",
     },
     {
-      id: 123,
+      id: 221,
       question: "What does the Route class in Flutter represent?",
       options: [
         "An API endpoint from a server",
@@ -3047,7 +3047,7 @@ export const prm393: Subject = {
         "Route đại diện một screen/page trong app, thường triển khai qua MaterialPageRoute. A, C, D mô tả sai khái niệm Route.",
     },
     {
-      id: 124,
+      id: 222,
       question:
         "Why is separating state (login/logout) into its own AppState class away from the UI considered good practice?",
       options: [
@@ -3062,7 +3062,7 @@ export const prm393: Subject = {
         "Tách state khỏi UI tăng khả năng test và làm rõ kiến trúc app; UI chỉ cần lắng nghe thay đổi thay vì tự quản lý business logic. A, C, D không phải lý do đúng/hợp lệ.",
     },
     {
-      id: 125,
+      id: 223,
       question:
         "According to Module 5's Summary, which state management techniques are covered, in order from basic to more advanced?",
       options: [
@@ -3077,7 +3077,7 @@ export const prm393: Subject = {
         "Theo Summary, thứ tự từ cơ bản đến nâng cao là: setState → InheritedWidget → Provider. A đảo ngược thứ tự; C không đầy đủ; D không phải trọng tâm Module 5.",
     },
     {
-      id: 126,
+      id: 224,
       question:
         'What is the core difference between "Responsive UI" and "Adaptive UI" per the lecture?',
       options: [
@@ -3092,7 +3092,7 @@ export const prm393: Subject = {
         "Responsive UI thay đổi layout dựa trên không gian khả dụng, còn Adaptive UI thay đổi dựa trên loại thiết bị. A đảo ngược hai định nghĩa; C, D không đúng nội dung bài giảng.",
     },
     {
-      id: 127,
+      id: 225,
       question:
         "What information does MediaQuery.of(context).size.width retrieve?",
       options: [
@@ -3107,7 +3107,7 @@ export const prm393: Subject = {
         "MediaQuery.of(context).size.width lấy chiều rộng toàn màn hình hiện tại của thiết bị. A, C, D mô tả sai phạm vi giá trị trả về.",
     },
     {
-      id: 128,
+      id: 226,
       question:
         "When the device is rotated from portrait to landscape making width exceed 600px, what happens to a text depending on MediaQuery width?",
       options: [
@@ -3122,7 +3122,7 @@ export const prm393: Subject = {
         'Flutter tự động rebuild widget khi kích thước màn hình thay đổi (ví dụ do xoay), nên text đổi từ "Mobile Layout" sang "Tablet Layout". A, C, D không đúng hành vi thực tế của MediaQuery/Flutter.',
     },
     {
-      id: 129,
+      id: 227,
       question:
         "What is the core difference between LayoutBuilder and MediaQuery?",
       options: [
@@ -3137,7 +3137,7 @@ export const prm393: Subject = {
         "LayoutBuilder cung cấp thông tin về constraint của widget cha trực tiếp, còn MediaQuery cung cấp thông tin toàn màn hình thiết bị. B, C, D đảo ngược/mô tả sai đặc điểm hai tool này.",
     },
     {
-      id: 130,
+      id: 228,
       question:
         "If a LayoutBuilder is placed inside a Container with a fixed width of 300px (device screen 800px wide), which widget is displayed (maxWidth > 500 → WideCard)?",
       options: [
@@ -3152,7 +3152,7 @@ export const prm393: Subject = {
         "c.maxWidth phản ánh constraint của widget cha trực tiếp (300px), không phải toàn màn hình, nên NarrowCard() được hiển thị. A bỏ qua vai trò constraint cục bộ; C, D không đúng cách LayoutBuilder hoạt động.",
     },
     {
-      id: 131,
+      id: 229,
       question: "What is OrientationBuilder used for?",
       options: [
         "Detecting device rotation (portrait/landscape) and changing the UI accordingly",
@@ -3166,7 +3166,7 @@ export const prm393: Subject = {
         "OrientationBuilder phát hiện việc xoay thiết bị (portrait/landscape) và cho phép UI thay đổi tương ứng. B, C, D mô tả sai chức năng.",
     },
     {
-      id: 132,
+      id: 230,
       question:
         'In the "Responsive Widgets Overview" list, which widget helps avoid overflow by letting a child take up the remaining space in a Row/Column?',
       options: ["Wrap", "Expanded", "AspectRatio", "FractionallySizedBox"],
@@ -3176,7 +3176,7 @@ export const prm393: Subject = {
         "Expanded cho phép child chiếm hết không gian còn lại trong Row/Column, tránh overflow. A, C, D dùng cho mục đích khác, không phải chức năng này.",
     },
     {
-      id: 133,
+      id: 231,
       question:
         "If width for GridView.count crossAxisCount is read ONCE in initState() instead of build() (from MediaQuery), what problem arises on screen rotation?",
       options: [
@@ -3191,7 +3191,7 @@ export const prm393: Subject = {
         "Đọc width chỉ một lần trong initState() khiến crossAxisCount không được cập nhật khi kích thước màn hình thay đổi (do xoay), vì initState chỉ chạy một lần khi widget được tạo. A, C, D không đúng hậu quả kỹ thuật thực tế.",
     },
     {
-      id: 134,
+      id: 232,
       question:
         "What problem does SafeArea in Flutter solve on modern devices?",
       options: [
@@ -3206,7 +3206,7 @@ export const prm393: Subject = {
         "SafeArea tránh nội dung UI bị che bởi các vùng không dùng được như notch, Dynamic Island, hoặc màn hình cong. A, C, D mô tả sai mục đích của SafeArea.",
     },
     {
-      id: 135,
+      id: 233,
       question:
         "A student forgets to wrap a search bar in SafeArea on a device with a notch. What is the most likely real-world consequence?",
       options: [
@@ -3221,7 +3221,7 @@ export const prm393: Subject = {
         "Thiếu SafeArea có thể khiến phần trên của search bar bị che/cắt bởi notch/status bar, ảnh hưởng đến UX. A, C, D không phản ánh hậu quả thực tế.",
     },
     {
-      id: 136,
+      id: 234,
       question:
         'According to "Using Breakpoints" in the lecture, what layout-splitting rule based on width is proposed?',
       options: [
@@ -3236,7 +3236,7 @@ export const prm393: Subject = {
         "Quy tắc breakpoint đề xuất: <400px Small, 400-800px Medium, >800px Large — đúng theo slide. B, C, D không đúng số liệu.",
     },
     {
-      id: 137,
+      id: 235,
       question:
         'In the Genre Chips example, the lecture says "This behavior is achieved automatically by using Wrap, without conditional logic." What does this mean technically?',
       options: [
@@ -3251,7 +3251,7 @@ export const prm393: Subject = {
         "Widget Wrap tự động tính toán và xuống dòng các phần tử dựa trên không gian khả dụng, mà không cần lập trình viên viết logic điều kiện thủ công cho responsive. A, C, D không đúng ý nghĩa của câu nói này.",
     },
     {
-      id: 138,
+      id: 236,
       question:
         "In the Responsive Movie Card example, what is the role of Expanded wrapping Text(title) in the Row?",
       options: [
@@ -3266,7 +3266,7 @@ export const prm393: Subject = {
         "Expanded cho Text chiếm hết không gian ngang còn lại sau ảnh, đồng thời tránh overflow ngang khi title dài. A, C, D mô tả sai vai trò kỹ thuật của Expanded ở đây.",
     },
     {
-      id: 139,
+      id: 237,
       question:
         "What is the difference between Flexible and Expanded in a Row/Column?",
       options: [
@@ -3281,7 +3281,7 @@ export const prm393: Subject = {
         "Expanded buộc child chiếm toàn bộ không gian được cấp theo tỷ lệ flex, còn Flexible cho phép child nhỏ hơn không gian được cấp nếu không cần dùng hết (fit: FlexFit.loose). A, C, D không đúng hành vi thực tế của chúng.",
     },
     {
-      id: 140,
+      id: 238,
       question:
         "In Lab 6.3 (Tablet Layout Enhancement), for screens > 800px requiring a sidebar filter and 2-column list, what technique is recommended at the screen's root level?",
       options: [
@@ -3296,7 +3296,7 @@ export const prm393: Subject = {
         "Dùng LayoutBuilder ở cấp gốc màn hình để phát hiện constraint chiều rộng là kỹ thuật được đề xuất. A, C, D không đúng kỹ thuật được đề xuất.",
     },
     {
-      id: 141,
+      id: 239,
       question: "What problem does the AspectRatio widget help solve?",
       options: [
         "Helps images avoid being stretched/distorted when the container size changes, by maintaining a fixed aspect ratio",
@@ -3310,7 +3310,7 @@ export const prm393: Subject = {
         "AspectRatio giữ tỉ lệ khung hình cố định để ảnh không bị kéo dãn/biến dạng khi kích thước container thay đổi. B, C, D không đúng phạm vi/chức năng của nó.",
     },
     {
-      id: 142,
+      id: 240,
       question:
         "A sort Dropdown inside a Row with MainAxisSize.max causes overflow on small screens. What is the most reasonable solution per Module 6?",
       options: [
@@ -3325,7 +3325,7 @@ export const prm393: Subject = {
         "Bọc phần tử linh hoạt bằng Flexible/Expanded, hoặc dùng Wrap để tự xuống dòng khi không đủ chỗ, là giải pháp được đề xuất. A, C, D không đúng nguyên tắc responsive đã dạy.",
     },
     {
-      id: 143,
+      id: 241,
       question:
         'Per Module 6\'s "Best Practices," when should Wrap be prioritized over Row?',
       options: [
@@ -3340,7 +3340,7 @@ export const prm393: Subject = {
         "Wrap nên được ưu tiên cho danh sách chip dài có thể bị overflow ngang. B, C, D không đúng với best practice được nêu.",
     },
     {
-      id: 144,
+      id: 242,
       question:
         "Comparing MediaQuery at full-screen level versus LayoutBuilder at a deeply nested child level, which statement is most accurate?",
       options: [
@@ -3355,7 +3355,7 @@ export const prm393: Subject = {
         "MediaQuery trả về chiều rộng toàn màn hình thiết bị dù widget con bị cha giới hạn nhiều hơn, còn LayoutBuilder phản ánh chính xác không gian thực tế mà widget con có. A, C, D không đúng đặc điểm kỹ thuật đã phân tích.",
     },
     {
-      id: 145,
+      id: 243,
       question:
         "According to the lecture, which tool in Flutter Inspector helps debug responsive layout?",
       options: [
@@ -3370,7 +3370,7 @@ export const prm393: Subject = {
         '"Layout Explorer" trong Flutter Inspector giúp debug layout responsive, theo "Best Practices" của Module 6. B, C, D không phải tool được nêu cho mục đích này.',
     },
     {
-      id: 146,
+      id: 244,
       question:
         'Why does the lecture recommend "Avoid fixed values" for apps running on diverse device sizes?',
       options: [
@@ -3385,7 +3385,7 @@ export const prm393: Subject = {
         "Giá trị cố định không thích ứng với nhiều kích thước màn hình khác nhau, dễ gây overflow hoặc lãng phí không gian trên thiết bị khác. A, C, D không đúng lý do kỹ thuật thực tế.",
     },
     {
-      id: 147,
+      id: 245,
       question:
         "For a responsive search bar as the first element in Scaffold's body with no SafeArea, what specific risk is most likely on a device with a notch?",
       options: [
@@ -3400,7 +3400,7 @@ export const prm393: Subject = {
         "Thiếu SafeArea có nguy cơ phần trên của search bar bị che bởi status bar/notch, khiến người dùng khó chạm chính xác vào TextField. A, C, D không phản ánh rủi ro thực tế.",
     },
     {
-      id: 148,
+      id: 246,
       question:
         "What is FractionallySizedBox in the responsive widget list used for?",
       options: [
@@ -3415,7 +3415,7 @@ export const prm393: Subject = {
         "FractionallySizedBox định kích thước widget theo tỷ lệ phần trăm so với widget cha, thay vì giá trị pixel cố định. B, C, D mô tả sai chức năng.",
     },
     {
-      id: 149,
+      id: 247,
       question:
         "Why does the lecture encourage testing responsive UI across multiple device sizes instead of just one single emulator?",
       options: [
@@ -3430,7 +3430,7 @@ export const prm393: Subject = {
         "Hành vi layout có thể thay đổi đáng kể giữa các kích thước màn hình, và bug thường chỉ xuất hiện ở kích thước cụ thể. A, C, D không đúng lý do kỹ thuật thực tế.",
     },
     {
-      id: 150,
+      id: 248,
       question:
         "If breakpoint logic in a deeply nested child widget uses MediaQuery full-screen width instead of LayoutBuilder, what is the potential consequence?",
       options: [
@@ -3445,7 +3445,7 @@ export const prm393: Subject = {
         "Dùng chiều rộng MediaQuery toàn màn hình thay vì constraint cục bộ có thể dẫn đến quyết định responsive sai, gây overflow hoặc layout không phù hợp. A, C, D không đúng hậu quả thực tế.",
     },
     {
-      id: 151,
+      id: 249,
       question:
         "When should you use TextFormField instead of a plain TextField?",
       options: [
@@ -3460,7 +3460,7 @@ export const prm393: Subject = {
         "Dùng TextFormField khi input cần nằm trong Form và cần chức năng validation. A, C, D mô tả sai khi nào nên dùng nó.",
     },
     {
-      id: 152,
+      id: 250,
       question: "What is GlobalKey<FormState> used for in a Form?",
       options: [
         "Only used to set the form's color",
@@ -3474,7 +3474,7 @@ export const prm393: Subject = {
         "GlobalKey<FormState> cho phép truy cập/điều khiển state của Form từ bên ngoài qua validate()/save()/reset(). A, C, D mô tả sai vai trò của nó.",
     },
     {
-      id: 153,
+      id: 251,
       question:
         "If save() is called BEFORE validate() in a Form submit handler, what could happen?",
       options: [
@@ -3489,7 +3489,7 @@ export const prm393: Subject = {
         "Gọi save() trước validate() có nguy cơ lưu dữ liệu chưa được validate qua onSaved, vì save() không tự kiểm tra tính hợp lệ. A sai vì thứ tự có ảnh hưởng; C sai vì không phải lỗi compile; D sai vì save() không tự gọi validate().",
     },
     {
-      id: 154,
+      id: 252,
       question:
         "What is the standard signature of a validator function in TextFormField?",
       options: [
@@ -3504,7 +3504,7 @@ export const prm393: Subject = {
         "Chữ ký validator chuẩn là String? Function(String? value). A, C, D không đúng chữ ký chuẩn của Flutter Form validator.",
     },
     {
-      id: 155,
+      id: 253,
       question: "If a validator function returns null, what does that mean?",
       options: [
         'The field is invalid, showing the error "null"',
@@ -3518,7 +3518,7 @@ export const prm393: Subject = {
         "Trả về null nghĩa là field hợp lệ, không hiện lỗi. A, C, D mô tả sai ý nghĩa của giá trị trả về null.",
     },
     {
-      id: 156,
+      id: 254,
       question:
         'For a password validator checking empty/length/digit, with input "abcdefgh" (8 letters, no digits), what does it return?',
       options: [
@@ -3533,7 +3533,7 @@ export const prm393: Subject = {
         'Input 8 ký tự chữ cái thỏa 2 điều kiện đầu (không rỗng, đủ 8 ký tự) nhưng thiếu số, nên trả về "Include a number". A sai vì không hợp lệ; B, C sai vì các điều kiện đó đã thỏa.',
     },
     {
-      id: 157,
+      id: 255,
       question:
         "The lecture recommends comparing confirm password against which variable, instead of comparing directly against another controller?",
       options: [
@@ -3548,7 +3548,7 @@ export const prm393: Subject = {
         "Bài giảng đề xuất so sánh với biến state _password đã lưu trong State thay vì so sánh trực tiếp hai TextEditingController, để code sạch hơn. B, C, D không đúng đề xuất.",
     },
     {
-      id: 158,
+      id: 256,
       question:
         "AutovalidateMode has disabled, always, and onUserInteraction. Which mode is recommended and why?",
       options: [
@@ -3563,7 +3563,7 @@ export const prm393: Subject = {
         "onUserInteraction được đề xuất vì cân bằng giữa không hiện lỗi quá sớm (gây khó chịu) và không quá muộn (gây khó hiểu). A, B, D không đúng mode/lý do được đề xuất.",
     },
     {
-      id: 159,
+      id: 257,
       question:
         'Per the "Error Messages & UX" section, which of the following is a GOOD UX example?',
       options: [
@@ -3578,7 +3578,7 @@ export const prm393: Subject = {
         '"Enter a valid email" là ví dụ UX tốt: ngắn gọn, rõ ràng, cụ thể. A, C, D là ví dụ xấu (mã lỗi kỹ thuật, mơ hồ, không cụ thể).',
     },
     {
-      id: 160,
+      id: 258,
       question:
         "What is FocusNode combined with textInputAction: TextInputAction.next and onFieldSubmitted used for?",
       options: [
@@ -3593,7 +3593,7 @@ export const prm393: Subject = {
         "Kết hợp này điều khiển việc chuyển focus sang field kế tiếp khi người dùng nhấn Next, cải thiện UX nhập liệu trên mobile. A, C, D mô tả sai mục đích.",
     },
     {
-      id: 161,
+      id: 259,
       question:
         'For "Tap outside the form → keyboard hides," what is the common implementation approach in the lecture?',
       options: [
@@ -3608,7 +3608,7 @@ export const prm393: Subject = {
         "Bọc form trong GestureDetector với onTap gọi FocusScope.of(context).unfocus() là cách triển khai phổ biến. A, C, D không đúng cách tiếp cận chuẩn đã dạy.",
     },
     {
-      id: 162,
+      id: 260,
       question:
         "Why should a long form be wrapped in ListView or SingleChildScrollView?",
       options: [
@@ -3623,7 +3623,7 @@ export const prm393: Subject = {
         "Bọc trong ListView/SingleChildScrollView tránh lỗi overflow khi bàn phím ảo che một phần form trên màn hình nhỏ, đồng thời cho phép scroll xem hết các field. A, C, D không đúng lý do thực tế.",
     },
     {
-      id: 163,
+      id: 261,
       question:
         "In the Async Email Check code, the submit button is configured with onPressed: _isChecking ? null : _submit. What is the main purpose of this?",
       options: [
@@ -3638,7 +3638,7 @@ export const prm393: Subject = {
         "Tắt nút khi _isChecking là true để ngăn người dùng chạm nút nhiều lần liên tiếp (double-submit) trong khi async check đang chạy. A, C, D không đúng mục đích thực tế.",
     },
     {
-      id: 164,
+      id: 262,
       question:
         'In the async email check example, if the user enters "taken123@test.com", what message does the app show after 2 seconds?',
       options: [
@@ -3653,7 +3653,7 @@ export const prm393: Subject = {
         'Vì email bắt đầu bằng "taken", logic startsWith("taken") hiện "This email is already taken" sau 2 giây. A, C, D không đúng logic của đoạn code đã cho.',
     },
     {
-      id: 165,
+      id: 263,
       question:
         'In the "From Form to Backend" flow, what is the correct order of the data-processing process?',
       options: [
@@ -3668,7 +3668,7 @@ export const prm393: Subject = {
         "Thứ tự đúng: UI Form → Local Validation → POST Request → Server processes → Response → UI Update. A, C, D đảo ngược trình tự đúng.",
     },
     {
-      id: 166,
+      id: 264,
       question:
         "Why is checking value == null || value.trim().isEmpty (instead of just value.isEmpty) important in a required-field validator?",
       options: [
@@ -3683,7 +3683,7 @@ export const prm393: Subject = {
         "value có kiểu String? (nullable) và người dùng có thể chỉ nhập khoảng trắng; kiểm tra cả null và chuỗi rỗng sau trim tránh coi chuỗi khoảng trắng là hợp lệ. A sai vì value có thể null; C, D mô tả sai.",
     },
     {
-      id: 167,
+      id: 265,
       question:
         "When should you use Checkbox/Switch/Radio instead of TextFormField?",
       options: [
@@ -3698,7 +3698,7 @@ export const prm393: Subject = {
         "Checkbox/Switch/Radio phù hợp với dữ liệu boolean hoặc lựa chọn rời rạc, không phải văn bản tự do. B, C, D là các trường hợp cần TextFormField.",
     },
     {
-      id: 168,
+      id: 266,
       question:
         'If an email validator only checks contains("@") skipping the dot check, what is the risk?',
       options: [
@@ -3713,7 +3713,7 @@ export const prm393: Subject = {
         'Bỏ qua kiểm tra dấu chấm khiến chuỗi như "abc@com" vẫn được coi là hợp lệ dù không đúng định dạng email cơ bản. A sai vì có rủi ro rõ ràng; C, D không đúng hành vi thực tế của Dart.',
     },
     {
-      id: 169,
+      id: 267,
       question: "What does formKey.currentState!.reset() do?",
       options: [
         "Removes the entire Form from the widget tree",
@@ -3727,7 +3727,7 @@ export const prm393: Subject = {
         "reset() đặt lại tất cả field trong form về giá trị ban đầu và xóa các thông báo lỗi hiện có. A, C, D mô tả sai chức năng này.",
     },
     {
-      id: 170,
+      id: 268,
       question:
         'What is the "Multi-step wizard" mentioned in "Form Layout Patterns"?',
       options: [
@@ -3742,7 +3742,7 @@ export const prm393: Subject = {
         "Multi-step wizard là pattern chia form dài thành nhiều bước/màn hình nhỏ hơn, giảm cảm giác quá tải khi có quá nhiều field. A, C, D mô tả sai khái niệm này.",
     },
     {
-      id: 171,
+      id: 269,
       question:
         "In a validator using value.isEmpty directly (without null check), what is the potential (null-safety) issue?",
       options: [
@@ -3757,7 +3757,7 @@ export const prm393: Subject = {
         "value trong validator có kiểu String? (nullable); gọi value.isEmpty trực tiếp mà không kiểm tra null trước có thể gây runtime error nếu value là null. A sai vì có vấn đề thực sự; C, D không đúng về API/kiểu trả về của Dart.",
     },
     {
-      id: 172,
+      id: 270,
       question:
         "Per Demo 1 (Basic Signup Form), which fields are required and what are each field's specific validity conditions?",
       options: [
@@ -3772,7 +3772,7 @@ export const prm393: Subject = {
         "Demo 1 yêu cầu: Name (không rỗng), Email (chứa @ và .), Password (ít nhất 6 ký tự) — tất cả đều bắt buộc. A, C, D không đầy đủ/không đúng yêu cầu đã nêu.",
     },
     {
-      id: 173,
+      id: 271,
       question: "What is obscureText: true in TextFormField used for?",
       options: [
         "Completely hides the entire field from the UI",
@@ -3786,7 +3786,7 @@ export const prm393: Subject = {
         "obscureText: true ẩn các ký tự đã nhập (ví dụ hiện dấu chấm), thường dùng cho field password. A, C, D mô tả sai chức năng này.",
     },
     {
-      id: 174,
+      id: 272,
       question:
         "With AutovalidateMode.onUserInteraction, after a mismatched confirm password error, then editing password again, what happens to the Confirm Password error?",
       options: [
@@ -3801,7 +3801,7 @@ export const prm393: Subject = {
         'Vì onUserInteraction theo dõi tương tác theo từng field, lỗi "Passwords do not match" ở Confirm Password có thể tiếp tục hiện cho đến khi field đó được cập nhật khớp với Password mới. A, C, D không đúng hành vi thực tế của autovalidate.',
     },
     {
-      id: 175,
+      id: 273,
       question:
         "In the combined demo example (Full Signup Demo), which feature is NOT mentioned as part of the combined demo?",
       options: [
@@ -3816,7 +3816,7 @@ export const prm393: Subject = {
         "Đồng bộ hai chiều với SQLite trực tiếp trong form KHÔNG thuộc Full Signup Demo (thuộc Module 9). A, B, D đều là các tính năng có trong Full Signup Demo.",
     },
     {
-      id: 176,
+      id: 274,
       question:
         "What benefit and trade-off does upgrading from a simple contains email check to regex bring?",
       options: [
@@ -3831,7 +3831,7 @@ export const prm393: Subject = {
         "Regex kiểm tra định dạng chính xác và chặt chẽ hơn contains, nhưng tăng độ phức tạp code, và một regex viết kém có thể vô tình từ chối email hợp lệ hoặc chấp nhận sai định dạng. A, C, D không đúng với trade-off thực tế khi dùng RegExp trong Dart.",
     },
     {
-      id: 177,
+      id: 275,
       question:
         "In REST API programming, which HTTP status code range indicates SUCCESS?",
       options: ["200-299", "400-499", "500-599", "100-199"],
@@ -3841,7 +3841,7 @@ export const prm393: Subject = {
         "200-299 là khoảng mã trạng thái HTTP biểu thị thành công. B, C, D là các khoảng lỗi client, lỗi server, hoặc thông tin.",
     },
     {
-      id: 178,
+      id: 276,
       question:
         "When JSON is received from an API in Flutter, what Dart data type does it have after json.decode()?",
       options: [
@@ -3856,7 +3856,7 @@ export const prm393: Subject = {
         "JSON object tương ứng Map<String, dynamic>, JSON array tương ứng List<dynamic> sau khi decode. A, C, D mô tả sai kiểu dữ liệu kết quả.",
     },
     {
-      id: 179,
+      id: 277,
       question:
         "Why does fetchPosts() need to be declared async and use await before http.get(url)?",
       options: [
@@ -3871,7 +3871,7 @@ export const prm393: Subject = {
         "http.get() trả về Future<Response>; await tạm dừng thực thi hàm cho đến khi có response, tránh block UI thread trong khi chờ. A, C, D mô tả sai lý do kỹ thuật thực tế.",
     },
     {
-      id: 180,
+      id: 278,
       question: "What is FutureBuilder in Flutter used for?",
       options: [
         "Building static UI that never changes",
@@ -3885,7 +3885,7 @@ export const prm393: Subject = {
         "FutureBuilder tích hợp một Future vào widget tree, tự động rebuild UI dựa trên các trạng thái: waiting, error, hoặc data. A, C, D mô tả sai chức năng của nó.",
     },
     {
-      id: 181,
+      id: 279,
       question:
         "In the FutureBuilder<List<Post>> code, if the API returns an empty JSON array [] (no network error), which branch executes?",
       options: [
@@ -3900,7 +3900,7 @@ export const prm393: Subject = {
         'Một array rỗng không phải lỗi cũng không còn waiting, nhưng data!.isEmpty là true → nhánh "No posts" thực thi. A, B sai vì không áp dụng; D sai vì nhánh cuối chỉ chạy khi data thực sự có nội dung.',
     },
     {
-      id: 182,
+      id: 280,
       question:
         "Why create a model class (e.g. Post with fromJson) instead of directly manipulating Map<String, dynamic> throughout the app?",
       options: [
@@ -3915,7 +3915,7 @@ export const prm393: Subject = {
         "Model class cung cấp type safety, cấu trúc rõ ràng, và dễ maintain/reuse hơn so với truy cập trực tiếp qua string key, điều dễ gây lỗi runtime. A, C, D không đúng lợi ích thực tế.",
     },
     {
-      id: 183,
+      id: 281,
       question:
         "If .toList() is removed from jsonList.map((e) => Post.fromJson(e)).toList(), what happens with a List<Post> return type?",
       options: [
@@ -3930,7 +3930,7 @@ export const prm393: Subject = {
         "Nếu bỏ .toList(), kết quả trở thành Iterable<Post> (lazy), không khớp với kiểu trả về List<Post> đã khai báo, gây lỗi type mismatch. A, C, D không đúng hành vi thực tế của Dart với .map().",
     },
     {
-      id: 184,
+      id: 282,
       question:
         "In Demo 8.3 (POST Request), what does json.encode({'title':..., 'body':..., 'userId': 1}) as the request body do?",
       options: [
@@ -3945,7 +3945,7 @@ export const prm393: Subject = {
         "json.encode() mã hóa một Dart Map thành chuỗi JSON để gửi trong body của POST request. A, C, D mô tả sai chức năng này.",
     },
     {
-      id: 185,
+      id: 283,
       question:
         "In the try/catch/finally block, why is setState(() => isLoading = false); placed in finally instead of just in try?",
       options: [
@@ -3960,7 +3960,7 @@ export const prm393: Subject = {
         'finally đảm bảo isLoading luôn được tắt dù request thành công hay thất bại, tránh nút bị "kẹt" ở trạng thái loading vĩnh viễn khi có lỗi. A, C, D không đúng vai trò/thứ tự thực thi thực tế của finally.',
     },
     {
-      id: 186,
+      id: 284,
       question:
         "Which HTTP method is most suitable for sending new data to the server in order to create a new resource?",
       options: ["GET", "POST", "DELETE", "HEAD"],
@@ -3970,7 +3970,7 @@ export const prm393: Subject = {
         "POST phù hợp để gửi dữ liệu mới nhằm tạo một resource mới. A, C, D không đúng mục đích của phương thức HTTP này.",
     },
     {
-      id: 187,
+      id: 285,
       question:
         'In Module 8\'s "Common Pitfalls & Best Practices," how is calling an API directly inside build() regarded?',
       options: [
@@ -3985,7 +3985,7 @@ export const prm393: Subject = {
         "Gọi API trực tiếp trong build() là một pitfall cần tránh vì build() có thể chạy lại nhiều lần; nên gọi API trong initState() thay vào đó. A, C, D không đúng nội dung pitfall đã nêu.",
     },
     {
-      id: 188,
+      id: 286,
       question:
         'What is the main benefit of the "Service Layer Pattern" design (like ApiService in Demo 8.4)?',
       options: [
@@ -4000,7 +4000,7 @@ export const prm393: Subject = {
         "Service Layer Pattern đóng gói toàn bộ logic gọi API trong một class riêng, giữ code UI tập trung vào hiển thị, đồng thời cho phép tái sử dụng service trên nhiều màn hình. A, C, D không đúng lợi ích thực tế.",
     },
     {
-      id: 189,
+      id: 287,
       question:
         "What technique does ApiService({http.Client? client}) : client = client ?? http.Client(); illustrate?",
       options: [
@@ -4015,7 +4015,7 @@ export const prm393: Subject = {
         'Đoạn này minh họa kỹ thuật dependency injection — cho phép "inject" một http.Client tùy chỉnh từ bên ngoài; nếu không truyền vào, dùng client mặc định. A, C, D không đúng mục đích thực tế.',
     },
     {
-      id: 190,
+      id: 288,
       question:
         "After successfully submitting a form to create a new post (createPost), what does the lecture suggest for updating the displayed list?",
       options: [
@@ -4030,7 +4030,7 @@ export const prm393: Subject = {
         "Đề xuất là re-fetch (gọi lại API danh sách) hoặc optimistic update trực tiếp trên danh sách hiện có. A, C, D không đúng đề xuất của bài giảng.",
     },
     {
-      id: 191,
+      id: 289,
       question:
         'What is the main reason "hardcoding URLs everywhere in the code" is listed as a pitfall?',
       options: [
@@ -4045,7 +4045,7 @@ export const prm393: Subject = {
         "URL hardcode gây khó khăn khi cần đổi base URL, dễ dẫn đến sai sót và trùng lặp code khi phải sửa ở nhiều nơi. A, C, D không đúng lý do thực tế.",
     },
     {
-      id: 192,
+      id: 290,
       question:
         "Comparing parsing JSON directly in build() versus in a separate function called from initState(), which statement about performance is most accurate?",
       options: [
@@ -4060,7 +4060,7 @@ export const prm393: Subject = {
         "Parse JSON trong build() khiến công việc nặng bị lặp lại mỗi lần widget rebuild, còn parse trong hàm gọi từ initState() chỉ chạy một lần mỗi lần load data. A, C, D không đúng phân tích hiệu năng thực tế.",
     },
     {
-      id: 193,
+      id: 291,
       question:
         "According to the lecture, what are the three typical API data groups students can choose from for their project?",
       options: [
@@ -4075,7 +4075,7 @@ export const prm393: Subject = {
         "Ba nhóm điển hình: realtime, media, mock APIs — đúng theo slide. B, C, D không đúng nội dung đã nêu.",
     },
     {
-      id: 194,
+      id: 292,
       question:
         'If the server returns the "id" field as a string ("id": "5") instead of a number, what happens when calling Post.fromJson with json[\'id\'] as int?',
       options: [
@@ -4090,7 +4090,7 @@ export const prm393: Subject = {
         "json['id'] as int throw lỗi runtime type cast vì không thể cast trực tiếp String sang int. A, C, D không đúng hành vi type-casting thực tế của Dart với as.",
     },
     {
-      id: 195,
+      id: 293,
       question:
         'In the "Steps to call an API in Flutter" process, which step happens RIGHT AFTER receiving the JSON response?',
       options: [
@@ -4105,7 +4105,7 @@ export const prm393: Subject = {
         "Ngay sau khi nhận response JSON, bước tiếp theo là decode JSON → chuyển đổi thành Dart model. A, C, D không đúng trình tự đúng.",
     },
     {
-      id: 196,
+      id: 294,
       question:
         "In the Retry button calling setState(() {}) with an empty body, what effect does this have in the real retry pattern context?",
       options: [
@@ -4120,7 +4120,7 @@ export const prm393: Subject = {
         "Trong pattern retry thực tế, gọi lại setState() kích hoạt rebuild; kết hợp với gán lại biến Future bên trong setState khiến FutureBuilder chạy lại request. A, C, D mô tả sai cách retry hoạt động thực tế.",
     },
     {
-      id: 197,
+      id: 295,
       question:
         "In the HTTP status code table, which range indicates a SERVER-SIDE error?",
       options: ["200-299", "300-399", "400-499", "500-599"],
@@ -4130,7 +4130,7 @@ export const prm393: Subject = {
         "500-599 là khoảng mã lỗi phía server. A là thành công; B là redirection; C là lỗi phía client.",
     },
     {
-      id: 198,
+      id: 296,
       question:
         "What happens if response.statusCode is not 200 but the code does NOT check this condition before calling json.decode(response.body)?",
       options: [
@@ -4145,7 +4145,7 @@ export const prm393: Subject = {
         "Bỏ qua kiểm tra status có nguy cơ gây lỗi parsing trên nội dung không phải JSON, hoặc xử lý dữ liệu không hợp lệ như thể request thành công. A, C, D không đúng hậu quả thực tế.",
     },
     {
-      id: 199,
+      id: 297,
       question:
         "Why does wrapping HTTP logic in ApiService (Service Layer Pattern) make switching HTTP libraries later easier?",
       options: [
@@ -4160,7 +4160,7 @@ export const prm393: Subject = {
         "Vì toàn bộ logic networking được cô lập trong một class duy nhất; nếu cần đổi thư viện, chỉ cần sửa trong ApiService mà không cần chạm vào mọi widget tiêu thụ dữ liệu. A, C, D không đúng nguyên tắc kiến trúc phần mềm này.",
     },
     {
-      id: 200,
+      id: 298,
       question:
         "In Demo 8.2, when the user taps an item in the post list to open the detail screen, how is the Post data passed to PostDetailScreen?",
       options: [
@@ -4175,7 +4175,7 @@ export const prm393: Subject = {
         "Đối tượng Post được truyền trực tiếp qua constructor của PostDetailScreen khi điều hướng bằng MaterialPageRoute. A, C, D không đúng cách triển khai thực tế của demo.",
     },
     {
-      id: 201,
+      id: 299,
       question:
         "If a fetchPosts() function does NOT check response.statusCode before decoding, and the server returns a 500 error with non-JSON HTML content, what is most likely to happen?",
       options: [
@@ -4190,7 +4190,7 @@ export const prm393: Subject = {
         "json.decode() throw FormatException vì nội dung trả về không phải JSON hợp lệ, khiến Future bị lỗi, cần xử lý qua catch hoặc snapshot.hasError. A, C, D không đúng hành vi thực tế của json.decode() với input không hợp lệ.",
     },
     {
-      id: 202,
+      id: 300,
       question: "What kind of data does SharedPreferences best suit?",
       options: [
         "Complex relational data with many linked tables",
@@ -4204,7 +4204,7 @@ export const prm393: Subject = {
         "SharedPreferences phù hợp nhất với dữ liệu key-value đơn giản như flag hoặc setting. A, C, D không phải trường hợp phù hợp cho SharedPreferences.",
     },
     {
-      id: 203,
+      id: 301,
       question:
         'According to the "Types of Local Storage in Flutter" table, which case best fits using SQLite (sqflite)?',
       options: [
@@ -4219,7 +4219,7 @@ export const prm393: Subject = {
         "SQLite phù hợp nhất với dữ liệu quan hệ có cấu trúc cần query/filter/sort, ví dụ app Todo. A, C, D phù hợp hơn với SharedPreferences hoặc file đơn giản.",
     },
     {
-      id: 204,
+      id: 302,
       question:
         'According to the "SharedPreferences Support Across Environments" table, why doesn\'t DartPad (Flutter Mode) actually support SharedPreferences?',
       options: [
@@ -4234,7 +4234,7 @@ export const prm393: Subject = {
         "DartPad không có quyền truy cập storage thiết bị thực, nên cần một mock class (như FakePrefs) để giả lập hành vi lưu trữ trong memory. A, C, D không đúng lý do kỹ thuật thực tế.",
     },
     {
-      id: 205,
+      id: 303,
       question:
         "On Flutter Web, SharedPreferences operates based on which browser storage mechanism?",
       options: ["IndexedDB", "Cookie", "localStorage", "SessionStorage"],
@@ -4244,7 +4244,7 @@ export const prm393: Subject = {
         "Trên Flutter Web, SharedPreferences hoạt động dựa trên localStorage của browser. A, B, D không đúng cơ chế đã nêu trong bảng so sánh.",
     },
     {
-      id: 206,
+      id: 304,
       question: "In the FakePrefs code, why is _store declared static?",
       options: [
         "To limit the app to only one FakePrefs object existing",
@@ -4258,7 +4258,7 @@ export const prm393: Subject = {
         "static khiến dữ liệu lưu trữ được chia sẻ giữa tất cả instance của FakePrefs, mô phỏng hành vi singleton-ish của SharedPreferences thật. A, C, D không đúng vai trò thực tế của static ở đây.",
     },
     {
-      id: 207,
+      id: 305,
       question:
         'The note "data resets on reload (not persistent)" for FakePrefs on DartPad hints at what limitation?',
       options: [
@@ -4273,7 +4273,7 @@ export const prm393: Subject = {
         "Vì FakePrefs chỉ lưu dữ liệu trong RAM của session hiện tại, dữ liệu bị mất khi hot-restart hoặc reload trang, khác với SharedPreferences thật. A, C, D không đúng hạn chế đã nêu.",
     },
     {
-      id: 208,
+      id: 306,
       question:
         "Which package is mentioned for determining the app's storage directory when working with local JSON files?",
       options: ["shared_preferences", "path_provider", "sqflite", "http"],
@@ -4283,7 +4283,7 @@ export const prm393: Subject = {
         "path_provider được dùng để xác định thư mục lưu trữ của app khi làm việc với file JSON local. A, C, D không phải package cho mục đích này.",
     },
     {
-      id: 209,
+      id: 307,
       question:
         "If file.readAsString() is called IMMEDIATELY after writeAsString() WITHOUT awaiting writeAsString(), what is the potential risk?",
       options: [
@@ -4298,7 +4298,7 @@ export const prm393: Subject = {
         "Vì writeAsString() là bất đồng bộ, nếu không await, hoạt động đọc sau đó có thể chạy trước khi ghi hoàn tất, dẫn đến đọc dữ liệu cũ hoặc file chưa hoàn chỉnh (race condition). A, C, D không đúng bản chất bất đồng bộ của các hoạt động I/O này.",
     },
     {
-      id: 210,
+      id: 308,
       question:
         'How does SQFlite differ from SQLite, per the "Why not name it SQLite?" explanation?',
       options: [
@@ -4313,7 +4313,7 @@ export const prm393: Subject = {
         "SQLite là storage engine thực sự, còn SQFlite là plugin/wrapper Flutter giúp Flutter giao tiếp với SQLite — SQFlite không phải một database độc lập. A, C, D không đúng với giải thích đã nêu.",
     },
     {
-      id: 211,
+      id: 309,
       question:
         'Why does the lecture emphasize "SQFlite doesn\'t work on Web"?',
       options: [
@@ -4328,7 +4328,7 @@ export const prm393: Subject = {
         "SQFlite phụ thuộc vào code native để kết nối tới engine SQLite của hệ điều hành, mà trình duyệt web không có engine tương ứng — nên không hỗ trợ Web. A, C, D không đúng với lý do kỹ thuật thực sự.",
     },
     {
-      id: 212,
+      id: 310,
       question:
         "In SQFlite, which function is called to open or create a database, and how often should it be called?",
       options: [
@@ -4343,7 +4343,7 @@ export const prm393: Subject = {
         "`openDatabase()` chỉ nên được gọi một lần (dạng singleton/service) để tránh mở nhiều kết nối trùng lặp. B, C, D không đúng tên hàm/cách dùng khuyến nghị.",
     },
     {
-      id: 213,
+      id: 311,
       question:
         "In SQFlite, what data type does the `query()` function return, and what's the necessary next step in a real app?",
       options: [
@@ -4358,7 +4358,7 @@ export const prm393: Subject = {
         "`query()` trả về `List<Map<String, dynamic>>`, cần map sang Model để dùng trong app. A, C, D không đúng kiểu trả về thực tế.",
     },
     {
-      id: 214,
+      id: 312,
       question:
         "In the SQL SELECT syntax reviewed in the lecture, which clause is used to FILTER data rows before returning the result?",
       options: ["ORDER BY", "WHERE", "LIMIT", "SELECT"],
@@ -4368,7 +4368,7 @@ export const prm393: Subject = {
         "`WHERE` dùng để lọc các dòng dữ liệu trước khi trả kết quả. A, C, D phục vụ mục đích khác (sắp xếp, giới hạn, chọn cột).",
     },
     {
-      id: 215,
+      id: 313,
       question:
         "When is the `GROUP BY` clause combined with `HAVING` typically used?",
       options: [
@@ -4383,7 +4383,7 @@ export const prm393: Subject = {
         "GROUP BY + HAVING dùng để nhóm dòng dữ liệu và lọc trên các hàm tổng hợp như SUM/COUNT. A, C, D không đúng mục đích của các mệnh đề này.",
     },
     {
-      id: 216,
+      id: 314,
       question:
         "Given: a Todo app needs to display the task list paginated to avoid loading all data at once on mobile. Which SQL clause is most suitable for implementing pagination?",
       options: [
@@ -4398,7 +4398,7 @@ export const prm393: Subject = {
         "`LIMIT` và `OFFSET` là cú pháp SQL chuẩn cho phân trang. A, C, D không phù hợp/không đúng cho mục đích này.",
     },
     {
-      id: 217,
+      id: 315,
       question:
         '"Offline-First" is an app design strategy based on what principle?',
       options: [
@@ -4413,7 +4413,7 @@ export const prm393: Subject = {
         "Offline-First ưu tiên tải và hiển thị dữ liệu local trước, đồng bộ với server khi có mạng, giữ app dùng được offline. A, C, D mô tả sai nguyên tắc thiết kế này.",
     },
     {
-      id: 218,
+      id: 316,
       question:
         'Per the "When to Use Which Storage?" table, if an app needs offline storage AND backend sync (offline-first + sync), what combined storage solution is recommended?',
       options: [
@@ -4428,7 +4428,7 @@ export const prm393: Subject = {
         "Giải pháp khuyến nghị cho offline-first + sync là SQLite (sqflite) kết hợp backend Firebase/REST. A, C, D không đúng khuyến nghị trong bảng.",
     },
     {
-      id: 219,
+      id: 317,
       question:
         "In Demo 9.3 (Offline Todo App), what role does the `key: ValueKey(todo.id)` attached to each list item play (directly related to performance and correctness when the list changes)?",
       options: [
@@ -4443,7 +4443,7 @@ export const prm393: Subject = {
         "ValueKey(todo.id) giúp Flutter nhận diện chính xác từng widget item khi list thay đổi, tránh lẫn lộn trạng thái. A, C, D mô tả sai vai trò của Key.",
     },
     {
-      id: 220,
+      id: 318,
       question:
         'An app needs to store "a list of short notes, exportable/importable as a file" but doesn\'t need complex queries (no WHERE, JOIN...). Per the storage recommendation table, what is the most reasonable option?',
       options: [
@@ -4458,7 +4458,7 @@ export const prm393: Subject = {
         "Local JSON File phù hợp dữ liệu dạng list đơn giản, không cần SQL và hỗ trợ export/import trực tiếp. A, C, D không phù hợp nhất với yêu cầu này.",
     },
     {
-      id: 221,
+      id: 319,
       question:
         'Why is SharedPreferences described as "NOT for complex objects or large data"?',
       options: [
@@ -4473,7 +4473,7 @@ export const prm393: Subject = {
         "SharedPreferences được thiết kế cho dữ liệu key-value đơn giản, không phù hợp/hiệu quả với dữ liệu phức tạp hoặc lớn. A, C, D không đúng lý do thực sự.",
     },
     {
-      id: 222,
+      id: 320,
       question:
         'In SharedPreferences\' standard High-Level Flow: "Load storage instance → Read existing value → Update value based on user action → Save back to storage → Refresh the UI." If the "Refresh the UI" step (e.g. calling `setState()`) is skipped after saving the new value, what happens?',
       options: [
@@ -4488,7 +4488,7 @@ export const prm393: Subject = {
         "Giá trị vẫn được lưu đúng vào storage, nhưng UI hiện tại sẽ không phản ánh thay đổi cho đến lần rebuild tiếp theo. B, C, D không đúng hành vi thực tế của SharedPreferences/Flutter.",
     },
     {
-      id: 223,
+      id: 321,
       question:
         'Which data type is NOT listed as a typical example suitable for Local Storage in "Why Local Storage?"',
       options: [
@@ -4503,7 +4503,7 @@ export const prm393: Subject = {
         "Token phiên gọi video real-time KHÔNG được liệt kê là ví dụ điển hình cho Local Storage. A, B, D đều là ví dụ được nêu rõ trong bài giảng.",
     },
     {
-      id: 224,
+      id: 322,
       question:
         'Suppose a student uses SQLite to store a favorites list BUT chooses to store the entire list as ONE single JSON string in a TEXT column, instead of splitting it into proper relational rows. In the spirit of "Why SQLite?" (structured data, sorting & filtering, relationships), what is the drawback of this approach?',
       options: [
@@ -4518,7 +4518,7 @@ export const prm393: Subject = {
         "Lưu cả list dưới dạng 1 chuỗi JSON làm mất lợi thế truy vấn/quan hệ cốt lõi của SQLite, buộc phải lọc thủ công trong bộ nhớ bằng Dart. A, C, D không đúng nhược điểm kỹ thuật thực sự.",
     },
     {
-      id: 225,
+      id: 323,
       question:
         "In Lab 9 (Offline-First Mini App), what part of the app is SharedPreferences suggested to be used for?",
       options: [
@@ -4533,7 +4533,7 @@ export const prm393: Subject = {
         "SharedPreferences được đề xuất để lưu trạng thái theme (Dark/Light mode) của app trong Lab 9. A, C, D phù hợp hơn với SQLite/JSON file.",
     },
     {
-      id: 226,
+      id: 324,
       question:
         'Comparing the three storage types learned (SharedPreferences, JSON File, SQLite) against the offline-first principle "Store offline → Use offline → Sync online." When designing a notes app that will later sync to a server, which initial local storage choice makes future "Sync online" and "Resolve conflicts" easiest to implement, and why?',
       options: [
@@ -4548,7 +4548,7 @@ export const prm393: Subject = {
         "Cấu trúc row/column rõ ràng của SQLite giúp theo dõi thay đổi (id, timestamp) để đồng bộ/giải quyết xung đột dễ hơn nhiều so với JSON blob hay file. A, C, D không đúng lý do kỹ thuật cho việc sync/conflict trong tương lai.",
     },
     {
-      id: 227,
+      id: 325,
       question:
         "What is the difference between Authentication and Authorization?",
       options: [
@@ -4563,7 +4563,7 @@ export const prm393: Subject = {
         'Authentication xác thực danh tính ("Bạn là ai?"); Authorization xác định quyền hạn ("Bạn được làm gì?"). A, C, D mô tả sai/đảo ngược hai khái niệm.',
     },
     {
-      id: 228,
+      id: 326,
       question:
         "In the high-level Authentication Flow, after the backend verifies valid login credentials, what does the system usually return to the app?",
       options: [
@@ -4578,7 +4578,7 @@ export const prm393: Subject = {
         "Backend trả về một token (thường là JWT) để app lưu trữ và dùng cho các request tiếp theo. A, C, D không đúng với luồng authentication chuẩn.",
     },
     {
-      id: 229,
+      id: 327,
       question: "What three main parts does a JWT (JSON Web Token) consist of?",
       options: [
         "Username, Password, Email",
@@ -4592,7 +4592,7 @@ export const prm393: Subject = {
         "JWT gồm Header, Payload, Signature. A, C, D không đúng cấu trúc thực sự của JWT.",
     },
     {
-      id: 230,
+      id: 328,
       question:
         "Per the instructor's note \"JWTs must not store passwords. Only identity claims,\" what is WRONG if a system stores a user's password directly in the JWT payload?",
       options: [
@@ -4607,7 +4607,7 @@ export const prm393: Subject = {
         "JWT chỉ được ký (không mã hóa), nên payload có thể bị đọc bởi bất kỳ ai giữ token — lưu mật khẩu trong đó là lỗ hổng bảo mật nghiêm trọng. A, C, D không đúng đặc tính bảo mật thực sự của JWT.",
     },
     {
-      id: 231,
+      id: 329,
       question:
         "What is the difference between an Access Token and a Refresh Token, per the lecture?",
       options: [
@@ -4622,7 +4622,7 @@ export const prm393: Subject = {
         "Access Token sống ngắn và gửi kèm mỗi request; Refresh Token có quyền mạnh hơn, dùng để làm mới Access Token, cần lưu trữ an toàn hơn. A, C, D mô tả sai đặc điểm hai loại token.",
     },
     {
-      id: 232,
+      id: 330,
       question:
         'In Demo 10.1, why does the lecture choose "Mock Authentication" (simulated auth inside AuthService) instead of calling a real API from the start?',
       options: [
@@ -4637,7 +4637,7 @@ export const prm393: Subject = {
         "Mock Authentication đảm bảo demo hoạt động ổn định ở mọi môi trường học, không phụ thuộc mạng, phù hợp giai đoạn học khái niệm cơ bản trước khi tích hợp API thật. A, C, D không đúng lý do thực sự.",
     },
     {
-      id: 233,
+      id: 331,
       question:
         "Per the Mock API vs Real API comparison table, what is a disadvantage of Real API compared to Mock API in the teaching context?",
       options: [
@@ -4652,7 +4652,7 @@ export const prm393: Subject = {
         "Real API có thể gặp lỗi mạng/server/TLS/CORS, kém ổn định hơn Mock API vốn không cần Internet. A, C, D không đúng nội dung bảng so sánh.",
     },
     {
-      id: 234,
+      id: 332,
       question:
         "In the Signup Flow process, which statement is correct about the relationship between AuthService used for Login (Demo 10.1) and Signup (Demo 10.2)?",
       options: [
@@ -4667,7 +4667,7 @@ export const prm393: Subject = {
         "Signup tái sử dụng cùng class AuthService, chỉ thêm phương thức signup() mới trong khi giữ nguyên kiến trúc/xử lý lỗi cũ. A, C, D không đúng nội dung phần tích hợp Signup.",
     },
     {
-      id: 235,
+      id: 333,
       question:
         'Consider the password validation rules in the Signup Form: minimum 6-8 characters, at least 1 uppercase letter, at least 1 digit, no leading/trailing whitespace, and must match Confirm Password. With Password = " Abc1234" (leading space) and Confirm Password = " Abc1234" (identical, matching), what is the validation result per these rules?',
       options: [
@@ -4682,7 +4682,7 @@ export const prm393: Subject = {
         'Dù hai giá trị khớp nhau, mật khẩu vẫn không hợp lệ vì vi phạm quy tắc "không có khoảng trắng đầu/cuối". A, C, D không áp dụng đúng toàn bộ các quy tắc đã nêu.',
     },
     {
-      id: 236,
+      id: 334,
       question: "What is `SharedPreferences` used for in Demo 10.3, mainly?",
       options: [
         "Storing the user's entire web browsing history",
@@ -4696,7 +4696,7 @@ export const prm393: Subject = {
         "SharedPreferences lưu trữ auth token để hiện thực auto-login, tránh phải đăng nhập lại mỗi lần mở app. A, C, D không đúng mục đích trong Demo 10.3.",
     },
     {
-      id: 237,
+      id: 335,
       question:
         'In the Auto Login Flow: "Splash → (has token?) → Home / Login." If the token has expired but still exists in SharedPreferences (the app only checks "does a token exist" WITHOUT checking its expiry), what could happen?',
       options: [
@@ -4711,7 +4711,7 @@ export const prm393: Subject = {
         "Nếu không kiểm tra hạn, app có thể sai lầm điều hướng vào Home dù token đã hết hạn, dẫn đến lỗi 401 ở các request sau đó — cho thấy cần kiểm tra hạn token hoặc xử lý lỗi 401. A, C, D không đúng hệ quả thực tế.",
     },
     {
-      id: 238,
+      id: 336,
       question:
         'In the "Logout & Session Clearing" Test Scenario of Demo 10.3, what specific action happens to the token data after the user logs out?',
       options: [
@@ -4726,7 +4726,7 @@ export const prm393: Subject = {
         "Logout xóa token khỏi SharedPreferences, khiến lần mở app tiếp theo hiển thị màn Login thay vì tự động vào Home. A, C, D không đúng kịch bản test đã mô tả.",
     },
     {
-      id: 239,
+      id: 337,
       question:
         "What main benefit does Firebase Authentication provide over building your own authentication system from scratch?",
       options: [
@@ -4741,7 +4741,7 @@ export const prm393: Subject = {
         "Firebase Auth cung cấp giải pháp đăng nhập an toàn, mở rộng tốt, hỗ trợ nhiều phương thức, tự động duy trì phiên/refresh token, giảm công sức xây backend định danh. A, C, D không đúng lợi ích thực sự.",
     },
     {
-      id: 240,
+      id: 338,
       question:
         'In the Google Sign-In flow: "User taps Sign in with Google → Google account chooser → Google issues OAuth tokens → Convert to Firebase credential → Firebase signs in the user → App receives Firebase User object." What is the core meaning of the statement "Firebase handles identity → our app only handles UI + navigation"?',
       options: [
@@ -4756,7 +4756,7 @@ export const prm393: Subject = {
         "Firebase xử lý toàn bộ phần định danh/OAuth phức tạp, dev Flutter chỉ cần tập trung xây UI và điều hướng sau khi đăng nhập thành công. A, C, D không đúng ý nghĩa của phát biểu này.",
     },
     {
-      id: 241,
+      id: 339,
       question:
         'Per the Google Sign-In "Common Errors & Fixes" table, the "DEVELOPER_ERROR" is usually caused by what?',
       options: [
@@ -4771,7 +4771,7 @@ export const prm393: Subject = {
         '"DEVELOPER_ERROR" thường do package name không khớp với cấu hình Firebase. A, C, D không đúng nguyên nhân được nêu.',
     },
     {
-      id: 242,
+      id: 340,
       question:
         "In the common errors table, if Google Sign-In returns null when tested on an emulator, what is the most common cause stated?",
       options: [
@@ -4786,7 +4786,7 @@ export const prm393: Subject = {
         "Nguyên nhân phổ biến là emulator thiếu Google Play Services — nên dùng emulator có Play Store hoặc thiết bị thật. A, C, D không đúng nguyên nhân được nêu.",
     },
     {
-      id: 243,
+      id: 341,
       question:
         "What is the difference between Local Notification and Push Notification?",
       options: [
@@ -4801,7 +4801,7 @@ export const prm393: Subject = {
         "Local Notification do app tự kích hoạt, không cần Internet; Push Notification gửi từ server, cần Internet và backend. B, C, D mô tả sai/đảo ngược hai loại này.",
     },
     {
-      id: 244,
+      id: 342,
       question:
         "In Demo 10.5, at what point in the app's actual flow is the local notification triggered?",
       options: [
@@ -4816,7 +4816,7 @@ export const prm393: Subject = {
         "Local notification được kích hoạt ngay sau khi đăng nhập thành công. A, C, D không đúng luồng thực tế đã mô tả.",
     },
     {
-      id: 245,
+      id: 343,
       question:
         'Per "Best Practices & Patterns for Authentication," why is `pushReplacementNamed()` recommended over `pushNamed()` when moving from the Splash/Login screen to Home after successful authentication?',
       options: [
@@ -4831,7 +4831,7 @@ export const prm393: Subject = {
         "pushReplacementNamed() ngăn người dùng bấm Back quay lại màn Splash/Login đã hoàn thành nhiệm vụ, tránh trải nghiệm điều hướng vô lý. A, C, D không đúng lý do thực sự.",
     },
     {
-      id: 246,
+      id: 344,
       question:
         'Per the "Security" section of Best Practices, what practice is recommended regarding token storage?',
       options: [
@@ -4846,7 +4846,7 @@ export const prm393: Subject = {
         "Khuyến nghị là lưu trữ an toàn và luôn dùng HTTPS, không lưu token thô một cách thiếu an toàn. A, C, D là các thực hành SAI, trái với khuyến nghị bảo mật.",
     },
     {
-      id: 247,
+      id: 345,
       question:
         "An app does the following: (1) The user logs in and receives an Access Token that expires in 15 minutes; (2) The Access Token is stored in SharedPreferences; (3) No Refresh Token mechanism is implemented. What is the most likely real-world consequence after 15 minutes of continuous app use?",
       options: [
@@ -4861,7 +4861,7 @@ export const prm393: Subject = {
         "Không có cơ chế refresh, các request sau khi hết hạn sẽ bị lỗi 401, buộc người dùng đăng nhập lại thủ công — đây là hạn chế cần khắc phục bằng refresh token. A, C, D không đúng hệ quả thực tế.",
     },
     {
-      id: 248,
+      id: 346,
       question:
         'In "Required Configurations" for Google Sign-In on Android, which file needs to be downloaded and placed in the `android/app/` folder?',
       options: [
@@ -4876,7 +4876,7 @@ export const prm393: Subject = {
         "`google-services.json` cần được tải về và đặt trong `android/app/` để cấu hình Firebase cho Android. A, C, D không đúng tên/mục đích file.",
     },
     {
-      id: 249,
+      id: 347,
       question:
         'Per the "Understanding User Session" section, what components does a typical session usually include?',
       options: [
@@ -4891,7 +4891,7 @@ export const prm393: Subject = {
         "Một session điển hình gồm: access token, thông tin hồ sơ người dùng, và thời điểm hết hạn token. A, C, D không đầy đủ/không đúng nội dung phần này.",
     },
     {
-      id: 250,
+      id: 348,
       question:
         'Compare the AuthService (Singleton pattern) mentioned in "Architecture Patterns" with scattering authentication logic directly across individual screen widgets (LoginScreen, SignupScreen, HomeScreen each writing their own API-calling logic). In the spirit of the lecture, what is the main drawback of the scattered approach?',
       options: [
@@ -4906,7 +4906,7 @@ export const prm393: Subject = {
         "Cách rải logic gây trùng lặp code, khó bảo trì, giảm khả năng tái sử dụng; AuthService tập trung tách UI khỏi logic nghiệp vụ, dễ test/mở rộng hơn. A, C, D không đúng phân tích kiến trúc phần mềm.",
     },
     {
-      id: 251,
+      id: 349,
       question:
         'Per "Why Notifications After Authentication?", what is the main purpose of sending a notification right after a successful login (e.g. "Login successful. Welcome back!")?',
       options: [
@@ -4921,7 +4921,7 @@ export const prm393: Subject = {
         "Mục đích là kết nối notification với luồng nghiệp vụ thực tế, tăng tương tác và nhận thức của người dùng về trạng thái tài khoản. A, C, D không đúng mục đích thực sự.",
     },
     {
-      id: 252,
+      id: 350,
       question:
         "What are the three main testing types in Flutter mentioned in the lecture?",
       options: [
@@ -4936,7 +4936,7 @@ export const prm393: Subject = {
         "Ba loại test chính: Unit Test, Widget Test, Integration Test. B, C, D không phải phân loại được dạy trong Module 11.",
     },
     {
-      id: 253,
+      id: 351,
       question:
         'Per the "Flutter Testing Pyramid," which test type should have the LARGEST quantity in a project, since it\'s fast, stable, and low cost?',
       options: [
@@ -4951,7 +4951,7 @@ export const prm393: Subject = {
         "Unit Test nên nhiều nhất theo Testing Pyramid — nhanh, ổn định, chi phí thấp. A, B không đúng vị trí trong kim tự tháp; D sai vì phân bố không đều nhau.",
     },
     {
-      id: 254,
+      id: 352,
       question:
         "In the testing pyramid, how many Integration Tests are recommended and for what purpose?",
       options: [
@@ -4966,7 +4966,7 @@ export const prm393: Subject = {
         "Integration Test nên dùng ít vì chạy chậm/tốn kém — chỉ dành cho các luồng người dùng quan trọng. A, C, D không đúng nguyên tắc của Testing Pyramid.",
     },
     {
-      id: 255,
+      id: 353,
       question:
         "Given this Unit Test: test('toggle() should switch completed state', () { final task = Task(id: '1', title: 'Demo task'); expect(task.completed, false); task.toggle(); expect(task.completed, true); task.toggle(); expect(task.completed, false); }); What common test structuring pattern does this test apply (even though not explicitly labeled with comments)?",
       options: [
@@ -4981,7 +4981,7 @@ export const prm393: Subject = {
         "Test này áp dụng mẫu Arrange - Act - Assert. A, C, D là các pattern kiến trúc/thiết kế không liên quan đến cấu trúc test.",
     },
     {
-      id: 256,
+      id: 354,
       question: "How does a Widget Test in Flutter differ from a Unit Test?",
       options: [
         "Widget Test only checks pure logic unrelated to UI, exactly like a Unit Test",
@@ -4995,7 +4995,7 @@ export const prm393: Subject = {
         "Widget Test kiểm tra render/tương tác UI trên widget tree; Unit Test kiểm tra logic thuần không liên quan UI. A, C, D mô tả sai đặc điểm của hai loại test.",
     },
     {
-      id: 257,
+      id: 355,
       question:
         "Given a Widget Test that pumps a test app, checks empty state text, enters text, taps an add button, then pumps and checks the new text appears. If the line `await tester.pump();` after `tap()` is removed, what could happen to the assertion `expect(find.text('Buy milk'), findsOneWidget);`?",
       options: [
@@ -5010,7 +5010,7 @@ export const prm393: Subject = {
         "Thiếu pump() sau tap(), cây widget test có thể chưa phản ánh state mới nhất, dẫn đến rủi ro assertion thất bại. A, C, D không đúng vai trò thực sự của pump() trong flutter_test.",
     },
     {
-      id: 258,
+      id: 356,
       question:
         "In a Navigation Test, how does `pumpAndSettle()` differ from a plain `pump()`?",
       options: [
@@ -5025,7 +5025,7 @@ export const prm393: Subject = {
         "pumpAndSettle() liên tục pump frame cho đến khi mọi animation kết thúc, hữu ích khi chờ hiệu ứng chuyển màn hoàn tất. A, C, D mô tả sai hàm này.",
     },
     {
-      id: 259,
+      id: 357,
       question:
         'In Demo 11.4 (Integration Test: Full CRUD Flow), the test sequentially: adds a task → opens detail → edits the title → saves → checks the updated list. Why is this test type classified as "Integration Test" rather than a plain "Widget Test"?',
       options: [
@@ -5040,7 +5040,7 @@ export const prm393: Subject = {
         "Được xếp là Integration Test vì kiểm chứng toàn bộ luồng qua UI → Provider → Repository, mô phỏng hành trình người dùng đầy đủ. A, C, D không đúng lý do phân loại.",
     },
     {
-      id: 260,
+      id: 358,
       question:
         'Per the "How Tests Map to Real Flutter Problems" table, the "Wrong navigation" issue should mainly be detected by which test type?',
       options: [
@@ -5055,7 +5055,7 @@ export const prm393: Subject = {
         'Lỗi "Wrong navigation" chủ yếu được phát hiện bởi Navigation Test (mở rộng của Widget Test), theo bảng đã nêu. A, C, D không đúng nội dung bảng.',
     },
     {
-      id: 261,
+      id: 359,
       question:
         "In the Taskly App's architecture (used as the running example throughout Module 11), which component is responsible for managing app-wide state?",
       options: [
@@ -5070,7 +5070,7 @@ export const prm393: Subject = {
         "TaskProvider chịu trách nhiệm quản lý state toàn app trong kiến trúc Taskly. A, C, D không đúng trách nhiệm này.",
     },
     {
-      id: 262,
+      id: 360,
       question:
         "In Taskly App, `TaskRepository` handles CRUD logic for tasks, while `TaskProvider` manages state. If a Widget Test wants to check UI behavior WITHOUT depending on the Repository's real database/API connection, what reasonable approach is recommended in Module 11's \"Best Practices\"?",
       options: [
@@ -5085,7 +5085,7 @@ export const prm393: Subject = {
         "Mock Repository khi có thể giúp Widget Test chạy nhanh, ổn định, độc lập với dữ liệu ngoài thực tế. A, C, D không đúng thực hành tốt được khuyến nghị.",
     },
     {
-      id: 263,
+      id: 361,
       question:
         "What is `find.byKey(const Key('taskTextField'))` used for in a test?",
       options: [
@@ -5100,7 +5100,7 @@ export const prm393: Subject = {
         "find.byKey() giúp định vị chính xác một widget cụ thể qua Key, đáng tin cậy hơn tìm theo type/text. A, C, D mô tả sai chức năng của nó.",
     },
     {
-      id: 264,
+      id: 362,
       question:
         'Per Module 11\'s "Best Practices," what does the "Avoid testing Flutter framework functionality" item advise?',
       options: [
@@ -5115,7 +5115,7 @@ export const prm393: Subject = {
         "Không nên viết test kiểm tra lại hành vi mà framework đã đảm bảo đúng; nên tập trung vào logic nghiệp vụ và hành vi tùy chỉnh của app. A, C, D không đúng lời khuyên thực sự.",
     },
     {
-      id: 265,
+      id: 363,
       question:
         "What debugging aspects does DevTools in Flutter support, per Module 11?",
       options: [
@@ -5130,7 +5130,7 @@ export const prm393: Subject = {
         'DevTools hỗ trợ debug layout, cập nhật state thất bại, hiệu năng, rebuild thừa, và điều hướng, theo "Debugging Goals in Flutter". A, C, D không bao quát hết phạm vi thực sự.',
     },
     {
-      id: 266,
+      id: 364,
       question:
         "In the issue-to-test-type mapping table (Logic failure→Unit test, UI not updating→Widget test, Wrong navigation→Navigation test, Entire feature broken→Integration test): if a bug occurs because a Provider doesn't call `notifyListeners()` after updating data (causing the UI to not update even though the data changed in memory), which test type can most directly detect this issue?",
       options: [
@@ -5145,7 +5145,7 @@ export const prm393: Subject = {
         "Widget Test là phù hợp nhất vì cần xác minh UI thực sự render lại với dữ liệu mới, điều mà Unit Test thuần logic không kiểm tra được. A, C, D không đúng cách phát hiện phù hợp.",
     },
     {
-      id: 267,
+      id: 365,
       question: "What is `expect()` in flutter_test used for?",
       options: [
         "Initializing the widget tree for the test",
@@ -5159,7 +5159,7 @@ export const prm393: Subject = {
         "expect() so sánh giá trị thực tế với giá trị mong đợi, fail nếu không khớp — đây là bước Assert. A, C, D mô tả sai chức năng của expect().",
     },
     {
-      id: 268,
+      id: 366,
       question:
         'Consider the lecture\'s explanation: "Most UI issues start from logic → unit tests catch problems early." Applying this practically: if the function counting incomplete tasks (`getIncompleteCount()`) in TaskProvider has a logic bug (calculates wrong), but the UI still shows the correct number by coincidence with small test data, which testing approach best and most reliably catches this bug early, regardless of data size?',
       options: [
@@ -5174,7 +5174,7 @@ export const prm393: Subject = {
         'Một Unit Test riêng với nhiều bộ dữ liệu biên (rỗng, hoàn thành hết, hỗn hợp) cô lập và xác minh chính xác logic tính toán, không phụ thuộc việc UI "tình cờ" hiển thị đúng. A, C, D không đúng cách phát hiện đáng tin cậy nhất.',
     },
     {
-      id: 269,
+      id: 367,
       question: 'Why does the lecture recommend "Use keys for widget tests"?',
       options: [
         "Because a Key is syntactically mandatory for every Flutter widget",
@@ -5188,7 +5188,7 @@ export const prm393: Subject = {
         "Gán Key giúp định vị chính xác widget cụ thể trong test, tránh nhầm lẫn khi có nhiều widget cùng loại/text. A, C, D không đúng lý do khuyến nghị này.",
     },
     {
-      id: 270,
+      id: 368,
       question:
         "What characteristic of the UI Overflow bug described in Module 11 makes it hard to detect if you only rely on running the app normally?",
       options: [
@@ -5203,7 +5203,7 @@ export const prm393: Subject = {
         'Lỗi Overflow thường không làm app crash, nên cần dùng test/DevTools để phát hiện thay vì chỉ dựa vào việc app "vẫn chạy". A, C, D không đúng đặc điểm thực sự của lỗi overflow.',
     },
     {
-      id: 271,
+      id: 369,
       question:
         'In a test file, suppose the final assertion is `expect(find.text(\'Task Detail\'), findsOneWidget);` but the detail screen actually displays the title as "Task Details" (with an extra "s"). What is the test\'s result?',
       options: [
@@ -5218,7 +5218,7 @@ export const prm393: Subject = {
         'find.text() yêu cầu khớp chuỗi chính xác, nên lệch "Task Detail" và "Task Details" khiến test fail. A, C, D không đúng hành vi thực sự của find.text().',
     },
     {
-      id: 272,
+      id: 370,
       question:
         "Per Module 11's Summary, which skill is NOT listed as a learning objective of this module?",
       options: [
@@ -5233,7 +5233,7 @@ export const prm393: Subject = {
         "Build và ký release APK để publish lên Google Play thuộc chủ đề Module 12, KHÔNG phải mục tiêu học của Module 11. A, B, D đều là mục tiêu học chính xác của Module 11.",
     },
     {
-      id: 273,
+      id: 371,
       question:
         'A student writes an Integration Test but insists on also testing whether "the AppBar\'s background color is exactly Colors.blue per Material Design\'s default" (a default framework behavior, not custom app logic). Per the "Best Practices" learned, why should this approach be avoided?',
       options: [
@@ -5248,7 +5248,7 @@ export const prm393: Subject = {
         "Test hành vi mặc định của framework (thay vì logic nghiệp vụ) lãng phí công sức mà không thêm giá trị đảm bảo chất lượng thực sự. A, C, D không đúng lý do nên tránh.",
     },
     {
-      id: 274,
+      id: 372,
       question:
         "What does `tester.pumpWidget(createTaskListTestApp())` do as the first step of a Widget Test?",
       options: [
@@ -5263,7 +5263,7 @@ export const prm393: Subject = {
         "pumpWidget() render widget tree đã cho vào môi trường test ảo, tương đương khởi chạy app để bắt đầu test. A, C, D mô tả sai chức năng này.",
     },
     {
-      id: 275,
+      id: 373,
       question:
         'Consider: a student group writes VERY MANY Integration Tests (the vast majority of all tests) but almost no Unit Tests. Per the "Testing Pyramid" principle learned, what realistic consequence is likely?',
       options: [
@@ -5278,7 +5278,7 @@ export const prm393: Subject = {
         "Quá nhiều Integration Test và quá ít Unit Test khiến bộ test chạy chậm, tốn chi phí bảo trì hơn, khó xác định gốc lỗi. A, C, D trái với nguyên tắc Testing Pyramid.",
     },
     {
-      id: 276,
+      id: 374,
       question:
         'In "Debugging Goals in Flutter," the "Frequent unnecessary rebuilds" issue directly relates to which topic that will be explored deeper in Module 12?',
       options: [
@@ -5293,7 +5293,7 @@ export const prm393: Subject = {
         '"Frequent unnecessary rebuilds" liên quan trực tiếp đến Performance Optimization, được khai thác sâu hơn ở Module 12. A, C, D không liên quan đến vấn đề rebuild này.',
     },
     {
-      id: 277,
+      id: 375,
       question:
         "What frame-rate target (FPS) does Flutter aim for to ensure a smooth experience on standard devices?",
       options: ["24 FPS", "30 FPS", "60 FPS", "144 FPS"],
@@ -5303,7 +5303,7 @@ export const prm393: Subject = {
         "Flutter nhắm tới 60 FPS để đảm bảo trải nghiệm mượt trên thiết bị chuẩn. A, B, D không đúng con số đã nêu.",
     },
     {
-      id: 278,
+      id: 376,
       question:
         "If a device runs at 60 FPS, roughly how many milliseconds does Flutter have to complete build, layout, and paint for EACH frame before a dropped frame (jank) occurs?",
       options: ["About 16.6ms", "About 100ms", "About 1ms", "About 1000ms"],
@@ -5313,7 +5313,7 @@ export const prm393: Subject = {
         "Ở 60 FPS, Flutter có khoảng 16.6ms cho mỗi frame. B, C, D không khớp với con số tính toán trong bài giảng.",
     },
     {
-      id: 279,
+      id: 377,
       question:
         'Per "How Flutter Builds the UI (Render Pipeline)," what are the respective roles of the three core concepts Widget, Element, RenderObject?',
       options: [
@@ -5328,7 +5328,7 @@ export const prm393: Subject = {
         "Widget = bản thiết kế bất biến, Element = quản lý vòng đời/state, RenderObject = thực hiện layout/paint/compositing. B, C, D mô tả sai vai trò của ba thành phần này.",
     },
     {
-      id: 280,
+      id: 378,
       question:
         "Given code from Demo 12.1 where `context.watch<TaskProvider>()` is called right at the top-level widget (including the static InputRow) before rendering a ListView.builder of tasks: why does this cause a performance problem?",
       options: [
@@ -5343,7 +5343,7 @@ export const prm393: Subject = {
         "Watch ở cấp cao nhất khiến ngay cả widget tĩnh không liên quan như InputRow cũng bị rebuild theo mỗi thay đổi của provider, lãng phí tài nguyên. A, C, D không đúng vấn đề hiệu năng thực sự.",
     },
     {
-      id: 281,
+      id: 379,
       question:
         'What benefit does the "Use Selector to rebuild ONLY the list" solution in Demo 12.1 bring over a plain `context.watch<T>()`?',
       options: [
@@ -5358,7 +5358,7 @@ export const prm393: Subject = {
         "Selector cho phép rebuild có chọn lọc, chỉ phần UI thực sự phụ thuộc dữ liệu thay đổi mới rebuild. B, C, D không đúng hành vi/lợi ích thực sự của Selector.",
     },
     {
-      id: 282,
+      id: 380,
       question:
         'How does the `const` keyword before a widget (e.g. `const Text("Task Title")`) technically optimize performance?',
       options: [
@@ -5373,7 +5373,7 @@ export const prm393: Subject = {
         "Widget const bất biến ở compile-time, giúp Flutter nhận diện là cùng instance qua các lần rebuild và bỏ qua rebuild nó, tiết kiệm bộ nhớ/chi phí. A, C, D không đúng cơ chế tối ưu thực sự của const.",
     },
     {
-      id: 283,
+      id: 381,
       question:
         'Per "Optimization Technique 3: Avoid Heavy Work in build()," which of the following should NOT be done directly inside the `build()` function?',
       options: [
@@ -5388,7 +5388,7 @@ export const prm393: Subject = {
         "Gọi API, parse JSON, sort, hoặc tính toán phức tạp KHÔNG nên làm trong build(). A, C, D là các thao tác bình thường, chi phí thấp, không gây vấn đề hiệu năng đáng kể.",
     },
     {
-      id: 284,
+      id: 382,
       question:
         "Given an anti-pattern where `final sorted = tasks..sort();` is placed directly inside build(): what is the main problem, especially when the widget rebuilds frequently?",
       options: [
@@ -5403,7 +5403,7 @@ export const prm393: Subject = {
         "sort() bị chạy lại mỗi lần build() được gọi (có thể hàng chục lần/giây), lãng phí CPU; nên sort một lần và cache kết quả. A, C, D không đúng vấn đề hiệu năng thực sự.",
     },
     {
-      id: 285,
+      id: 383,
       question:
         'Per "Optimization Technique 4: Using Keys Properly," why is using `UniqueKey()` for each list item considered "Bad"?',
       options: [
@@ -5418,7 +5418,7 @@ export const prm393: Subject = {
         'UniqueKey() tạo Key mới mỗi lần build, buộc Flutter luôn coi widget là "mới" và rebuild toàn bộ — ngược lại mục đích tối ưu của Key. A, C, D không đúng lý do thực sự bị coi là xấu.',
     },
     {
-      id: 286,
+      id: 384,
       question:
         'Compare `ValueKey(task.id)` with `UniqueKey()` in the context of a task list that can be deleted/added/reordered. Why is `ValueKey(task.id)` recommended ("Good")?',
       options: [
@@ -5433,7 +5433,7 @@ export const prm393: Subject = {
         "ValueKey gắn với id ổn định, giúp Flutter khớp đúng widget với dữ liệu qua các lần rebuild/đổi thứ tự, giữ state và tối ưu diffing. A, C, D không đúng đặc điểm/lợi ích thực sự của ValueKey.",
     },
     {
-      id: 287,
+      id: 385,
       question:
         'Why does the lecture recommend running Flutter DevTools in "Profile Mode" instead of "Debug Mode" when measuring performance?',
       options: [
@@ -5448,7 +5448,7 @@ export const prm393: Subject = {
         "Overhead của Debug Mode làm sai lệch số liệu hiệu năng so với thực tế release; Profile Mode gần với thực tế hơn. A, C, D không đúng lý do khuyến nghị này.",
     },
     {
-      id: 288,
+      id: 386,
       question:
         'In "Identifying Rebuild Issues," how should the statement "If state lives too high → entire UI rebuilds" be understood in the context of widget architecture design?',
       options: [
@@ -5463,7 +5463,7 @@ export const prm393: Subject = {
         "Đặt state quá cao trong cây widget khiến phạm vi rebuild quá rộng, ảnh hưởng cả những phần UI không liên quan. A, C, D không đúng nguyên tắc kiến trúc này.",
     },
     {
-      id: 289,
+      id: 387,
       question:
         'Per "Optimization Technique 2: Extract Widgets" (e.g. extracting `TaskTile` as its own widget), what is the main benefit of breaking a large widget into smaller pieces?',
       options: [
@@ -5478,7 +5478,7 @@ export const prm393: Subject = {
         "Tách widget giúp thu hẹp phạm vi rebuild chỉ còn item thay đổi, giảm chi phí rebuild tổng thể. A, C, D không đúng lợi ích kỹ thuật thực sự.",
     },
     {
-      id: 290,
+      id: 388,
       question:
         'In "Demo 12.2 - Image Optimization," what does the `precacheImage()` technique do?',
       options: [
@@ -5493,7 +5493,7 @@ export const prm393: Subject = {
         "precacheImage() tải trước ảnh vào cache trước khi hiển thị, giảm giật lag khi ảnh xuất hiện lần đầu. A, C, D mô tả sai chức năng của hàm này.",
     },
     {
-      id: 291,
+      id: 389,
       question:
         "Why does the lecture recommend resizing images before use, e.g. avoiding loading a 2000px image for a thumbnail that only displays at 50px?",
       options: [
@@ -5508,7 +5508,7 @@ export const prm393: Subject = {
         "Giải mã/lưu ảnh có độ phân giải lớn hơn nhiều so với kích thước hiển thị thực tế lãng phí đáng kể bộ nhớ và thời gian xử lý. A, C, D không đúng tác động hiệu năng thực sự.",
     },
     {
-      id: 292,
+      id: 390,
       question:
         "Which command is used to analyze a detailed app-size breakdown by source code, assets, and packages?",
       options: [
@@ -5523,7 +5523,7 @@ export const prm393: Subject = {
         "`flutter build apk --analyze-size` dùng để phân tích chi tiết kích thước app. A, C, D không phải lệnh đúng cho mục đích này.",
     },
     {
-      id: 293,
+      id: 391,
       question:
         'Per "Common Size Optimization Tips," what benefit does "Enable tree-shaking icons" (removing unused Material icons) bring to the released app?',
       options: [
@@ -5538,7 +5538,7 @@ export const prm393: Subject = {
         "Tree-shaking icon loại bỏ các icon Material không dùng khỏi bản build cuối, giảm kích thước app. A, C, D không đúng lợi ích thực sự.",
     },
     {
-      id: 294,
+      id: 392,
       question:
         "What is the difference between `flutter build apk --debug` and `flutter build apk --release`?",
       options: [
@@ -5553,7 +5553,7 @@ export const prm393: Subject = {
         "Debug build mang overhead debug chưa tối ưu; release build được tối ưu, cho hiệu năng/kích thước gần với trải nghiệm thực tế người dùng cuối. A, C, D không đúng khác biệt thực sự giữa hai chế độ build.",
     },
     {
-      id: 295,
+      id: 393,
       question:
         "What file format does Google Play require (instead of a traditional APK) when publishing an app to the store, and what is the corresponding build command?",
       options: [
@@ -5568,7 +5568,7 @@ export const prm393: Subject = {
         "Google Play yêu cầu định dạng .aab, build bằng lệnh `flutter build appbundle --release`. B, C, D không đúng định dạng/lệnh cho Android trên Google Play.",
     },
     {
-      id: 296,
+      id: 394,
       question:
         "What important rule governs `versionCode` in `android/app/build.gradle` when publishing consecutive updates?",
       options: [
@@ -5583,7 +5583,7 @@ export const prm393: Subject = {
         "versionCode phải là số nguyên và phải tăng lên với mỗi lần phát hành mới. A, C, D không đúng quy tắc versioning bắt buộc này.",
     },
     {
-      id: 297,
+      id: 395,
       question:
         'Before running `flutter build apk --release` for the official release, the lecture recommends first trying the app in "Profile Mode" (`flutter run --profile`). What is the most reasonable reason for this intermediate step?',
       options: [
@@ -5598,7 +5598,7 @@ export const prm393: Subject = {
         "Profile Mode loại bỏ phần lớn overhead của Debug Mode nhưng vẫn quan sát được hiệu năng gần thực tế, giúp phát hiện sớm vấn đề trước khi build release chính thức. A, C, D không đúng lý do thực sự của bước này.",
     },
     {
-      id: 298,
+      id: 396,
       question:
         'In the "Deployment Checklist" after completing Demo 12.4, which of the following items is mentioned?',
       options: [
@@ -5613,7 +5613,7 @@ export const prm393: Subject = {
         "Checklist nêu rõ việc xóa debug statement, dọn asset không dùng, đảm bảo versionCode đã cập nhật. B, C, D không phải mục hợp lý/được nêu trong checklist thực tế.",
     },
     {
-      id: 299,
+      id: 397,
       question:
         "A student notices the Taskly app is janky when scrolling a long list (ListView). After applying: (1) extracting TaskTile with const, (2) using Selector instead of context.watch at screen level, (3) assigning ValueKey(task.id) to each item — how do these three changes work together to reduce scroll jank?",
       options: [
@@ -5628,7 +5628,7 @@ export const prm393: Subject = {
         "Ba kỹ thuật bổ trợ nhau: extraction/const giảm chi phí rebuild từng item, Selector thu hẹp phạm vi rebuild, ValueKey đảm bảo nhận diện đúng item — cùng nhau giảm tổng khối lượng công việc mỗi frame. A, C, D không đúng cách các kỹ thuật này phối hợp thực sự.",
     },
     {
-      id: 300,
+      id: 398,
       question:
         "Per Module 12's summary, what is the ultimate goal of the entire process of optimizing and packaging the Taskly app?",
       options: [
@@ -5643,7 +5643,7 @@ export const prm393: Subject = {
         "Mục tiêu cuối cùng là tạo được Release build tối ưu hiệu năng, kiểm tra kích thước, sẵn sàng triển khai thực tế (production-ready). A, C, D không đúng mục tiêu cuối được nêu trong module.",
     },
     {
-      id: 301,
+      id: 399,
       question:
         "What is the basic difference between Implicit Animation and Explicit Animation in Flutter?",
       options: [
@@ -5658,7 +5658,7 @@ export const prm393: Subject = {
         "Implicit Animation tự động nội suy giá trị khi property thay đổi, không cần quản lý controller thủ công; Explicit Animation cần khai báo/điều khiển AnimationController rõ ràng. A, C, D không đúng đặc điểm kỹ thuật thực sự.",
     },
     {
-      id: 302,
+      id: 400,
       question:
         "Which of the following widgets is a textbook example of Implicit Animation?",
       options: [
@@ -5673,7 +5673,7 @@ export const prm393: Subject = {
         "`AnimatedContainer` là ví dụ điển hình của Implicit Animation — tự động animate khi property (màu, kích thước...) thay đổi. A, C, D thuộc Explicit Animation hoặc công cụ hỗ trợ, không phải widget Implicit Animation.",
     },
     {
-      id: 303,
+      id: 401,
       question:
         "What required parameter does `AnimationController` need to work, illustrating the connection between animation and widget lifecycle?",
       options: [
@@ -5688,7 +5688,7 @@ export const prm393: Subject = {
         "`vsync` (thường lấy từ TickerProviderStateMixin) đồng bộ animation với các frame hiển thị, tránh lãng phí tài nguyên khi widget không hiển thị. A, C, D không phải tham số bắt buộc của AnimationController.",
     },
     {
-      id: 304,
+      id: 402,
       question:
         "Given an AnimationController with a repeating animation created in initState() using SingleTickerProviderStateMixin: if a developer forgets to call `_controller.dispose()` in `dispose()`, what is the most likely consequence?",
       options: [
@@ -5703,7 +5703,7 @@ export const prm393: Subject = {
         "Quên dispose() khiến AnimationController đang repeat() tiếp tục chạy sau khi widget đã bị gỡ, gây rò rỉ bộ nhớ và lãng phí CPU. A sai vì GC của Dart không thể thu hồi đối tượng vẫn được Ticker tham chiếu; C, D không đúng hành vi thực tế của Flutter.",
     },
     {
-      id: 305,
+      id: 403,
       question: "What is `CurvedAnimation` in Flutter used for?",
       options: [
         "Drawing a geometric curve shape on screen",
@@ -5717,7 +5717,7 @@ export const prm393: Subject = {
         "CurvedAnimation áp dụng đường cong easing lên một Animation tuyến tính, làm giá trị animation thay đổi không đều theo thời gian. A, C, D mô tả sai chức năng của nó.",
     },
     {
-      id: 306,
+      id: 404,
       question:
         "Compare using `AnimatedContainer` (implicit) versus manually writing `AnimationController` + `Tween` + `AnimatedBuilder` (explicit) for a simple background color-change effect on button tap. When should the explicit approach be preferred despite being more complex?",
       options: [
@@ -5732,7 +5732,7 @@ export const prm393: Subject = {
         "Nên dùng explicit khi cần kiểm soát chi tiết (tạm dừng, đảo chiều, lặp có điều kiện, đồng bộ nhiều animation, phản ứng sự kiện phức tạp) — vượt quá khả năng của widget implicit đơn giản. A, C, D không đúng nguyên tắc lựa chọn thực sự.",
     },
     {
-      id: 307,
+      id: 405,
       question:
         "BLoC (Business Logic Component) is a state-management architecture pattern in Flutter, based on which core concept?",
       options: [
@@ -5747,7 +5747,7 @@ export const prm393: Subject = {
         "Khái niệm cốt lõi của BLoC: luồng vào = Events, luồng ra = States, xử lý logic nghiệp vụ ở giữa. A, C, D mô tả sai bản chất cơ bản của BLoC.",
     },
     {
-      id: 308,
+      id: 406,
       question:
         "In the `flutter_bloc` package, what is the correct data-flow relationship between Event, Bloc, and State?",
       options: [
@@ -5762,7 +5762,7 @@ export const prm393: Subject = {
         "Luồng đúng: UI gửi Event → Bloc xử lý/map thành State mới → emit State → UI lắng nghe và rebuild. A đảo ngược chiều; C, D mô tả sai mối quan hệ giữa Event/State/Bloc.",
     },
     {
-      id: 309,
+      id: 407,
       question:
         "How does `Cubit` in the `flutter_bloc` package differ from a traditional `Bloc`?",
       options: [
@@ -5777,7 +5777,7 @@ export const prm393: Subject = {
         "Cubit là phiên bản đơn giản của Bloc — không cần định nghĩa class Event riêng, gọi method trực tiếp để emit State mới, giảm boilerplate so với Bloc đầy đủ. A, C, D mô tả sai đặc điểm của Cubit.",
     },
     {
-      id: 310,
+      id: 408,
       question:
         "Given a simple Cubit code (CounterCubit extends Cubit<int>, with increment() method calling emit(state + 1)). Which widget in `flutter_bloc` best listens to `CounterCubit` and automatically rebuilds the UI whenever the `state` value changes?",
       options: [
@@ -5792,7 +5792,7 @@ export const prm393: Subject = {
         "`BlocBuilder<CounterCubit, int>` là API chuẩn của flutter_bloc để lắng nghe Cubit và tự động rebuild khi state đổi. A, C, D không phải widget/API phù hợp cho mục đích này.",
     },
     {
-      id: 311,
+      id: 409,
       question:
         "Per BLoC pattern's design philosophy, why should business logic be entirely separated from the UI widget?",
       options: [
@@ -5807,7 +5807,7 @@ export const prm393: Subject = {
         "Việc tách biệt giúp tăng khả năng test độc lập, tái sử dụng logic trên nhiều nền tảng/màn hình, và giữ widget tập trung vào hiển thị. A, C, D mô tả sai mục đích của triết lý thiết kế này.",
     },
     {
-      id: 312,
+      id: 410,
       question:
         "What is the basic difference between `SliverAppBar` and a regular `AppBar`?",
       options: [
@@ -5822,7 +5822,7 @@ export const prm393: Subject = {
         "SliverAppBar hoạt động trong CustomScrollView, có thể mở rộng/thu nhỏ/ẩn hiện linh hoạt theo scroll, khác với AppBar thường có vị trí cố định. A, C, D mô tả sai đặc điểm này.",
     },
     {
-      id: 313,
+      id: 411,
       question:
         "Which parent widget is `SliverAppBar` usually used with to function correctly?",
       options: [
@@ -5837,7 +5837,7 @@ export const prm393: Subject = {
         "SliverAppBar thường dùng với CustomScrollView, đặt bên trong `slivers: [...]`. A, C, D không đúng cách dùng chuẩn.",
     },
     {
-      id: 314,
+      id: 412,
       question:
         "What are the `flexibleSpace` and `expandedHeight` properties of `SliverAppBar` used for?",
       options: [
@@ -5852,7 +5852,7 @@ export const prm393: Subject = {
         "flexibleSpace định nghĩa nội dung khi AppBar mở rộng; expandedHeight đặt chiều cao tối đa khi mở rộng hoàn toàn, thu nhỏ dần khi scroll. B, C, D mô tả sai chức năng hai thuộc tính này.",
     },
     {
-      id: 315,
+      id: 413,
       question:
         "In the Sliver ecosystem, how do `SliverList` and `SliverGrid` differ from a regular `ListView`/`GridView`?",
       options: [
@@ -5867,7 +5867,7 @@ export const prm393: Subject = {
         "SliverList/SliverGrid thiết kế để kết hợp liền mạch nhiều nội dung cuộn trong một CustomScrollView, khác với ListView/GridView độc lập, khó phối hợp hiệu ứng cuộn. A, C, D không đúng đặc điểm kỹ thuật thực sự.",
     },
     {
-      id: 316,
+      id: 414,
       question: "What does Golden Testing in Flutter check?",
       options: [
         "Asynchronous data-processing logic (Future/Stream)",
@@ -5881,7 +5881,7 @@ export const prm393: Subject = {
         "Golden Testing so sánh UI render của widget với ảnh golden đã lưu để phát hiện hồi quy giao diện. A, C, D mô tả sai mục đích của loại test này.",
     },
     {
-      id: 317,
+      id: 415,
       question:
         "In `flutter_test`, which function is used to compare the current widget against a saved golden image?",
       options: [
@@ -5896,7 +5896,7 @@ export const prm393: Subject = {
         "`matchesGoldenFile()` kết hợp `expectLater()` là API chuẩn của flutter_test để so sánh với golden image. A, C, D không phải hàm đúng cho mục đích này.",
     },
     {
-      id: 318,
+      id: 416,
       question:
         'A student group runs a Golden Test on Windows, but the original golden image was created on macOS, causing the test to fail repeatedly even though the UI looks "identical" to the naked eye. What is the most common cause of this issue?',
       options: [
@@ -5911,7 +5911,7 @@ export const prm393: Subject = {
         "Sự khác biệt nhỏ về render font/anti-aliasing giữa các OS/phiên bản Flutter gây lệch pixel dù mắt thường khó nhận ra, nên nên chạy Golden Test trên môi trường nhất quán (CI cố định). A, C, D không đúng nguyên nhân kỹ thuật thực sự.",
     },
     {
-      id: 319,
+      id: 417,
       question:
         'In the general Software Development Life Cycle (SDLC), what is the main role of the "Analysis" phase?',
       options: [
@@ -5926,7 +5926,7 @@ export const prm393: Subject = {
         "Giai đoạn Analysis tập trung thu thập/làm rõ yêu cầu trước khi thiết kế và code. A, C, D là các giai đoạn khác trong SDLC, không phải Analysis.",
     },
     {
-      id: 320,
+      id: 418,
       question: 'What does "Technical Debt" refer to in software development?',
       options: [
         "A direct financial cost paid to a cloud service provider",
@@ -5940,7 +5940,7 @@ export const prm393: Subject = {
         'Technical Debt là chi phí tương lai phát sinh từ các quyết định thiết kế/code vội vàng hiện tại, giống như một khoản "nợ" phải trả dần. A, C, D không đúng khái niệm thực sự.',
     },
     {
-      id: 321,
+      id: 419,
       question:
         'A group of students intentionally skips writing Unit Tests and separating clear architecture (State/Repository) to "finish the project quickly," resulting in it later being very hard to fix bugs or add new features. What concept from the lecture does this illustrate, and how does it relate to Repository Pattern and Testing Pyramid?',
       options: [
@@ -5955,7 +5955,7 @@ export const prm393: Subject = {
         'Đây là ví dụ về Technical Debt: bỏ qua kiến trúc sạch và testing tiết kiệm thời gian ngắn hạn nhưng tăng chi phí bảo trì dài hạn, đúng bản chất "vay trước, trả lãi sau" của nợ kỹ thuật. A, C, D không đúng khái niệm/mối liên hệ chính xác.',
     },
     {
-      id: 322,
+      id: 420,
       question:
         'In the software development lifecycle, where is the "Testing" phase usually placed relative to "Implementation" (coding)?',
       options: [
@@ -5970,7 +5970,7 @@ export const prm393: Subject = {
         "Testing thường diễn ra sau (hoặc song song liên tục theo Agile/TDD) với Implementation, để xác minh code đáp ứng yêu cầu phân tích. A, C, D không đúng vị trí thông thường của Testing trong SDLC.",
     },
     {
-      id: 323,
+      id: 421,
       question:
         "Consider the Taskly app rewritten with BLoC architecture instead of Provider: `TaskBloc` receives `AddTaskEvent`/`ToggleTaskEvent`, then emits a new `TaskState`. Compared to using `TaskProvider` (ChangeNotifier), what is the core difference in the processing flow?",
       options: [
@@ -5985,7 +5985,7 @@ export const prm393: Subject = {
         "Provider dùng gọi method trực tiếp + notifyListeners(); BLoC dùng dispatch Event được xử lý thành State emit ra, tách biệt khỏi lệnh gọi trực tiếp — đây là khác biệt cốt lõi. A, C, D không đúng cách hai kiến trúc này thực sự hoạt động.",
     },
     {
-      id: 324,
+      id: 422,
       question:
         "Why do many real-world Flutter projects choose BLoC instead of just `setState` for large-scale apps with many screens sharing complex state?",
       options: [
@@ -6000,7 +6000,7 @@ export const prm393: Subject = {
         "Việc tách rõ Event/State giúp logic dễ test độc lập, dễ truy vết luồng dữ liệu, và mở rộng tốt hơn khi nhiều màn hình chia sẻ state phức tạp — điều setState cục bộ gặp khó khi app lớn dần. A, C, D không đúng lý do thực sự chọn BLoC.",
     },
     {
-      id: 325,
+      id: 423,
       question:
         "In `flutter_bloc`, how does the `BlocListener` widget differ from `BlocBuilder`?",
       options: [
@@ -6015,7 +6015,7 @@ export const prm393: Subject = {
         "BlocBuilder rebuild UI dựa trên state mới; BlocListener thực hiện side-effect một lần khi state đổi mà không rebuild UI. A, C, D mô tả sai khác biệt giữa hai widget này.",
     },
     {
-      id: 326,
+      id: 424,
       question:
         "If a Golden Test is set up to run automatically in a CI/CD pipeline before merging code, what is the main purpose of doing this?",
       options: [

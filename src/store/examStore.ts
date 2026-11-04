@@ -89,6 +89,21 @@ export const useExamStore = create<ExamState>()(
     }),
     {
       name: "quiz-storage",
+      version: 1,
+      migrate: (persisted, version) => {
+        const state = persisted as Partial<ExamState>;
+        if (version < 1) {
+          // PRM393 từng có id câu hỏi bị trùng (1–48, 1–50, 1–326) và đã được
+          // đánh lại 1–424. Đáp án/vị trí cũ của môn này không còn khớp câu nữa
+          // nên bỏ đi. Ghi chú (do người dùng tự viết) được giữ lại.
+          const answers = { ...state.answers };
+          const currentIndex = { ...state.currentIndex };
+          delete answers.prm393;
+          delete currentIndex.prm393;
+          return { ...state, answers, currentIndex } as ExamState;
+        }
+        return state as ExamState;
+      },
     },
   ),
 );

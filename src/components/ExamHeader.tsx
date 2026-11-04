@@ -58,6 +58,13 @@ export default function ExamHeader({
           )}
 
           <Link
+            to="/subjects"
+            className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${theme.ghostBtn} ${focus}`}
+          >
+            ← Môn học
+          </Link>
+
+          <Link
             to={`/exam/${subjectId}/results`}
             className={`rounded-lg bg-linear-to-r from-yellow-400 to-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-500/20 ${focus}`}
           >

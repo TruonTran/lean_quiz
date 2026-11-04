@@ -1,9 +1,64 @@
 import { Link } from "react-router-dom";
-import { subjects } from "../data/subjects";
+import { useSubjectList } from "../data/hooks";
 import { useExamStore } from "../store/examStore";
 
+type Section = {
+  to: string;
+  icon: string;
+  title: string;
+  desc: string;
+  stat: string;
+  cta: string;
+};
+
 export default function HomePage() {
-  const allAnswers = useExamStore((state) => state.answers);
+  const allAnswers = useExamStore((s) => s.answers);
+  const allNotes = useExamStore((s) => s.notes);
+  const { data: subjects } = useSubjectList();
+
+  const answeredTotal = Object.values(allAnswers).reduce(
+    (sum, a) => sum + Object.keys(a).length,
+    0,
+  );
+  const noteTotal = Object.values(allNotes).reduce(
+    (sum, n) => sum + Object.values(n).filter((t) => t.trim()).length,
+    0,
+  );
+  const summaryTotal =
+    subjects?.filter((s) => s.summaryCount > 0).length ?? 0;
+
+  const sections: Section[] = [
+    {
+      to: "/subjects",
+      icon: "🎯",
+      title: "Môn học",
+      desc: "Chọn môn rồi làm trắc nghiệm, theo dõi tiến độ và làm lại câu sai.",
+      stat: subjects
+        ? `${subjects.length} môn · ${answeredTotal} câu đã làm`
+        : "Đang tải…",
+      cta: "Chọn môn để học",
+    },
+    {
+      to: "/summary",
+      icon: "📚",
+      title: "Tóm tắt kiến thức",
+      desc: "Các ý chính của từng môn, đọc nhanh trước khi vào làm bài.",
+      stat: !subjects
+        ? "Đang tải…"
+        : summaryTotal > 0
+          ? `${summaryTotal} môn đã có tóm tắt`
+          : "Đang cập nhật",
+      cta: "Xem tóm tắt",
+    },
+    {
+      to: "/notes",
+      icon: "📝",
+      title: "Ghi chú",
+      desc: "Mọi ghi chú bạn viết trong lúc làm bài, gộp lại theo từng môn.",
+      stat: `${noteTotal} ghi chú`,
+      cta: "Mở ghi chú",
+    },
+  ];
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#08090c] p-6 sm:p-10">
@@ -26,7 +81,7 @@ export default function HomePage() {
         style={{ animationDelay: "2.4s", animationDuration: "7s" }}
       />
 
-      <div className="relative z-10">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-5rem)] max-w-5xl flex-col justify-center">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <span
             className="fade-up font-mono-brand inline-flex items-center gap-2 rounded-full border border-yellow-400/20 bg-yellow-400/5 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-yellow-300"
@@ -49,62 +104,48 @@ export default function HomePage() {
             className="fade-up mt-4 text-base text-zinc-400 sm:text-lg"
             style={{ animationDelay: "0.25s" }}
           >
-            Chọn môn học bên dưới để bắt đầu ôn tập và theo dõi tiến độ của bạn.
+            Bạn muốn làm gì hôm nay?
           </p>
-
-          <Link
-            to="/notes"
-            className="fade-up mt-5 inline-flex items-center gap-2 rounded-lg border border-yellow-400/25 bg-white/5 px-4 py-2 text-sm font-semibold text-yellow-200 transition hover:bg-white/10"
-            style={{ animationDelay: "0.35s" }}
-          >
-            📝 Ghi chú của bạn
-          </Link>
         </div>
 
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {subjects.map((subject, i) => {
-            const answered = Object.keys(allAnswers[subject.id] ?? {}).length;
-            const total = subject.questions.length;
-            const started = answered > 0;
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {sections.map((s, i) => (
+            <Link
+              key={s.to}
+              to={s.to}
+              className="glass-panel glow-hover fade-up group relative flex flex-col overflow-hidden rounded-2xl bg-zinc-900/40 p-7 shadow-lg shadow-black/40"
+              style={{ animationDelay: `${0.35 + i * 0.1}s` }}
+            >
+              <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-yellow-400/10 opacity-60 blur-2xl transition-opacity duration-300 group-hover:opacity-100" />
 
-            return (
-              <Link
-                key={subject.id}
-                to={`/exam/${subject.id}`}
-                className="glass-panel glow-hover fade-up group relative overflow-hidden rounded-2xl bg-zinc-900/40 p-6 shadow-lg shadow-black/40"
-                style={{ animationDelay: `${0.4 + i * 0.08}s` }}
-              >
-                <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-yellow-400/10 blur-2xl transition-opacity duration-300 group-hover:opacity-100 opacity-60" />
+              <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-yellow-400/25 bg-yellow-400/10 text-3xl">
+                <span aria-hidden="true">{s.icon}</span>
+              </div>
 
-                <div className="relative flex items-start justify-between gap-2">
-                  <h2 className="text-2xl font-bold text-yellow-300">
-                    {subject.code}
-                  </h2>
-                  {started && (
-                    <span className="font-mono-brand shrink-0 rounded-full border border-yellow-400/25 bg-yellow-400/10 px-3 py-1 text-xs font-semibold text-yellow-200">
-                      {answered}/{total}
-                    </span>
-                  )}
-                </div>
+              <h2 className="relative mt-5 text-2xl font-bold text-yellow-300">
+                {s.title}
+              </h2>
+              <p className="relative mt-2 flex-1 text-sm leading-relaxed text-zinc-400">
+                {s.desc}
+              </p>
 
-                <p className="relative mt-2 text-zinc-400">{subject.name}</p>
+              <span className="font-mono-brand relative mt-5 inline-block self-start rounded-full border border-yellow-400/25 bg-yellow-400/10 px-3 py-1 text-xs font-semibold text-yellow-200">
+                {s.stat}
+              </span>
 
-                {started && (
-                  <div className="relative mt-4 h-2 overflow-hidden rounded-full bg-white/5">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-yellow-400 to-amber-500"
-                      style={{ width: `${(answered / total) * 100}%` }}
-                    />
-                  </div>
-                )}
-
-                <button className="shine-sweep relative mt-5 w-full rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 py-2 font-semibold text-zinc-950 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:shadow-yellow-500/20">
-                  {started ? "Tiếp tục làm bài" : "Start Exam"}
-                </button>
-              </Link>
-            );
-          })}
+              <span className="shine-sweep relative mt-5 block w-full rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 py-2 text-center font-semibold text-zinc-950 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:shadow-yellow-500/20">
+                {s.cta} →
+              </span>
+            </Link>
+          ))}
         </div>
+
+        <Link
+          to="/admin"
+          className="mx-auto mt-10 text-xs text-zinc-600 transition hover:text-zinc-400"
+        >
+          Quản trị
+        </Link>
       </div>
     </div>
   );

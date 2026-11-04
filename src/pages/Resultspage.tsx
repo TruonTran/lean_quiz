@@ -1,5 +1,6 @@
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { getSubjectById } from "../data/subjects";
+import { useSubject } from "../data/hooks";
+import { ErrorBox, Loading } from "../components/LoadState";
 import { useExamStore } from "../store/examStore";
 
 function isCorrect(
@@ -25,12 +26,28 @@ function formatAnswer(value: number | number[]) {
 export default function ResultsPage() {
   const { subjectId } = useParams<{ subjectId: string }>();
   const navigate = useNavigate();
-  const subject = getSubjectById(subjectId ?? "");
+  const subjectQuery = useSubject(subjectId);
+  const subject = subjectQuery.data;
 
   const allAnswers = useExamStore((state) => state.answers);
   const setCurrentIndex = useExamStore((state) => state.setCurrentIndex);
   const clearExam = useExamStore((state) => state.clearExam);
   const clearAnswers = useExamStore((state) => state.clearAnswers);
+
+  if (subjectQuery.isPending || subjectQuery.isError) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#08090c] p-6">
+        {subjectQuery.isError ? (
+          <ErrorBox
+            error={subjectQuery.error}
+            onRetry={() => subjectQuery.refetch()}
+          />
+        ) : (
+          <Loading label="Đang tải kết quả…" />
+        )}
+      </div>
+    );
+  }
 
   if (!subject || !subjectId) {
     return (
@@ -42,7 +59,8 @@ export default function ResultsPage() {
 
   const answers = allAnswers[subjectId] ?? {};
   const questions = subject.questions;
-  const answeredCount = Object.keys(answers).length;
+  // Chỉ đếm câu còn tồn tại (admin có thể đã xoá câu mà người học từng làm)
+  const answeredCount = questions.filter((q) => answers[q.id] !== undefined).length;
   const correctCount = questions.filter(
     (q) => answers[q.id] !== undefined && isCorrect(q, answers[q.id]),
   ).length;

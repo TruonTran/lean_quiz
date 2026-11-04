@@ -1,6 +1,4 @@
-import type { getSubjectById } from "../data/subjects";
-
-export type Subject = NonNullable<ReturnType<typeof getSubjectById>>;
-export type Question = Subject["questions"][number];
+export type { Subject } from "./Subject";
+export type { Question } from "./Question";
 export type Answer = number | number[];
 export type SlideDir = "next" | "prev";
