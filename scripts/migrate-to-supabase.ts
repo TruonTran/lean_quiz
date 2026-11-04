@@ -7,7 +7,8 @@
  *
  * Cần file .env.migrate.local (đã nằm trong .gitignore):
  *   SUPABASE_URL=https://xxxx.supabase.co
- *   SUPABASE_SERVICE_ROLE_KEY=...   # KHÔNG bao giờ đưa key này vào code web
+ *   SUPABASE_SECRET_KEY=sb_secret_...   # (hoặc SUPABASE_SERVICE_ROLE_KEY với khoá cũ)
+ *   # KHÔNG bao giờ đưa key này vào code web
  */
 import { existsSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
@@ -48,9 +49,9 @@ async function main() {
     process.loadEnvFile(".env.migrate.local");
   }
   const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const key = process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {
-    console.error("Thiếu SUPABASE_URL hoặc SUPABASE_SERVICE_ROLE_KEY (xem .env.migrate.local).");
+    console.error("Thiếu SUPABASE_URL hoặc SUPABASE_SECRET_KEY (xem .env.migrate.local).");
     process.exit(1);
   }
 
