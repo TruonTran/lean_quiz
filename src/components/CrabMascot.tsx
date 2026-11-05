@@ -56,20 +56,22 @@ const WRONG_LINES: Line[] = [
   { text: "Xem lại giải thích đi, hiểu rồi khỏi sai nữa, khỏi bị Cua chọc.", emoji: "📖" },
   { text: "Sai nhẹ thôi, nhưng Cua vẫn thấy đau dùm.", emoji: "🤕" },
   { text: "Cua chớp mắt một cái là bạn sai rồi, nhanh dữ.", emoji: "⚡" },
+  { text: "Bạn đẹp nên sai tí cũng ko sao âu.", emoji: "🥰" },
 ];
 
 // Làm đúng liên tiếp
 const CORRECT_STREAK: Record<number, Line> = {
-  3: { text: "3 câu liền rồi. Coi chừng, sắp sai tới nơi đó.", emoji: "😏" },
+  3: { text: "3 câu liền rồi. Thông minh dữ ta.", emoji: "😏" },
   5: { text: "5 câu liền luôn?! Bạn có gian lận không? Khai mau!", emoji: "🕵️" },
   10: { text: "10 câu liên tục. Ok Cua phục, Cua im.", emoji: "🫡" },
-  7: { text: "7 câu liền! Bình tĩnh nha, đừng bay cao quá rồi rơi cái bịch.", emoji: "🛫" },
+  7: { text: "7 câu liền! Bình tĩnh nha, đừng bay cao quá rồi rơi vào lòng cua nha.", emoji: "🛫" },
   15: { text: "15 câu liên tục. Bạn mà gương mẫu vậy Cua xin ngồi xa ra cho khỏi lép vế.", emoji: "😳" },
   20: { text: "20 câu liền. Cua đi báo cho cả bể biết bạn là thần đồng.", emoji: "📣" },
 };
 
 // Sai liên tiếp
 const WRONG_STREAK: Record<number, Line> = {
+  1: { text: "Mới sai thôi. Cua biết bạn rất giỏi còn xinh nữa. Cố lên nha", emoji: "🥲" },
   3: { text: "3 câu sai liền. Đi rửa mặt uống miếng nước rồi quay lại đi bạn.", emoji: "💧" },
   5: { text: "5 câu sai liên tiếp... nghỉ đi, học nữa Cua thấy tội.", emoji: "🛌" },
   7: { text: "7 câu sai liên tiếp. Cua lo thiệt đó, nghỉ chút đi bạn.", emoji: "🫂" },
@@ -78,6 +80,7 @@ const WRONG_STREAK: Record<number, Line> = {
 
 // Khi bấm vào Cua
 const IDLE_LINES: Line[] = [
+  { text: "Đừng có thấy cua đẹp trai mà nhấp vào xem hoài đi.", emoji: "🦀" },
   { text: "Gì đó? Bấm Cua hoài. Làm bài đi!", emoji: "🙄" },
   { text: "Ngồi lâu rồi đó, đứng dậy vươn vai cái đi.", emoji: "🧍" },
   { text: "Cua đói rồi. Làm xong ghé cho Cua miếng bánh mì.", emoji: "🥖" },
