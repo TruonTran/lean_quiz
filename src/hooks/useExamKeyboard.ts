@@ -6,11 +6,13 @@ type Handlers = {
   onPrev: () => void;
   onNext: () => void;
   onDigit: (optionIndex: number) => void;
+  onToggleSummary?: () => void;
 };
 
-/** Phím tắt: Home/End, ←/→, 1-9/0 chọn đáp án. Bỏ qua khi đang gõ trong textarea/input. */
+/** Phím tắt: Home/End, ←/→, 1-9/0 chọn đáp án, K bật/tắt kiến thức tóm tắt. Bỏ qua khi đang gõ trong textarea/input. */
 export function useExamKeyboard(enabled: boolean, handlers: Handlers) {
   const ref = useRef(handlers);
+  // eslint-disable-next-line react-hooks/refs
   ref.current = handlers;
 
   useEffect(() => {
@@ -25,7 +27,9 @@ export function useExamKeyboard(enabled: boolean, handlers: Handlers) {
       else if (e.key === "End") h.onLast();
       else if (e.key === "ArrowLeft") h.onPrev();
       else if (e.key === "ArrowRight") h.onNext();
-      else if (/^[0-9]$/.test(e.key)) {
+      else if (e.key.toLowerCase() === "k" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        h.onToggleSummary?.();
+      } else if (/^[0-9]$/.test(e.key)) {
         h.onDigit(e.key === "0" ? 9 : Number(e.key) - 1);
       }
     };

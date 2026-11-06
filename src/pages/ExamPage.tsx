@@ -14,6 +14,7 @@ import MobileNavBar from "../components/MobileNavBar";
 import BreakReminderModal from "../components/BreakReminderModal";
 import ConfirmResetModal from "../components/ConfirmResetModal";
 import CrabMascot from "../components/CrabMascot";
+import SummaryPanel from "../components/SummaryPanel";
 
 import { useBreakReminder } from "../hooks/useBreakReminder";
 import { useSwipe } from "../hooks/useSwipe";
@@ -153,6 +154,11 @@ function ExamPageContent() {
     );
   };
 
+  /* ---------- ô kiến thức tóm tắt (mặc định mở trên màn hình rộng) ---------- */
+  const [summaryOpen, setSummaryOpen] = useState(
+    () => window.matchMedia("(min-width: 1280px)").matches,
+  );
+
   /* ---------- reset / nghỉ giải lao / phím tắt / vuốt ---------- */
   const [showConfirmReset, setShowConfirmReset] = useState(false);
   const resetButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -178,6 +184,7 @@ function ExamPageContent() {
     onLast: () => goToIndex(questions.length - 1),
     onPrev: goPrev,
     onNext: goNext,
+    onToggleSummary: () => setSummaryOpen((v) => !v),
     onDigit: (i) => {
       if (question && i < question.options.length) selectOption(i);
     },
@@ -229,7 +236,7 @@ function ExamPageContent() {
     <div className={`relative min-h-screen overflow-hidden py-10 ${theme.page}`}>
       <div className={theme.ambient} />
 
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-4 px-3 lg:flex-row lg:items-start lg:gap-6 lg:px-6">
+      <div className="relative z-10 mx-auto flex max-w-[1600px] flex-col gap-4 px-3 lg:flex-row lg:items-start lg:gap-6 lg:px-6">
         {/* Cột trái: ma trận số câu */}
         <QuestionMatrix
           questionIds={questionIds}
@@ -239,7 +246,7 @@ function ExamPageContent() {
           onSelect={goToIndex}
         />
 
-        {/* Cột phải: câu hỏi */}
+        {/* Cột giữa: câu hỏi */}
         <div className="flex min-w-0 flex-1 items-start gap-3 lg:gap-6">
           <NavArrow direction="prev" disabled={currentIndex === 0} onClick={goPrev} />
 
@@ -288,7 +295,28 @@ function ExamPageContent() {
             onClick={goNext}
           />
         </div>
+
+        {/* Cột phải: kiến thức tóm tắt */}
+        {subjectId && (
+          <SummaryPanel
+            subjectId={subjectId}
+            open={summaryOpen}
+            onClose={() => setSummaryOpen(false)}
+          />
+        )}
       </div>
+
+      {/* Nút mở lại ô kiến thức (K) */}
+      {!summaryOpen && (
+        <button
+          type="button"
+          onClick={() => setSummaryOpen(true)}
+          title="Kiến thức tóm tắt (phím K)"
+          className={`fixed bottom-24 right-4 z-30 rounded-full px-4 py-2 text-sm font-semibold shadow-lg xl:bottom-6 ${theme.softBtn} ${theme.panel}`}
+        >
+          📘 Kiến thức
+        </button>
+      )}
 
       <CrabMascot event={mascotEvent} />
 

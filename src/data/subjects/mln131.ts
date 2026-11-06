@@ -2070,7 +2070,7 @@ export const mln131: Subject = {
         "Theo Hồ Chí Minh, cách mạng giải phóng dân tộc cần được tiến hành như thế nào?",
       options: [
         "Chủ động, sáng tạo và có khả năng giành thắng lợi trước cách mạng vô sản ở chính quốc",
-        "Chủ động, sáng tạo và có khả năng giành thắng lợi trước cách mạng vô sản thế giới",
+        "Chủ động, sáng tạo và có khả năng giành thắng lợi trước cách mạng vô sản thế gaiới",
         "Chủ động, sáng tạo và có khả năng giành thắng lợi trước cách mạng thuộc địa",
         "Chủ động, sáng tạo và có khả năng giành thắng lợi trước cách mạng tư sản",
       ],
