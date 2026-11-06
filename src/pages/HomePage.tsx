@@ -104,7 +104,7 @@ export default function HomePage() {
             className="fade-up mt-4 text-base text-zinc-400 sm:text-lg"
             style={{ animationDelay: "0.25s" }}
           >
-            Bạn muốn làm gì hôm nay?
+            Hôm nay của bạn thế nào?
           </p>
         </div>
 
