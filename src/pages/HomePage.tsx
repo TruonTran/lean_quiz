@@ -152,12 +152,17 @@ export default function HomePage() {
           ))}
         </div>
 
-        <Link
-          to="/admin"
-          className="mx-auto mt-10 text-xs text-zinc-600 transition hover:text-zinc-400"
-        >
-          Quản trị
-        </Link>
+        <div className="mx-auto mt-10 flex flex-col items-center gap-2">
+          <Link
+            to="/contact"
+            className="rounded-full border border-yellow-400/25 bg-white/5 px-4 py-1.5 text-sm font-semibold text-yellow-200 transition hover:bg-white/10"
+          >
+            💌 Liên hệ để cập nhật đề
+          </Link>
+          <Link to="/admin" className="text-xs text-zinc-600 transition hover:text-zinc-400">
+            Quản trị
+          </Link>
+        </div>
       </div>
     </div>
   );

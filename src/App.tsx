@@ -16,6 +16,7 @@ import EssayListPage from "./pages/EssayListPage";
 import EssayWritePage from "./pages/EssayWritePage";
 import EssaySamplePage from "./pages/EssaySamplePage";
 import AdminEssaysPage from "./pages/AdminEssaysPage";
+import ContactPage from "./pages/ContactPage";
 import RequireAdmin from "./components/RequireAdmin";
 import { isSupabaseConfigured } from "./lib/supabase";
 
@@ -57,6 +58,7 @@ export default function App() {
         <Route path="/essays/:subjectId/sample/:sampleId" element={<EssaySamplePage />} />
         <Route path="/essays/:subjectId/:promptId" element={<EssayWritePage />} />
         <Route path="/notes" element={<NotesPage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route
           path="/admin/subjects"
