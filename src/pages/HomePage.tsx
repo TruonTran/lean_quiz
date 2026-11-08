@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSubjectList } from "../data/hooks";
 import { useExamStore } from "../store/examStore";
+import UserBar from "../components/UserBar";
 import { hasQuiz } from "../types/Subject";
 import { useEssayStore } from "../store/essayStore";
 
@@ -47,7 +48,7 @@ export default function HomePage() {
       icon: "🖋️",
       title: "Thi viết",
       desc: "Đọc đề tự luận, viết bài của bạn và đối chiếu với bài mẫu.",
-      stat: essayTotal > 0 ? `${essayTotal} bài đã viết` : "Đã có đề. Vào viết bài đầu tiên",
+      stat: essayTotal > 0 ? `${essayTotal} bài đã viết` : "Chưa có bài viết",
       cta: "Luyện viết",
     },
     {
@@ -94,6 +95,7 @@ export default function HomePage() {
       />
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100vh-5rem)] max-w-5xl flex-col justify-center">
+        <UserBar />
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <span
             className="fade-up font-mono-brand inline-flex items-center gap-2 rounded-full border border-yellow-400/20 bg-yellow-400/5 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-yellow-300"
@@ -159,9 +161,14 @@ export default function HomePage() {
           >
             💌 Liên hệ để cập nhật đề
           </Link>
-          <Link to="/admin" className="text-xs text-zinc-600 transition hover:text-zinc-400">
-            Quản trị
-          </Link>
+          <div className="flex items-center gap-4 text-xs text-zinc-600">
+            <Link to="/privacy" className="transition hover:text-zinc-400">
+              Chính sách quyền riêng tư
+            </Link>
+            <Link to="/admin" className="transition hover:text-zinc-400">
+              Quản trị
+            </Link>
+          </div>
         </div>
       </div>
     </div>
