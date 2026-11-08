@@ -19,6 +19,7 @@ import SummaryPanel from "../components/SummaryPanel";
 import { useBreakReminder } from "../hooks/useBreakReminder";
 import { useSwipe } from "../hooks/useSwipe";
 import { useExamKeyboard } from "../hooks/useExamKeyboard";
+import { recordAnswer } from "../data/activity";
 
 function ExamPageContent() {
   const { theme } = useExamTheme();
@@ -119,6 +120,7 @@ function ExamPageContent() {
   const reportToMascot = (correct: boolean) => {
     mascotCounterRef.current += 1;
     setMascotEvent({ id: mascotCounterRef.current, correct });
+    recordAnswer(correct); // tính vào thành tích tuần / tháng / năm
   };
 
   const toggleFlag = () => {
