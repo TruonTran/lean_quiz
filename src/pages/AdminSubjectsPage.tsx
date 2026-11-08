@@ -86,6 +86,22 @@ function SubjectForm({
           ))}
         </select>
       </label>
+      <label className="block space-y-1">
+        <span className="text-xs text-zinc-400">Học kì</span>
+        <select
+          value={draft.semester}
+          onChange={(e) => setDraft({ ...draft, semester: e.target.value })}
+          className={inputClass}
+          aria-label="Học kì"
+        >
+          <option value="">Chưa phân loại</option>
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+            <option key={n} value={n}>
+              Kì {n}
+            </option>
+          ))}
+        </select>
+      </label>
       <input
         value={draft.description}
         onChange={(e) => setDraft({ ...draft, description: e.target.value })}
@@ -132,6 +148,7 @@ export default function AdminSubjectsPage() {
         name: v.name,
         description: v.description,
         examType: v.examType,
+        semester: v.semester,
       }),
     onSuccess: async () => {
       await refresh();
@@ -182,7 +199,7 @@ export default function AdminSubjectsPage() {
         {mode === "new" && (
           <SubjectForm
             title="Thêm môn mới"
-            initial={{ code: "", name: "", description: "", examType: "quiz" }}
+            initial={{ code: "", name: "", description: "", examType: "quiz", semester: "" }}
             submitLabel="Tạo môn"
             pending={add.isPending}
             serverError={add.error ? errMsg(add.error) : null}
@@ -209,7 +226,13 @@ export default function AdminSubjectsPage() {
               <SubjectForm
                 key={s.id}
                 title={`Sửa môn ${s.code}`}
-                initial={{ code: s.code, name: s.name, description: s.description ?? "", examType: s.examType }}
+                initial={{
+                  code: s.code,
+                  name: s.name,
+                  description: s.description ?? "",
+                  examType: s.examType,
+                  semester: s.semester ? String(s.semester) : "",
+                }}
                 lockCode
                 submitLabel="Lưu"
                 pending={edit.isPending}
@@ -223,6 +246,7 @@ export default function AdminSubjectsPage() {
                   <h2 className="text-xl font-bold text-yellow-300">{s.code}</h2>
                   <p className="text-sm text-zinc-400">{s.name}</p>
                   <p className="mt-1 text-xs text-zinc-500">
+                    {s.semester ? `Kì ${s.semester} · ` : ""}
                     {EXAM_TYPE_LABEL[s.examType]}
                     {hasQuiz(s.examType) && ` · ${s.questionCount} câu hỏi · ${s.summaryCount} chủ đề tóm tắt`}
                   </p>

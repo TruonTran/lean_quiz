@@ -4,6 +4,7 @@ import { countWords, useEssayStore } from "../store/essayStore";
 import PageShell from "../components/PageShell";
 import { ErrorBox, Loading } from "../components/LoadState";
 import { ghostBtn, panel } from "../components/adminStyles";
+import { plainPreview } from "../data/tableText";
 
 export default function EssayListPage() {
   const { subjectId } = useParams();
@@ -63,11 +64,11 @@ export default function EssayListPage() {
                       <div>
                         <p className="font-mono-brand text-xs text-zinc-500">Đề {i + 1}</p>
                         <h3 className="text-xl font-bold text-yellow-300">{p.title}</h3>
-                        <p className="mt-1 line-clamp-2 text-sm text-zinc-400">{p.prompt}</p>
+                        <p className="mt-1 line-clamp-2 text-sm text-zinc-400">{plainPreview(p.prompt)}</p>
                       </div>
                       <div className="flex flex-col items-end gap-2">
                         <span className="font-mono-brand rounded-full border border-yellow-400/25 bg-yellow-400/10 px-3 py-1 text-xs font-semibold text-yellow-200">
-                          {words > 0 ? `${words} từ` : "Chưa viết"}
+                          {draft?.doneAt ? `✓ Hoàn thành · ${words} từ` : words > 0 ? `${words} từ` : "Chưa viết"}
                         </span>
                         {samplesN > 0 && (
                           <span className="text-xs text-zinc-500">{samplesN} bài mẫu</span>

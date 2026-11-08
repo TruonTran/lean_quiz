@@ -37,8 +37,9 @@ export function errMsg(e: unknown): string {
 export async function fetchSubjectList(): Promise<SubjectInfo[]> {
   const base = "id, code, name, description, questions(count), summary_sections(count)";
   const load = (cols: string) => supabase.from("subjects").select(cols).order("sort_order");
-  let res = await load(`${base}, exam_type`);
-  // Chưa chạy supabase/exam-type.sql (thiếu cột exam_type): vẫn tải được, coi mọi môn là trắc nghiệm.
+  let res = await load(`${base}, exam_type, semester`);
+  // Chưa chạy supabase/*.sql mới (thiếu cột): vẫn tải được, môn coi như trắc nghiệm / chưa phân loại kì.
+  if (res.error?.code === "42703") res = await load(`${base}, exam_type`);
   if (res.error?.code === "42703") res = await load(base);
   if (res.error) throw res.error;
 
@@ -48,18 +49,22 @@ export async function fetchSubjectList(): Promise<SubjectInfo[]> {
     name: string;
     description: string | null;
     exam_type?: ExamType;
+    semester?: number | null;
     questions: { count: number }[];
     summary_sections: { count: number }[];
   };
-  return ((res.data ?? []) as unknown as Row[]).map((r) => ({
+  const list = ((res.data ?? []) as unknown as Row[]).map((r) => ({
     id: r.id,
     code: r.code,
     name: r.name,
     description: r.description ?? undefined,
     examType: r.exam_type ?? "quiz",
+    semester: r.semester ?? null,
     questionCount: r.questions[0]?.count ?? 0,
     summaryCount: r.summary_sections[0]?.count ?? 0,
   }));
+  // Xếp theo học kì (chưa phân loại xuống cuối); sort ổn định nên trong cùng kì vẫn giữ thứ tự cũ.
+  return list.sort((a, b) => (a.semester ?? 99) - (b.semester ?? 99));
 }
 
 async function fetchQuestions(subjectId: string): Promise<Question[]> {
@@ -214,6 +219,7 @@ export async function createSubject(input: {
   name: string;
   description: string | null;
   examType: ExamType;
+  semester: number | null;
   sortOrder: number;
 }): Promise<void> {
   const { error } = await supabase.from("subjects").insert({
@@ -222,6 +228,7 @@ export async function createSubject(input: {
     name: input.name,
     description: input.description,
     exam_type: input.examType,
+    semester: input.semester,
     sort_order: input.sortOrder,
   });
   if (error) {
@@ -232,7 +239,13 @@ export async function createSubject(input: {
 
 export async function updateSubject(
   id: string,
-  input: { code: string; name: string; description: string | null; examType: ExamType },
+  input: {
+    code: string;
+    name: string;
+    description: string | null;
+    examType: ExamType;
+    semester: number | null;
+  },
 ): Promise<void> {
   const { data, error } = await supabase
     .from("subjects")
@@ -241,6 +254,7 @@ export async function updateSubject(
       name: input.name,
       description: input.description,
       exam_type: input.examType,
+      semester: input.semester,
     })
     .eq("id", id)
     .select("id");

@@ -9,6 +9,8 @@ export const EXAM_TYPE_LABEL: Record<ExamType, string> = {
   both: "Cả hai",
 };
 
+export const semesterLabel = (s: number | null) => (s ? `Kì ${s}` : "Chưa phân loại");
+
 /** Môn có phần trắc nghiệm không? */
 export const hasQuiz = (t: ExamType) => t !== "essay";
 /** Môn có phần thi viết không? */
@@ -30,6 +32,8 @@ export interface SubjectInfo {
   name: string;
   description?: string;
   examType: ExamType;
+  /** Học kì (1, 2, ...); null = chưa phân loại. */
+  semester: number | null;
   questionCount: number;
   summaryCount: number;
 }

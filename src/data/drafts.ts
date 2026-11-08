@@ -116,7 +116,13 @@ export function validateDraft(
 
 /* ================================= Môn ================================= */
 
-export type SubjectDraft = { code: string; name: string; description: string; examType: ExamType };
+export type SubjectDraft = {
+  code: string;
+  name: string;
+  description: string;
+  examType: ExamType;
+  semester: string; // "" = chưa phân loại, "1".."9" = học kì
+};
 
 /** Dữ liệu môn đã kiểm tra hợp lệ, sẵn sàng gửi lên DB. */
 export type SubjectValue = {
@@ -125,6 +131,7 @@ export type SubjectValue = {
   name: string;
   description: string | null;
   examType: ExamType;
+  semester: number | null;
 };
 
 /** "MLN111" → "mln111", "MLN 111" → "mln-111", "Kinh tế" → "kinh-te". Dùng làm id trong URL. */
@@ -155,6 +162,7 @@ export function validateSubjectDraft(
       name,
       description: d.description.trim() || null,
       examType: d.examType,
+      semester: d.semester ? Number(d.semester) : null,
     },
   };
 }
