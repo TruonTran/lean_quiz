@@ -4,8 +4,10 @@ import { useEssayPrompts, useEssaySamples } from "../data/hooks";
 import { countWords, useEssayStore } from "../store/essayStore";
 import PageShell from "../components/PageShell";
 import Markdown from "../components/Markdown";
+import EssayDoneModal from "../components/EssayDoneModal";
+import { ENCOURAGEMENTS } from "../data/encouragements";
 import { ErrorBox, Loading } from "../components/LoadState";
-import { dangerBtn, ghostBtn, panel } from "../components/adminStyles";
+import { dangerBtn, ghostBtn, panel, primaryBtn } from "../components/adminStyles";
 
 const timeLabel = (ms: number) =>
   new Date(ms).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
@@ -20,10 +22,12 @@ export default function EssayWritePage() {
   const draft = useEssayStore((s) => s.drafts[id]);
   const setDraft = useEssayStore((s) => s.setDraft);
   const clearDraft = useEssayStore((s) => s.clearDraft);
+  const markDone = useEssayStore((s) => s.markDone);
 
   const [showHint, setShowHint] = useState(false);
   const [showSample, setShowSample] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [cheer, setCheer] = useState<string | null>(null);
 
   if (prompts.data && !prompt) return <Navigate to={`/essays/${subjectId}`} replace />;
 
@@ -51,6 +55,11 @@ export default function EssayWritePage() {
     URL.revokeObjectURL(url);
   };
 
+  const finish = () => {
+    markDone(id);
+    setCheer(ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)]);
+  };
+
   const reset = () => {
     if (window.confirm("Xoá toàn bộ bài viết của đề này? Không khôi phục được.")) {
       clearDraft(id);
@@ -74,9 +83,7 @@ export default function EssayWritePage() {
           <div className="space-y-4">
             <div className={panel}>
               <h2 className="mb-2 font-bold text-yellow-300">Đề bài</h2>
-              <p className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-200">
-                {prompt.prompt}
-              </p>
+              <Markdown className="text-zinc-200">{prompt.prompt}</Markdown>
               {prompt.requirement && (
                 <p className="mt-3 rounded-lg border border-yellow-400/20 bg-yellow-400/5 p-3 text-sm text-yellow-100">
                   <span className="font-semibold">Yêu cầu: </span>
@@ -136,6 +143,7 @@ export default function EssayWritePage() {
               <p className="font-mono-brand text-xs text-zinc-400">
                 {countWords(text)} từ · {text.length} ký tự
                 {draft && ` · đã lưu ${timeLabel(draft.updatedAt)}`}
+                {draft?.doneAt && <span className="text-yellow-300"> · ✓ Đã hoàn thành</span>}
               </p>
               <div className="flex flex-wrap gap-2">
                 <button onClick={copy} disabled={!text} className={ghostBtn}>
@@ -147,11 +155,15 @@ export default function EssayWritePage() {
                 <button onClick={reset} disabled={!text} className={dangerBtn}>
                   Xoá bài
                 </button>
+                <button onClick={finish} disabled={!text.trim()} className={primaryBtn}>
+                  ✅ Hoàn thành bài viết
+                </button>
               </div>
             </div>
           </div>
         </div>
       )}
+      {cheer && <EssayDoneModal words={countWords(text)} message={cheer} onClose={() => setCheer(null)} />}
     </PageShell>
   );
 }

@@ -5,12 +5,14 @@ export interface EssayDraft {
   subjectId: string;
   text: string;
   updatedAt: number; // ms
+  doneAt?: number; // ms — lúc bấm "Hoàn thành bài viết"
 }
 
 interface EssayState {
   /** Bài viết của người học, khoá theo id đề. Chỉ nằm trong trình duyệt này. */
   drafts: Record<string, EssayDraft>;
   setDraft: (promptId: number, subjectId: string, text: string) => void;
+  markDone: (promptId: number) => void;
   clearDraft: (promptId: number) => void;
 }
 
@@ -23,9 +25,17 @@ export const useEssayStore = create<EssayState>()(
         set((state) => ({
           drafts: {
             ...state.drafts,
-            [promptId]: { subjectId, text, updatedAt: Date.now() },
+            // giữ nguyên doneAt: sửa bài sau khi hoàn thành vẫn tính là đã hoàn thành
+            [promptId]: { ...state.drafts[promptId], subjectId, text, updatedAt: Date.now() },
           },
         })),
+
+      markDone: (promptId) =>
+        set((state) => {
+          const d = state.drafts[promptId];
+          if (!d) return state;
+          return { drafts: { ...state.drafts, [promptId]: { ...d, doneAt: Date.now() } } };
+        }),
 
       clearDraft: (promptId) =>
         set((state) => {
