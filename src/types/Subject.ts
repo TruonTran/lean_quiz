@@ -1,5 +1,19 @@
 import type { Question } from "./Question";
 
+/** Kiểu thi của môn: trắc nghiệm, thi viết, hoặc cả hai. */
+export type ExamType = "quiz" | "essay" | "both";
+
+export const EXAM_TYPE_LABEL: Record<ExamType, string> = {
+  quiz: "Trắc nghiệm",
+  essay: "Thi viết",
+  both: "Cả hai",
+};
+
+/** Môn có phần trắc nghiệm không? */
+export const hasQuiz = (t: ExamType) => t !== "essay";
+/** Môn có phần thi viết không? */
+export const hasEssay = (t: ExamType) => t !== "quiz";
+
 /** Một môn đầy đủ (kèm câu hỏi) — dùng khi làm bài. */
 export interface Subject {
   id: string;
@@ -15,6 +29,7 @@ export interface SubjectInfo {
   code: string;
   name: string;
   description?: string;
+  examType: ExamType;
   questionCount: number;
   summaryCount: number;
 }

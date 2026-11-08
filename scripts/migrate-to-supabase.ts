@@ -1,15 +1,3 @@
-/**
- * Chuyển ngân hàng câu hỏi từ src/data/subjects/*.ts lên Supabase.
- *
- *   npm run db:dry-run     # chỉ kiểm tra dữ liệu, không cần kết nối
- *   npm run db:migrate     # đẩy lên DB (không ghi đè dòng đã có)
- *   npm run db:migrate -- --overwrite   # ghi đè cả dòng đã có
- *
- * Cần file .env.migrate.local (đã nằm trong .gitignore):
- *   SUPABASE_URL=https://xxxx.supabase.co
- *   SUPABASE_SECRET_KEY=sb_secret_...   # (hoặc SUPABASE_SERVICE_ROLE_KEY với khoá cũ)
- *   # KHÔNG bao giờ đưa key này vào code web
- */
 import { existsSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
 import { subjects } from "../src/data/subjects";
@@ -37,12 +25,12 @@ async function main() {
   console.log(`  Tổng: ${subjectRows.length} môn, ${questionRows.length} câu\n`);
 
   if (problems.length > 0) {
-    console.error(`❌ Phát hiện ${problems.length} vấn đề trong dữ liệu:`);
+    console.error(`Phát hiện ${problems.length} vấn đề trong dữ liệu:`);
     problems.slice(0, 50).forEach((p) => console.error("  - " + p));
     if (problems.length > 50) console.error(`  ... và ${problems.length - 50} vấn đề nữa`);
     process.exit(1);
   }
-  console.log("✅ Dữ liệu hợp lệ.");
+  console.log("Dữ liệu hợp lệ.");
   if (dryRun) return;
 
   if (!process.env.SUPABASE_URL && existsSync(".env.migrate.local")) {
@@ -79,7 +67,6 @@ async function main() {
     console.log(`  questions: ${done}/${questionRows.length}`);
   }
 
-  // Đối chiếu số lượng trên DB với nguồn
   console.log("\nĐối chiếu:");
   let ok = true;
   for (const s of subjects) {
@@ -90,7 +77,7 @@ async function main() {
     if (error) throw error;
     const match = count === s.questions.length;
     ok &&= match;
-    console.log(`  ${s.code.padEnd(8)} nguồn ${s.questions.length} / DB ${count} ${match ? "✅" : "⚠️"}`);
+    console.log(`  ${s.code.padEnd(8)} nguồn ${s.questions.length} / DB ${count} ${match ? "done" : "error"}`);
   }
   if (!ok) {
     console.error("\nSố câu không khớp — kiểm tra lại (có thể DB đã có thêm câu do bạn thêm tay).");
@@ -101,9 +88,8 @@ async function main() {
 }
 
 main().catch((e: unknown) => {
-  // Lỗi của supabase-js là object thường (không phải Error) nên đọc message/hint thủ công
   const err = (e ?? {}) as { message?: string; hint?: string; details?: string };
-  console.error("❌ Lỗi:", err.message ?? String(e));
+  console.error("Lỗi:", err.message ?? String(e));
   if (err.details && err.details !== err.message) console.error("   chi tiết:", err.details);
   if (err.hint) console.error("   gợi ý:", err.hint);
   process.exit(1);

@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useSubjectList } from "../data/hooks";
 import { useExamStore } from "../store/examStore";
+import { hasQuiz } from "../types/Subject";
+import { useEssayStore } from "../store/essayStore";
 
 type Section = {
   to: string;
@@ -20,6 +22,8 @@ export default function HomePage() {
     (sum, a) => sum + Object.keys(a).length,
     0,
   );
+  const essayDrafts = useEssayStore((s) => s.drafts);
+  const essayTotal = Object.values(essayDrafts).filter((d) => d.text.trim()).length;
   const noteTotal = Object.values(allNotes).reduce(
     (sum, n) => sum + Object.values(n).filter((t) => t.trim()).length,
     0,
@@ -34,9 +38,17 @@ export default function HomePage() {
       title: "Môn học",
       desc: "Chọn môn rồi làm trắc nghiệm, theo dõi tiến độ và làm lại câu sai.",
       stat: subjects
-        ? `${subjects.length} môn · ${answeredTotal} câu đã làm`
+        ? `${subjects.filter((s) => hasQuiz(s.examType)).length} môn · ${answeredTotal} câu đã làm`
         : "Đang tải…",
       cta: "Chọn môn để học",
+    },
+    {
+      to: "/essays",
+      icon: "🖋️",
+      title: "Thi viết",
+      desc: "Đọc đề tự luận, viết bài của bạn và đối chiếu với bài mẫu.",
+      stat: essayTotal > 0 ? `${essayTotal} bài đã viết` : "Chưa có bài viết",
+      cta: "Luyện viết",
     },
     {
       to: "/summary",
@@ -108,7 +120,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {sections.map((s, i) => (
             <Link
               key={s.to}

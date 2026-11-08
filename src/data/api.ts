@@ -1,6 +1,6 @@
 import { supabase } from "../lib/supabase";
 import type { Question } from "../types/Question";
-import type { Subject, SubjectInfo, SummarySection } from "../types/Subject";
+import type { ExamType, Subject, SubjectInfo, SummarySection } from "../types/Subject";
 import type { QuestionPayload } from "./drafts";
 
 // Khớp max_rows mặc định của Supabase (1000 dòng / request)
@@ -35,25 +35,28 @@ export function errMsg(e: unknown): string {
 /* ------------------------------ đọc ------------------------------ */
 
 export async function fetchSubjectList(): Promise<SubjectInfo[]> {
-  const { data, error } = await supabase
-    .from("subjects")
-    .select("id, code, name, description, questions(count), summary_sections(count)")
-    .order("sort_order");
-  if (error) throw error;
+  const base = "id, code, name, description, questions(count), summary_sections(count)";
+  const load = (cols: string) => supabase.from("subjects").select(cols).order("sort_order");
+  let res = await load(`${base}, exam_type`);
+  // Chưa chạy supabase/exam-type.sql (thiếu cột exam_type): vẫn tải được, coi mọi môn là trắc nghiệm.
+  if (res.error?.code === "42703") res = await load(base);
+  if (res.error) throw res.error;
 
   type Row = {
     id: string;
     code: string;
     name: string;
     description: string | null;
+    exam_type?: ExamType;
     questions: { count: number }[];
     summary_sections: { count: number }[];
   };
-  return ((data ?? []) as Row[]).map((r) => ({
+  return ((res.data ?? []) as unknown as Row[]).map((r) => ({
     id: r.id,
     code: r.code,
     name: r.name,
     description: r.description ?? undefined,
+    examType: r.exam_type ?? "quiz",
     questionCount: r.questions[0]?.count ?? 0,
     summaryCount: r.summary_sections[0]?.count ?? 0,
   }));
@@ -134,10 +137,10 @@ export async function fetchSummary(subjectId: string): Promise<SummarySection[]>
 // RLS chặn ghi với người không phải admin. Với update/delete, Postgres trả về
 // 0 dòng thay vì báo lỗi, nên ta yêu cầu trả dòng về và tự kiểm tra.
 
-const DENIED = "Không có quyền thực hiện (cần đăng nhập bằng tài khoản admin).";
+export const DENIED = "Không có quyền thực hiện (cần đăng nhập bằng tài khoản admin).";
 
 /** Lỗi thiếu quyền (42501: bị RLS hoặc thiếu grant chặn) luôn ra cùng một thông báo thân thiện. */
-function raise(error: { code?: string }): never {
+export function raise(error: { code?: string }): never {
   if (error.code === "42501") throw new Error(DENIED);
   throw error;
 }
@@ -210,6 +213,7 @@ export async function createSubject(input: {
   code: string;
   name: string;
   description: string | null;
+  examType: ExamType;
   sortOrder: number;
 }): Promise<void> {
   const { error } = await supabase.from("subjects").insert({
@@ -217,6 +221,7 @@ export async function createSubject(input: {
     code: input.code,
     name: input.name,
     description: input.description,
+    exam_type: input.examType,
     sort_order: input.sortOrder,
   });
   if (error) {
@@ -227,11 +232,16 @@ export async function createSubject(input: {
 
 export async function updateSubject(
   id: string,
-  input: { code: string; name: string; description: string | null },
+  input: { code: string; name: string; description: string | null; examType: ExamType },
 ): Promise<void> {
   const { data, error } = await supabase
     .from("subjects")
-    .update(input)
+    .update({
+      code: input.code,
+      name: input.name,
+      description: input.description,
+      exam_type: input.examType,
+    })
     .eq("id", id)
     .select("id");
   if (error) raise(error);

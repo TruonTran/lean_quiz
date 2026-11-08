@@ -1,6 +1,7 @@
 import { useExamStore } from "../store/examStore";
 import PageShell from "../components/PageShell";
 import SubjectGrid from "../components/SubjectGrid";
+import { hasQuiz } from "../types/Subject";
 
 export default function SubjectsPage() {
   const allAnswers = useExamStore((s) => s.answers);
@@ -14,6 +15,7 @@ export default function SubjectsPage() {
       backLabel="← Trang chủ"
     >
       <SubjectGrid
+        filter={(s) => hasQuiz(s.examType)}
         hrefFor={(s) => `/exam/${s.id}`}
         metaFor={(s) => {
           const answered = Object.keys(allAnswers[s.id] ?? {}).length;
