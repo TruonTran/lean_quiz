@@ -2,6 +2,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { useIsAdmin, useSubjectList, useSummary } from "../data/hooks";
 import PageShell from "../components/PageShell";
 import SubjectGrid from "../components/SubjectGrid";
+import { hasQuiz } from "../types/Subject";
 import SummaryEditor from "../components/SummaryEditor";
 import { ErrorBox, Loading } from "../components/LoadState";
 
@@ -15,6 +16,7 @@ function SummaryIndex() {
       backLabel="← Trang chủ"
     >
       <SubjectGrid
+        filter={(s) => hasQuiz(s.examType)}
         hrefFor={(s) => `/summary/${s.id}`}
         metaFor={(s) => ({
           badge: s.summaryCount > 0 ? `${s.summaryCount} chủ đề` : "Sắp có",
@@ -31,7 +33,10 @@ function SummaryDetail({ subjectId }: { subjectId: string }) {
   const { isAdmin } = useIsAdmin();
 
   const subject = list.data?.find((s) => s.id === subjectId);
-  if (list.data && !subject) return <Navigate to="/summary" replace />;
+  // Môn chỉ thi viết không có phần tóm tắt kiến thức
+  if (list.data && (!subject || !hasQuiz(subject.examType))) {
+    return <Navigate to="/summary" replace />;
+  }
 
   const failed = list.isError ? list : summary.isError ? summary : null;
 

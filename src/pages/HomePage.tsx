@@ -29,7 +29,7 @@ export default function HomePage() {
     0,
   );
   const summaryTotal =
-    subjects?.filter((s) => s.summaryCount > 0).length ?? 0;
+    subjects?.filter((s) => hasQuiz(s.examType) && s.summaryCount > 0).length ?? 0;
 
   const sections: Section[] = [
     {
@@ -47,7 +47,7 @@ export default function HomePage() {
       icon: "🖋️",
       title: "Thi viết",
       desc: "Đọc đề tự luận, viết bài của bạn và đối chiếu với bài mẫu.",
-      stat: essayTotal > 0 ? `${essayTotal} bài đã viết` : "Chưa có bài viết",
+      stat: essayTotal > 0 ? `${essayTotal} bài đã viết` : "Đã có đề. Vào viết bài đầu tiên",
       cta: "Luyện viết",
     },
     {

@@ -224,7 +224,7 @@ export default function AdminSubjectsPage() {
                   <p className="text-sm text-zinc-400">{s.name}</p>
                   <p className="mt-1 text-xs text-zinc-500">
                     {EXAM_TYPE_LABEL[s.examType]}
-                    {hasQuiz(s.examType) && ` · ${s.questionCount} câu hỏi`} · {s.summaryCount} chủ đề tóm tắt
+                    {hasQuiz(s.examType) && ` · ${s.questionCount} câu hỏi · ${s.summaryCount} chủ đề tóm tắt`}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -241,9 +241,11 @@ export default function AdminSubjectsPage() {
                       Đề thi viết
                     </Link>
                   )}
-                  <Link to={`/summary/${s.id}`} className={ghostBtn + " inline-flex items-center"}>
-                    Tóm tắt
-                  </Link>
+                  {hasQuiz(s.examType) && (
+                    <Link to={`/summary/${s.id}`} className={ghostBtn + " inline-flex items-center"}>
+                      Tóm tắt
+                    </Link>
+                  )}
                   <button onClick={() => open(s.id)} className={ghostBtn}>
                     Sửa
                   </button>
