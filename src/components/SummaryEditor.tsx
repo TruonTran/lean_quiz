@@ -2,6 +2,9 @@ import { useState, type FormEvent } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteSection, errMsg, saveSection, swapSections } from "../data/api";
 import type { SummarySection } from "../types/Subject";
+import { isTablePoint, parsePoints, pasteTable } from "../data/tableText";
+import Markdown from "./Markdown";
+import TableHelp from "./TableHelp";
 
 type Props = {
   subjectId: string;
@@ -15,12 +18,6 @@ const inputClass =
   "w-full rounded-lg border border-white/10 bg-white/[0.03] p-3 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-yellow-400/40";
 const ghostBtn =
   "rounded-lg border border-yellow-400/25 bg-white/5 px-3 py-1.5 text-xs font-semibold text-yellow-200 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-30";
-
-const parsePoints = (text: string) =>
-  text
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean);
 
 function SectionForm({
   initial,
@@ -58,11 +55,13 @@ function SectionForm({
       />
       <textarea
         value={pointsText}
+        onPaste={(e) => pasteTable(e, setPointsText)}
         onChange={(e) => setPointsText(e.target.value)}
-        placeholder={"Mỗi dòng là một ý chính"}
+        placeholder={"Mỗi dòng là một ý chính. Muốn thêm bảng: bấm \"Cách tạo bảng\" bên dưới."}
         rows={7}
         className={`${inputClass} resize-y`}
       />
+      <TableHelp onInsert={(t) => setPointsText((v) => (v.trim() ? `${v}\n\n${t}\n` : `${t}\n`))} />
       {error && <p className="text-sm text-red-300">{error}</p>}
       <div className="flex gap-2">
         <button
@@ -216,9 +215,15 @@ export default function SummaryEditor({ subjectId, sections, isAdmin }: Props) {
 
             {section.points.length > 0 && (
               <ul className="mt-3 list-disc space-y-2 pl-5 text-zinc-300">
-                {section.points.map((p, j) => (
-                  <li key={j}>{p}</li>
-                ))}
+                {section.points.map((p, j) =>
+                  isTablePoint(p) ? (
+                    <li key={j} className="-ml-5 list-none">
+                      <Markdown>{p}</Markdown>
+                    </li>
+                  ) : (
+                    <li key={j}>{p}</li>
+                  ),
+                )}
               </ul>
             )}
           </section>

@@ -4,14 +4,12 @@ let pass = 0, fail = 0;
 const ok = (n: string, c: boolean, x = "") => { if (c) pass++; else fail++; console.log(`${c ? "✅" : "❌"} ${n} ${x}`); };
 const one = (t: string) => { const r = parseBulk(t); return { ...r, p: r.items[0]?.payload }; };
 
-// ---------- định dạng mẫu ----------
 const s = parseBulk(SAMPLE_TEXT);
 ok("mẫu: 3 câu hợp lệ, 0 lỗi", s.items.length === 3 && s.issues.length === 0, JSON.stringify(s.issues));
 ok("mẫu: câu 1 chọn 1 (đáp án A = 0) + gợi ý + giải thích", s.items[0].payload.answer === 0 && s.items[0].payload.hint === "Thành phố nghìn năm văn hiến" && s.items[0].payload.rationale!.startsWith("Hà Nội"));
 ok("mẫu: câu 2 chọn nhiều [0,2]", JSON.stringify(s.items[1].payload.answer) === "[0,2]");
 ok("mẫu: câu 3 chỉ 2 đáp án", s.items[2].payload.options.length === 2);
 
-// ---------- các kiểu viết khác nhau ----------
 ok("đánh số kiểu '1.' và đáp án 'a)'", (() => { const r = one("1. Hỏi gì?\na) x\nb) y\nĐáp án: b"); return r.p?.answer === 1 && r.p.options.join() === "x,y"; })());
 ok("đánh số kiểu 'Q2)' / 'Question 3.'", parseBulk("Q2) Hỏi?\nA. x\nB. y\nAnswer: A\n\nQuestion 3. Hỏi nữa?\nA. x\nB. y\nAnswer: B").items.length === 2);
 ok("KHÔNG đánh số, ngăn cách bằng dòng trống", parseBulk("Hỏi một?\nA. x\nB. y\nĐáp án: A\n\nHỏi hai?\nA. x\nB. y\nĐáp án: B").items.length === 2);
@@ -25,7 +23,6 @@ for (const [raw, want] of [["B", "B"], ["A, C", "A,C"], ["A và C", "A,C"], ["AC
 ok("đáp án 'Hà Nội' (không có chữ cái) → null", parseAnswerLetters("Hà Nội") === null);
 ok("nhãn 'Đáp án đúng: C' và 'Answer: C' và 'Đáp án C'", ["Đáp án đúng: C", "Answer: C", "Đáp án C", "ĐA: C"].every(l => one(`Hỏi?\nA. x\nB. y\nC. z\n${l}`).p?.answer === 2));
 
-// ---------- báo lỗi ----------
 const err = (t: string) => parseBulk(t).issues[0]?.message ?? "";
 ok("thiếu dòng Đáp án → báo", err("Câu 1: H?\nA. x\nB. y").includes("Thiếu dòng"));
 ok("chỉ 1 đáp án → báo", err("Câu 1: H?\nA. x\nĐáp án: A").includes("ít nhất 2"));
@@ -39,7 +36,6 @@ ok("văn bản rác → 0 câu, có báo lỗi (không im lặng)", (() => { con
 ok("rỗng → format empty, không lỗi", (() => { const r = parseBulk("   \n  "); return r.format === "empty" && r.issues.length === 0; })());
 
 
-// ---------- các lỗi nhận nhầm tìm ra từ dữ liệu thật ----------
 ok("dòng 'C. Mác …' trong nội dung câu hỏi KHÔNG bị nhận là đáp án C", (() => { const r = one("Câu 1: Đoạn văn sau:\nC. Mác và Ph. Ăngghen viết rằng...\nA. x\nB. y\nĐáp án: A"); return r.p?.options.join() === "x,y" && r.p.question.includes("C. Mác"); })());
 ok("dòng 'C.Mác' (không cách) cũng vậy", (() => { const r = one("Câu 1: Trích:\nC.Mác nói...\nA. x\nB. y\nĐáp án: B"); return r.p?.options.length === 2 && r.p.answer === 1; })());
 ok("code 'c.add(1);' và 'a.foo()' trong câu hỏi KHÔNG bị nhận là đáp án", (() => { const r = one("Câu 1: Cho code:\nvar c = Ctl();\nc.add(1);\na.foo();\nKết quả?\nA. 1\nB. 2\nĐáp án: A"); return r.p?.options.join() === "1,2" && r.p.question.includes("c.add(1);") && r.p.question.includes("a.foo();"); })());
@@ -50,7 +46,6 @@ ok("vẫn báo lỗi khi đáp án nhảy cóc (A, B, D)", err("Câu 1: H?\nA. a
 
 ok("giữ thụt đầu dòng của code trong câu hỏi", one("Câu 1: Code:\nvoid f() {\n  if (x) {\n    y();\n  }\n}\nA. x\nB. y\nĐáp án: A").p?.question === "Code:\nvoid f() {\n  if (x) {\n    y();\n  }\n}");
 
-// ---------- JSON ----------
 const js = parseBulk(JSON.stringify([{ question: "Q?", options: ["a", "b", "c"], answer: 1 }, { question: "Q2?", options: ["a", "b", "c"], answer: [0, 2], hint: "h" }]));
 ok("JSON mảng: 2 câu, answer số & mảng", js.format === "json" && js.items.length === 2 && js.items[0].payload.answer === 1 && JSON.stringify(js.items[1].payload.answer) === "[0,2]");
 ok("JSON bọc { questions: [...] }", parseBulk(JSON.stringify({ questions: [{ question: "Q", options: ["a", "b"], answer: 0 }] })).items.length === 1);
@@ -59,7 +54,6 @@ ok("JSON sai cú pháp → báo lỗi rõ", parseBulk("[{ bị thiếu ngoặc")
 ok("JSON: answer ngoài khoảng → báo, câu khác vẫn nhận", (() => { const r = parseBulk(JSON.stringify([{ question: "Q", options: ["a", "b"], answer: 5 }, { question: "Q", options: ["a", "b"], answer: 0 }])); return r.items.length === 1 && r.issues.length === 1 && r.issues[0].index === 1; })());
 ok("JSON: thiếu options → báo", parseBulk(JSON.stringify([{ question: "Q", answer: 0 }])).issues.length === 1);
 
-// ---------- ĐỌC NGƯỢC TOÀN BỘ DỮ LIỆU THẬT ----------
 const L = "ABCDEFGHIJ";
 const toText = (qs: typeof subjects[0]["questions"]) => qs.map((q, i) =>
   [`Câu ${i + 1}: ${q.question}`, ...q.options.map((o, j) => `${L[j]}. ${o}`),

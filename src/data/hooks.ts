@@ -7,6 +7,7 @@ import {
   fetchSubjectList,
   fetchSummary,
 } from "./api";
+import { fetchEssayPrompts, fetchEssaySamples } from "./essayApi";
 
 const MIN = 60_000;
 
@@ -31,6 +32,22 @@ export const useSummary = (subjectId: string | undefined) =>
     queryKey: ["summary", subjectId],
     queryFn: () => fetchSummary(subjectId as string),
     enabled: Boolean(subjectId),
+  });
+
+export const useEssayPrompts = (subjectId: string | undefined) =>
+  useQuery({
+    queryKey: ["essay-prompts", subjectId],
+    queryFn: () => fetchEssayPrompts(subjectId as string),
+    enabled: Boolean(subjectId),
+    staleTime: 5 * MIN,
+  });
+
+export const useEssaySamples = (subjectId: string | undefined) =>
+  useQuery({
+    queryKey: ["essay-samples", subjectId],
+    queryFn: () => fetchEssaySamples(subjectId as string),
+    enabled: Boolean(subjectId),
+    staleTime: 5 * MIN,
   });
 
 export const useQuestionsByIds = (subjectId: string, ids: number[]) =>

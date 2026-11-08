@@ -12,19 +12,28 @@ export type SubjectMeta = {
 type Props = {
   hrefFor: (subject: SubjectInfo) => string;
   metaFor: (subject: SubjectInfo) => SubjectMeta;
+  /** Chỉ hiện các môn thoả điều kiện (vd: môn có trắc nghiệm). */
+  filter?: (subject: SubjectInfo) => boolean;
 };
 
 /** Lưới chọn môn dùng chung cho "Môn học" và "Tóm tắt kiến thức". */
-export default function SubjectGrid({ hrefFor, metaFor }: Props) {
-  const { data, isPending, isError, error, refetch } = useSubjectList();
+export default function SubjectGrid({ hrefFor, metaFor, filter }: Props) {
+  const { data: all, isPending, isError, error, refetch } = useSubjectList();
+  const data = filter ? all?.filter(filter) : all;
 
   if (isPending) return <Loading label="Đang tải danh sách môn…" />;
   if (isError) return <ErrorBox error={error} onRetry={() => refetch()} />;
-  if (data.length === 0) {
+  if (!data || data.length === 0) {
     return (
       <p className="glass-panel mx-auto max-w-xl rounded-2xl bg-zinc-900/40 p-8 text-center text-zinc-400">
-        Chưa có môn nào trong cơ sở dữ liệu. Hãy chạy{" "}
-        <code className="text-yellow-300">npm run db:migrate</code> để nạp dữ liệu.
+        {all && all.length > 0 ? (
+          "Chưa có môn nào ở mục này. Admin có thể chọn kiểu thi cho môn trong Quản lý môn."
+        ) : (
+          <>
+            Chưa có môn nào trong cơ sở dữ liệu. Hãy chạy{" "}
+            <code className="text-yellow-300">npm run db:migrate</code> để nạp dữ liệu.
+          </>
+        )}
       </p>
     );
   }

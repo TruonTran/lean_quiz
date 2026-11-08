@@ -2,9 +2,9 @@ import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createSubject, deleteSubject, errMsg, updateSubject } from "../data/api";
-import { slugify, validateSubjectDraft, type SubjectDraft } from "../data/drafts";
+import { slugify, validateSubjectDraft, type SubjectDraft, type SubjectValue } from "../data/drafts";
 import { useSubjectList } from "../data/hooks";
-import type { SubjectInfo } from "../types/Subject";
+import { EXAM_TYPE_LABEL, hasEssay, hasQuiz, type ExamType, type SubjectInfo } from "../types/Subject";
 import PageShell from "../components/PageShell";
 import { ErrorBox, Loading } from "../components/LoadState";
 import {
@@ -31,7 +31,7 @@ function SubjectForm({
   submitLabel: string;
   pending: boolean;
   serverError: string | null;
-  onSubmit: (v: { id: string; code: string; name: string; description: string | null }) => void;
+  onSubmit: (v: SubjectValue) => void;
   onCancel: () => void;
 }) {
   const [draft, setDraft] = useState(initial);
@@ -71,6 +71,21 @@ function SubjectForm({
         className={inputClass}
         aria-label="Tên môn"
       />
+      <label className="block space-y-1">
+        <span className="text-xs text-zinc-400">Kiểu thi của môn</span>
+        <select
+          value={draft.examType}
+          onChange={(e) => setDraft({ ...draft, examType: e.target.value as ExamType })}
+          className={inputClass}
+          aria-label="Kiểu thi"
+        >
+          {(Object.keys(EXAM_TYPE_LABEL) as ExamType[]).map((t) => (
+            <option key={t} value={t}>
+              {EXAM_TYPE_LABEL[t]}
+            </option>
+          ))}
+        </select>
+      </label>
       <input
         value={draft.description}
         onChange={(e) => setDraft({ ...draft, description: e.target.value })}
@@ -103,7 +118,7 @@ export default function AdminSubjectsPage() {
   const refresh = () => qc.invalidateQueries({ queryKey: ["subjects"] });
 
   const add = useMutation({
-    mutationFn: (v: { id: string; code: string; name: string; description: string | null }) =>
+    mutationFn: (v: SubjectValue) =>
       createSubject({ ...v, sortOrder: (data?.length ?? 0) + 1 }),
     onSuccess: async () => {
       await refresh();
@@ -111,8 +126,13 @@ export default function AdminSubjectsPage() {
     },
   });
   const edit = useMutation({
-    mutationFn: (v: { id: string; code: string; name: string; description: string | null }) =>
-      updateSubject(v.id, { code: v.code, name: v.name, description: v.description }),
+    mutationFn: (v: SubjectValue) =>
+      updateSubject(v.id, {
+        code: v.code,
+        name: v.name,
+        description: v.description,
+        examType: v.examType,
+      }),
     onSuccess: async () => {
       await refresh();
       setMode(null);
@@ -162,7 +182,7 @@ export default function AdminSubjectsPage() {
         {mode === "new" && (
           <SubjectForm
             title="Thêm môn mới"
-            initial={{ code: "", name: "", description: "" }}
+            initial={{ code: "", name: "", description: "", examType: "quiz" }}
             submitLabel="Tạo môn"
             pending={add.isPending}
             serverError={add.error ? errMsg(add.error) : null}
@@ -189,7 +209,7 @@ export default function AdminSubjectsPage() {
               <SubjectForm
                 key={s.id}
                 title={`Sửa môn ${s.code}`}
-                initial={{ code: s.code, name: s.name, description: s.description ?? "" }}
+                initial={{ code: s.code, name: s.name, description: s.description ?? "", examType: s.examType }}
                 lockCode
                 submitLabel="Lưu"
                 pending={edit.isPending}
@@ -203,13 +223,24 @@ export default function AdminSubjectsPage() {
                   <h2 className="text-xl font-bold text-yellow-300">{s.code}</h2>
                   <p className="text-sm text-zinc-400">{s.name}</p>
                   <p className="mt-1 text-xs text-zinc-500">
-                    {s.questionCount} câu hỏi · {s.summaryCount} chủ đề tóm tắt
+                    {EXAM_TYPE_LABEL[s.examType]}
+                    {hasQuiz(s.examType) && ` · ${s.questionCount} câu hỏi`} · {s.summaryCount} chủ đề tóm tắt
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <Link to={`/admin/subjects/${s.id}/questions`} className={primaryBtn}>
-                    Quản lý câu hỏi
-                  </Link>
+                  {hasQuiz(s.examType) && (
+                    <Link to={`/admin/subjects/${s.id}/questions`} className={primaryBtn}>
+                      Quản lý câu hỏi
+                    </Link>
+                  )}
+                  {hasEssay(s.examType) && (
+                    <Link
+                      to={`/admin/subjects/${s.id}/essays`}
+                      className={(hasQuiz(s.examType) ? ghostBtn : primaryBtn) + " inline-flex items-center"}
+                    >
+                      Đề thi viết
+                    </Link>
+                  )}
                   <Link to={`/summary/${s.id}`} className={ghostBtn + " inline-flex items-center"}>
                     Tóm tắt
                   </Link>

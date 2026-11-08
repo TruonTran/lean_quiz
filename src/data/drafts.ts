@@ -1,4 +1,5 @@
 import type { Question } from "../types/Question";
+import type { ExamType } from "../types/Subject";
 
 /* =============================== Câu hỏi =============================== */
 
@@ -115,7 +116,16 @@ export function validateDraft(
 
 /* ================================= Môn ================================= */
 
-export type SubjectDraft = { code: string; name: string; description: string };
+export type SubjectDraft = { code: string; name: string; description: string; examType: ExamType };
+
+/** Dữ liệu môn đã kiểm tra hợp lệ, sẵn sàng gửi lên DB. */
+export type SubjectValue = {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  examType: ExamType;
+};
 
 /** "MLN111" → "mln111", "MLN 111" → "mln-111", "Kinh tế" → "kinh-te". Dùng làm id trong URL. */
 export function slugify(code: string): string {
@@ -130,7 +140,7 @@ export function slugify(code: string): string {
 
 export function validateSubjectDraft(
   d: SubjectDraft,
-): { ok: true; value: { id: string; code: string; name: string; description: string | null } } | { ok: false; error: string } {
+): { ok: true; value: SubjectValue } | { ok: false; error: string } {
   const code = d.code.trim();
   const name = d.name.trim();
   if (!code) return { ok: false, error: "Chưa nhập mã môn (vd: MLN111)." };
@@ -139,6 +149,12 @@ export function validateSubjectDraft(
   if (!id) return { ok: false, error: "Mã môn cần có chữ hoặc số." };
   return {
     ok: true,
-    value: { id, code: code.toUpperCase(), name, description: d.description.trim() || null },
+    value: {
+      id,
+      code: code.toUpperCase(),
+      name,
+      description: d.description.trim() || null,
+      examType: d.examType,
+    },
   };
 }

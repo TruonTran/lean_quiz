@@ -18,7 +18,6 @@ export type QuestionRow = {
   rationale: string | null;
 };
 
-/** Chuyển dữ liệu .ts hiện có sang dạng hàng của bảng Supabase. */
 export function toRows(subjects: Subject[]) {
   const subjectRows: SubjectRow[] = subjects.map((s, i) => ({
     id: s.id,
@@ -43,7 +42,6 @@ export function toRows(subjects: Subject[]) {
   return { subjectRows, questionRows };
 }
 
-/** Kiểm tra dữ liệu trước khi đẩy lên DB. Trả về danh sách vấn đề (rỗng = ổn). */
 export function validate(subjects: Subject[]): string[] {
   const problems: string[] = [];
   const subjectIds = new Set<string>();
