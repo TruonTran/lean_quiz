@@ -1,4 +1,4 @@
-import { CONTACT } from "../config/contact";
+// import { CONTACT } from "../config/contact";
 import PageShell from "../components/PageShell";
 import { panel } from "../components/adminStyles";
 import { Link } from "react-router-dom";
@@ -49,6 +49,10 @@ export default function PrivacyPage() {
               <b>Google Analytics</b> thu thập qua cookie, để mình biết web có người dùng và cải thiện nội dung.
             </li>
             <li>
+              <b>Tin nhắn bạn gửi qua form Liên hệ</b> (nội dung, cùng tên và email nếu bạn tự điền) được chuyển
+              tới email của mình qua dịch vụ <b>Web3Forms</b>.
+            </li>
+            <li>
               <b>Bài viết thi viết, ghi chú và đáp án</b> bạn làm được lưu <b>ngay trên trình duyệt của bạn</b>
               (localStorage), không gửi lên máy chủ của mình.
             </li>
@@ -80,7 +84,7 @@ export default function PrivacyPage() {
           <p>
             Tài khoản và thành tích được lưu trên <b>Supabase</b> (dịch vụ cơ sở dữ liệu và xác thực);
             trang web được phát hành qua nền tảng hosting của bên thứ ba; số liệu truy cập do
-            <b> Google Analytics</b> xử lý. Các bên này xử lý dữ liệu để vận hành dịch vụ theo chính sách của
+            <b> Google Analytics</b> xử lý; tin nhắn từ form Liên hệ đi qua <b>Web3Forms</b>. Các bên này xử lý dữ liệu để vận hành dịch vụ theo chính sách của
             họ. Bạn có thể tắt cookie hoặc dùng tiện ích chặn Google Analytics trên trình duyệt nếu không muốn
             bị tính vào thống kê.
           </p>
@@ -103,12 +107,12 @@ export default function PrivacyPage() {
             <Link to="/contact" className="text-yellow-200 underline">
               Liên hệ
             </Link>
-            {CONTACT.email ? (
+            {/* {CONTACT.email ? (
               <>
                 {" "}hoặc gửi email tới <b className="text-yellow-200">{CONTACT.email}</b>
               </>
             ) : null}
-            .
+            . */}
           </p>
           <p className="text-xs text-zinc-500">
             Khi chính sách thay đổi, mình sẽ cập nhật trang này và ngày cập nhật ở đầu trang.
