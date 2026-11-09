@@ -10,7 +10,6 @@ type Props = {
   children: ReactNode;
 };
 
-/** Khung chung cho các trang ngoài bài thi: nền, orb trang trí, tiêu đề, nút quay lại. */
 export default function PageShell({
   eyebrow,
   title,

@@ -5,7 +5,6 @@ import Markdown from "../components/Markdown";
 import { ErrorBox, Loading } from "../components/LoadState";
 import { panel } from "../components/adminStyles";
 
-/** Đọc một bài mẫu đứng riêng (không gắn với đề nào). */
 export default function EssaySamplePage() {
   const { subjectId, sampleId } = useParams();
   const samples = useEssaySamples(subjectId);

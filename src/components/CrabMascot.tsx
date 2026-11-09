@@ -1,12 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useExamTheme } from "../theme/ThemeContext";
-
-/* ============================================================
- * LỜI THOẠI CỦA CUA — muốn thêm/sửa câu nào thì sửa ngay ở đây
- * ============================================================ */
 type Line = { text: string; emoji: string };
 
-// Khi bạn làm ĐÚNG -> khen (kiểu khen mà vẫn xéo xắt)
 const CORRECT_LINES: Line[] = [
   { text: "Ồ đúng luôn. Hôm nay bạn ăn gì mà thông minh dữ vậy?", emoji: "😳" },
   { text: "Được đó bạn, Cua vỗ tay cái nè. Bốp bốp.", emoji: "👏" },
@@ -30,7 +25,6 @@ const CORRECT_LINES: Line[] = [
   { text: "Bạn cứ vậy hoài là Cua hết chuyện để cằn nhằn.", emoji: "🥲" },
 ];
 
-// Khi bạn làm SAI -> chọc quê
 const WRONG_LINES: Line[] = [
   { text: "Sai rồi cha nội. Mắt để ở nhà hay sao vậy?", emoji: "🙄" },
   { text: "Haha sai kìa! Cua cười muốn rụng cái càng luôn.", emoji: "🤣" },
@@ -59,26 +53,21 @@ const WRONG_LINES: Line[] = [
   { text: "Bạn đẹp nên sai tí cũng ko sao âu.", emoji: "🥰" },
 ];
 
-// Làm đúng liên tiếp
 const CORRECT_STREAK: Record<number, Line> = {
-  3: { text: "3 câu liền rồi. Thông minh dữ ta.", emoji: "😏" },
-  5: { text: "5 câu liền luôn?! Bạn có gian lận không? Khai mau!", emoji: "🕵️" },
+  30: { text: "30 câu liền rồi. Thông minh dữ ta.", emoji: "😏" },
+  50: { text: "50 câu liền luôn?! Bạn có gian lận không? Khai mau!", emoji: "🕵️" },
   10: { text: "10 câu liên tục. Ok Cua phục, Cua im.", emoji: "🫡" },
-  7: { text: "7 câu liền! Bình tĩnh nha, đừng bay cao quá rồi rơi vào lòng cua nha.", emoji: "🛫" },
-  15: { text: "15 câu liên tục. Bạn mà gương mẫu vậy Cua xin ngồi xa ra cho khỏi lép vế.", emoji: "😳" },
+  70: { text: "70 câu liền! Bình tĩnh nha, đừng bay cao quá rồi rơi vào lòng cua nha.", emoji: "🛫" },
+  40: { text: "40 câu liên tục. Bạn mà gương mẫu vậy Cua xin ngồi xa ra cho khỏi lép vế.", emoji: "😳" },
   20: { text: "20 câu liền. Cua đi báo cho cả bể biết bạn là thần đồng.", emoji: "📣" },
 };
 
-// Sai liên tiếp
 const WRONG_STREAK: Record<number, Line> = {
   1: { text: "Mới sai thôi. Cua biết bạn rất giỏi còn xinh nữa. Cố lên nha", emoji: "🥲" },
   3: { text: "3 câu sai liền. Đi rửa mặt uống miếng nước rồi quay lại đi bạn.", emoji: "💧" },
   5: { text: "5 câu sai liên tiếp... nghỉ đi, học nữa Cua thấy tội.", emoji: "🛌" },
-  7: { text: "7 câu sai liên tiếp. Cua lo thiệt đó, nghỉ chút đi bạn.", emoji: "🫂" },
-  10: { text: "10 câu sai liền... thôi đóng sách lại, mai làm lại. Cua hứa không chọc nữa.", emoji: "🌙" },
 };
 
-// Khi bấm vào Cua
 const IDLE_LINES: Line[] = [
   { text: "Đừng có thấy cua đẹp trai mà nhấp vào xem hoài đi.", emoji: "🦀" },
   { text: "Gì đó? Bấm Cua hoài. Làm bài đi!", emoji: "🙄" },
@@ -356,7 +345,7 @@ export default function CrabMascot({ event }: Props) {
               onClick={toggleMuted}
               className={`rounded-md px-2 py-1 text-[11px] font-semibold transition ${theme.ghostBtn}`}
             >
-              {muted ? "🔔 Cho Cua nói lại" : "🔇 Bảo Cua câm miệng"}
+              {muted ? "🔔 Cho Cua nói lại" : "🔇 Bảo Cua im"}
             </button>
             {pos && (
               <button

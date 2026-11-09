@@ -21,7 +21,6 @@ export default function OptionButton({
 }: Props) {
   const { theme } = useExamTheme();
 
-  // đã làm xong + đây là đáp án mình chọn -> tô đậm cả hàng
   const isChosen = isAnswered && checked;
 
   let state: string;
@@ -54,7 +53,9 @@ export default function OptionButton({
             {checked && <span className="h-2 w-2 rounded-sm bg-current" />}
           </div>
         )}
-        <div className={`mt-0.5 font-bold ${isChosen ? "" : letter}`}>{label}.</div>
+        <div className={`mt-0.5 font-bold ${isChosen ? "" : letter}`}>
+          {label}.
+        </div>
         <div className="flex-1">{option}</div>
         {isChosen && (
           <span className="mt-0.5 shrink-0 rounded-md bg-black/20 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide">

@@ -42,7 +42,6 @@ export default function QuestionCard({
   const [showHint, setShowHint] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
 
-  // sang câu khác thì tự đóng gợi ý
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setShowHint(false), [question.id]);
 

@@ -5,13 +5,11 @@ import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import { normalizeTables } from "../data/tableText";
 
-/** react-markdown truyền thêm prop "node"; bỏ đi để nó không bị rải xuống thẻ HTML. */
 const omitNode = <T extends { node?: unknown }>({ node, ...rest }: T) => {
   void node;
   return rest;
 };
 
-/** Hiển thị markdown (bài mẫu, dàn ý) theo theme vàng-đen. Không render HTML thô nên an toàn. */
 export default function Markdown({
   children,
   className = "text-zinc-300",

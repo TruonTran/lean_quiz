@@ -1,8 +1,12 @@
 import { MAX_OPTIONS, validateDraft, type QuestionPayload } from "./drafts";
 
-/** Một câu đã đọc được và hợp lệ. `index` là thứ tự (1, 2, 3…) của câu trong nội dung đã dán. */
 export type ParsedItem = { index: number; payload: QuestionPayload };
-export type ParseIssue = { index: number; line?: number; message: string; preview: string };
+export type ParseIssue = {
+  index: number;
+  line?: number;
+  message: string;
+  preview: string;
+};
 export type ParseResult = {
   format: "empty" | "json" | "text";
   items: ParsedItem[];
@@ -37,10 +41,13 @@ B. High Tech Modern Language
 const NUMBERED = /^(?:câu|cau|question|q)\s*\.?\s*\d+\s*[.:)\-–]\s*(.*)$/i; // "Câu 1: …", "Q2. …"
 const NUMBERED_PLAIN = /^\d+\s*[.)]\s+(.*)$/; // "1. …", "12) …"
 const OPTION = /^([A-Ja-j])\s*[.):]\s*(.*)$/; // "A. …", "b) …"
-const ANSWER = /^(?:đáp\s*án(?:\s*đúng)?|dap\s*an(?:\s*dung)?|answer|ans|đa)\s*[:：=]\s*(.*)$/i;
-const ANSWER_NO_SEP = /^(?:đáp\s*án(?:\s*đúng)?|answer)\s+([A-Ja-j](?:[\s,;&.)]|$).*)$/i; // "Đáp án B"
+const ANSWER =
+  /^(?:đáp\s*án(?:\s*đúng)?|dap\s*an(?:\s*dung)?|answer|ans|đa)\s*[:：=]\s*(.*)$/i;
+const ANSWER_NO_SEP =
+  /^(?:đáp\s*án(?:\s*đúng)?|answer)\s+([A-Ja-j](?:[\s,;&.)]|$).*)$/i; // "Đáp án B"
 const HINT = /^(?:gợi\s*ý|goi\s*y|hint)\s*[:：]\s*(.*)$/i;
-const RATIONALE = /^(?:giải\s*thích|giai\s*thich|lý\s*do|explanation|rationale)\s*[:：]\s*(.*)$/i;
+const RATIONALE =
+  /^(?:giải\s*thích|giai\s*thich|lý\s*do|explanation|rationale)\s*[:：]\s*(.*)$/i;
 
 /** "B", "A, C", "A và C", "AC", "B. Hà Nội" → ["B"] / ["A","C"] / … ; không đọc được → null. */
 export function parseAnswerLetters(rest: string): string[] | null {
@@ -51,7 +58,8 @@ export function parseAnswerLetters(rest: string): string[] | null {
     if (t === "và" || t === "and") continue;
     const m = /^([A-Ja-j]+)[.):]?$/.exec(raw);
     if (!m) break; // gặp chữ thường (vd "Hà Nội" sau "B.") thì dừng
-    for (const ch of m[1].toUpperCase()) if (!letters.includes(ch)) letters.push(ch);
+    for (const ch of m[1].toUpperCase())
+      if (!letters.includes(ch)) letters.push(ch);
   }
   return letters.length > 0 ? letters : null;
 }
@@ -65,11 +73,22 @@ export function parseAnswerLetters(rest: string): string[] | null {
 function matchOption(line: string, cur: Block | null): RegExpExecArray | null {
   const m = OPTION.exec(line);
   if (!m) return null;
-  if (cur && (cur.answerRaw !== null || (cur.field !== "question" && cur.field !== "option"))) return null;
+  if (
+    cur &&
+    (cur.answerRaw !== null ||
+      (cur.field !== "question" && cur.field !== "option"))
+  )
+    return null;
   const letter = m[1];
-  if (letter === letter.toLowerCase() && !/^[a-j]\s*[.):](\s|$)/.test(line)) return null;
+  if (letter === letter.toLowerCase() && !/^[a-j]\s*[.):](\s|$)/.test(line))
+    return null;
   const idx = LETTERS.indexOf(letter.toUpperCase());
-  const lastIdx = cur && cur.options.length > 0 ? LETTERS.indexOf(cur.options[cur.options.length - 1].letter.toUpperCase()) : -1;
+  const lastIdx =
+    cur && cur.options.length > 0
+      ? LETTERS.indexOf(
+          cur.options[cur.options.length - 1].letter.toUpperCase(),
+        )
+      : -1;
   return idx > lastIdx && (lastIdx >= 0 || idx === 0) ? m : null;
 }
 
@@ -103,22 +122,40 @@ function finalize(
   index: number,
 ): { ok: true; payload: QuestionPayload } | { ok: false; message: string } {
   if (b.options.length < 2) {
-    return { ok: false, message: b.options.length === 0 ? "Không thấy đáp án nào (mỗi đáp án một dòng, dạng “A. …”)." : "Cần ít nhất 2 đáp án." };
+    return {
+      ok: false,
+      message:
+        b.options.length === 0
+          ? "Không thấy đáp án nào (mỗi đáp án một dòng, dạng “A. …”)."
+          : "Cần ít nhất 2 đáp án.",
+    };
   }
-  if (b.options.length > MAX_OPTIONS) return { ok: false, message: `Tối đa ${MAX_OPTIONS} đáp án.` };
+  if (b.options.length > MAX_OPTIONS)
+    return { ok: false, message: `Tối đa ${MAX_OPTIONS} đáp án.` };
   for (let i = 0; i < b.options.length; i++) {
     if (b.options[i].letter.toUpperCase() !== LETTERS[i]) {
-      return { ok: false, message: `Các đáp án phải đánh liên tục A, B, C… (mong chờ “${LETTERS[i]}” nhưng thấy “${b.options[i].letter}”).` };
+      return {
+        ok: false,
+        message: `Các đáp án phải đánh liên tục A, B, C… (mong chờ “${LETTERS[i]}” nhưng thấy “${b.options[i].letter}”).`,
+      };
     }
   }
-  if (b.answerRaw === null) return { ok: false, message: "Thiếu dòng “Đáp án: …”." };
+  if (b.answerRaw === null)
+    return { ok: false, message: "Thiếu dòng “Đáp án: …”." };
   const letters = parseAnswerLetters(b.answerRaw);
-  if (!letters) return { ok: false, message: `Không đọc được đáp án đúng từ “${preview(b.answerRaw)}”. Hãy ghi dạng “Đáp án: B” hoặc “Đáp án: A, C”.` };
+  if (!letters)
+    return {
+      ok: false,
+      message: `Không đọc được đáp án đúng từ “${preview(b.answerRaw)}”. Hãy ghi dạng “Đáp án: B” hoặc “Đáp án: A, C”.`,
+    };
 
   const correct = letters.map((l) => LETTERS.indexOf(l));
   const bad = correct.findIndex((c) => c >= b.options.length);
   if (bad >= 0) {
-    return { ok: false, message: `Đáp án ${letters[bad]} không có trong danh sách (chỉ có A–${LETTERS[b.options.length - 1]}).` };
+    return {
+      ok: false,
+      message: `Đáp án ${letters[bad]} không có trong danh sách (chỉ có A–${LETTERS[b.options.length - 1]}).`,
+    };
   }
 
   const r = validateDraft({
@@ -130,10 +167,10 @@ function finalize(
     rationale: b.rationale,
   });
   void index;
-  return r.ok ? { ok: true, payload: r.value } : { ok: false, message: r.error };
+  return r.ok
+    ? { ok: true, payload: r.value }
+    : { ok: false, message: r.error };
 }
-
-/* --------------------------------- text --------------------------------- */
 
 function parseText(input: string): ParseResult {
   const items: ParsedItem[] = [];
@@ -145,18 +182,25 @@ function parseText(input: string): ParseResult {
     if (!cur) return;
     const b = cur;
     cur = null;
-    const empty = !b.question.trim() && b.options.length === 0 && b.answerRaw === null;
+    const empty =
+      !b.question.trim() && b.options.length === 0 && b.answerRaw === null;
     if (empty) return;
     n++;
     const r = finalize(b, n);
     if (r.ok) items.push({ index: n, payload: r.payload });
-    else issues.push({ index: n, line: b.startLine, message: r.message, preview: preview(b.question) });
+    else
+      issues.push({
+        index: n,
+        line: b.startLine,
+        message: r.message,
+        preview: preview(b.question),
+      });
   };
 
   const lines = input.replace(/\r\n?/g, "\n").split("\n");
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim(); // dùng để nhận diện nhãn
-    const raw = lines[i].replace(/\s+$/, ""); // giữ thụt đầu dòng (quan trọng với đoạn code)
+    const line = lines[i].trim();
+    const raw = lines[i].replace(/\s+$/, ""); 
     const lineNo = i + 1;
 
     if (!line) {
@@ -167,8 +211,6 @@ function parseText(input: string): ParseResult {
 
     let m: RegExpExecArray | null;
 
-    // "Câu 3:" luôn mở câu mới. "3." trơn chỉ mở câu mới khi câu trước đã có đáp án
-    // (nếu không, đó có thể là danh sách đánh số nằm trong nội dung câu hỏi).
     m = NUMBERED.exec(line);
     if (!m && (!cur || cur.answerRaw !== null)) m = NUMBERED_PLAIN.exec(line);
     if (m) {
@@ -219,18 +261,20 @@ function parseText(input: string): ParseResult {
   return { format: "text", items, issues };
 }
 
-/* --------------------------------- JSON --------------------------------- */
-
 function answerToIndexes(a: unknown): number[] | { error: string } {
   const one = (v: unknown): number | null => {
     if (typeof v === "number" && Number.isInteger(v)) return v;
-    if (typeof v === "string" && /^[A-Ja-j]$/.test(v.trim())) return LETTERS.indexOf(v.trim().toUpperCase());
+    if (typeof v === "string" && /^[A-Ja-j]$/.test(v.trim()))
+      return LETTERS.indexOf(v.trim().toUpperCase());
     return null;
   };
   const arr = Array.isArray(a) ? a : [a];
   const out = arr.map(one);
   if (out.length === 0 || out.some((x) => x === null)) {
-    return { error: "“answer” phải là số thứ tự đáp án (bắt đầu từ 0), chữ cái (A, B…), hoặc mảng các giá trị đó." };
+    return {
+      error:
+        "“answer” phải là số thứ tự đáp án (bắt đầu từ 0), chữ cái (A, B…), hoặc mảng các giá trị đó.",
+    };
   }
   return out as number[];
 }
@@ -243,19 +287,34 @@ function parseJson(input: string): ParseResult {
     return {
       format: "json",
       items: [],
-      issues: [{ index: 0, message: `JSON không hợp lệ: ${(e as Error).message}`, preview: "" }],
+      issues: [
+        {
+          index: 0,
+          message: `JSON không hợp lệ: ${(e as Error).message}`,
+          preview: "",
+        },
+      ],
     };
   }
   const list = Array.isArray(data)
     ? data
-    : data && typeof data === "object" && Array.isArray((data as { questions?: unknown }).questions)
+    : data &&
+        typeof data === "object" &&
+        Array.isArray((data as { questions?: unknown }).questions)
       ? (data as { questions: unknown[] }).questions
       : null;
   if (!list) {
     return {
       format: "json",
       items: [],
-      issues: [{ index: 0, message: "JSON cần là một mảng các câu hỏi, hoặc { \"questions\": [...] }.", preview: "" }],
+      issues: [
+        {
+          index: 0,
+          message:
+            'JSON cần là một mảng các câu hỏi, hoặc { "questions": [...] }.',
+          preview: "",
+        },
+      ],
     };
   }
 
@@ -263,10 +322,21 @@ function parseJson(input: string): ParseResult {
   const issues: ParseIssue[] = [];
   list.forEach((raw, i) => {
     const index = i + 1;
-    const o = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
+    const o = (raw && typeof raw === "object" ? raw : {}) as Record<
+      string,
+      unknown
+    >;
     const pv = preview(String(o.question ?? ""));
-    if (typeof o.question !== "string" || !Array.isArray(o.options) || o.options.some((x) => typeof x !== "string")) {
-      issues.push({ index, message: "Mỗi câu cần “question” (chuỗi) và “options” (mảng chuỗi).", preview: pv });
+    if (
+      typeof o.question !== "string" ||
+      !Array.isArray(o.options) ||
+      o.options.some((x) => typeof x !== "string")
+    ) {
+      issues.push({
+        index,
+        message: "Mỗi câu cần “question” (chuỗi) và “options” (mảng chuỗi).",
+        preview: pv,
+      });
       return;
     }
     const idx = answerToIndexes(o.answer);
@@ -288,12 +358,11 @@ function parseJson(input: string): ParseResult {
   return { format: "json", items, issues };
 }
 
-/** Đọc nội dung dán vào: tự nhận JSON (bắt đầu bằng [ hoặc {) hoặc văn bản thường. */
 export function parseBulk(input: string): ParseResult {
   const t = input.trim();
   if (!t) return { format: "empty", items: [], issues: [] };
   return t.startsWith("[") || t.startsWith("{") ? parseJson(t) : parseText(t);
 }
 
-/** Chuẩn hoá để so trùng câu hỏi. */
-export const normalizeForDup = (s: string) => s.toLowerCase().replace(/\s+/g, " ").trim();
+export const normalizeForDup = (s: string) =>
+  s.toLowerCase().replace(/\s+/g, " ").trim();

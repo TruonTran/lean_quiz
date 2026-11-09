@@ -6,7 +6,6 @@ import PageShell from "./PageShell";
 import { Loading } from "./LoadState";
 import { panel, primaryBtn } from "./adminStyles";
 
-/** Chỉ hiện nội dung cho admin. Đây chỉ là lớp giao diện — quyền ghi thật do RLS trong DB chặn. */
 export default function RequireAdmin({ children }: { children: ReactNode }) {
   const session = useAuthStore((s) => s.session);
   const ready = useAuthStore((s) => s.ready);

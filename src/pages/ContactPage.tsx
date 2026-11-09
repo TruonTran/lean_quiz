@@ -4,7 +4,6 @@ import PageShell from "../components/PageShell";
 import { ghostBtn, panel } from "../components/adminStyles";
 
 type Channel = {
-  icon: string;
   label: string;
   value: string;
   href: string;
@@ -19,10 +18,18 @@ function buildChannels(): Channel[] {
 
   if (email) {
     const subject = encodeURIComponent("Cập nhật đề – Quiz Cùng T");
-    out.push({ icon: "✉️", label: "Email", value: email, href: `mailto:${email}?subject=${subject}` });
+    out.push({
+      label: "Email",
+      value: email,
+      href: `mailto:${email}?subject=${subject}`,
+    });
   }
   if (facebook && isHttp(facebook)) {
-    out.push({ icon: "📘", label: "Facebook", value: facebook.replace(/^https?:\/\/(www\.)?/i, ""), href: facebook });
+    out.push({
+      label: "Facebook",
+      value: facebook.replace(/^https?:\/\/(www\.)?/i, ""),
+      href: facebook,
+    });
   }
   return out;
 }
@@ -44,7 +51,7 @@ export default function ContactPage() {
   return (
     <PageShell
       eyebrow="Liên hệ"
-      title={CONTACT.name ? `Liên hệ ${CONTACT.name}` : "Liên hệ"}
+      title={CONTACT.name ? `Tìm ${CONTACT.name}` : "Liên hệ"}
       subtitle={CONTACT.note}
       backTo="/"
       backLabel="← Trang chủ"
@@ -56,21 +63,27 @@ export default function ContactPage() {
       ) : (
         <div className="mx-auto max-w-xl space-y-4">
           {channels.map((c) => (
-            <div key={c.label} className={`${panel} flex flex-wrap items-center justify-between gap-4`}>
+            <div
+              key={c.label}
+              className={`${panel} flex flex-wrap items-center justify-between gap-4`}
+            >
               <div className="flex min-w-0 items-center gap-4">
-                <span
-                  aria-hidden="true"
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-yellow-400/25 bg-yellow-400/10 text-2xl"
-                >
-                  {c.icon}
-                </span>
                 <div className="min-w-0">
-                  <p className="font-mono-brand text-xs uppercase tracking-widest text-zinc-500">{c.label}</p>
-                  <p className="break-all font-semibold text-yellow-200">{c.value}</p>
+                  <p className="font-mono-brand text-xs uppercase tracking-widest text-zinc-500">
+                    {c.label}
+                  </p>
+                  <p className="break-all font-semibold text-yellow-200">
+                    {c.value}
+                  </p>
                 </div>
               </div>
               <div className="flex gap-2">
-                <a href={c.href} target="_blank" rel="noopener noreferrer" className={`${ghostBtn} inline-block`}>
+                <a
+                  href={c.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${ghostBtn} inline-block`}
+                >
                   Mở
                 </a>
                 <button onClick={() => copy(c)} className={ghostBtn}>

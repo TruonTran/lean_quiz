@@ -1,4 +1,3 @@
-/** Đề thi viết do admin đăng. */
 export interface EssayPrompt {
   id: number;
   subjectId: string;
@@ -9,7 +8,6 @@ export interface EssayPrompt {
   sortOrder: number;
 }
 
-/** Bài mẫu / bài học theo. `promptId` = null nghĩa là bài đứng riêng (không gắn với đề nào). */
 export interface EssaySample {
   id: number;
   subjectId: string;
@@ -20,7 +18,6 @@ export interface EssaySample {
   sortOrder: number;
 }
 
-/** Dữ liệu admin nhập, đúng dạng cột trong DB (trừ id / subject_id). */
 export type EssayPromptInput = {
   title: string;
   prompt: string;

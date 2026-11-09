@@ -1,7 +1,12 @@
 import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createQuestion, deleteQuestion, errMsg, updateQuestion } from "../data/api";
+import {
+  createQuestion,
+  deleteQuestion,
+  errMsg,
+  updateQuestion,
+} from "../data/api";
 import {
   draftFromQuestion,
   emptyDraft,
@@ -54,7 +59,8 @@ export default function AdminQuestionsPage() {
     },
   });
   const update = useMutation({
-    mutationFn: (v: { qid: number; p: QuestionPayload }) => updateQuestion(id, v.qid, v.p),
+    mutationFn: (v: { qid: number; p: QuestionPayload }) =>
+      updateQuestion(id, v.qid, v.p),
     onSuccess: async () => {
       await refresh();
       setEditing(null);
@@ -80,7 +86,10 @@ export default function AdminQuestionsPage() {
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, pageCount - 1);
-  const visible = filtered.slice(safePage * PAGE_SIZE, (safePage + 1) * PAGE_SIZE);
+  const visible = filtered.slice(
+    safePage * PAGE_SIZE,
+    (safePage + 1) * PAGE_SIZE,
+  );
 
   const startAdd = () => {
     add.reset();
@@ -105,9 +114,17 @@ export default function AdminQuestionsPage() {
 
   if (subjectQuery.isPending || subjectQuery.isError || !subject) {
     return (
-      <PageShell eyebrow="Quản trị" title="Câu hỏi" backTo="/admin/subjects" backLabel="← Quản lý môn">
+      <PageShell
+        eyebrow="Quản trị"
+        title="Câu hỏi"
+        backTo="/admin/subjects"
+        backLabel="← Quản lý môn"
+      >
         {subjectQuery.isError ? (
-          <ErrorBox error={subjectQuery.error} onRetry={() => subjectQuery.refetch()} />
+          <ErrorBox
+            error={subjectQuery.error}
+            onRetry={() => subjectQuery.refetch()}
+          />
         ) : subjectQuery.isPending ? (
           <Loading />
         ) : (
@@ -136,7 +153,10 @@ export default function AdminQuestionsPage() {
             <button onClick={startAdd} className={primaryBtn}>
               + Thêm câu hỏi
             </button>
-            <button onClick={startImport} className={ghostBtn + " !px-5 !py-2 !text-sm"}>
+            <button
+              onClick={startImport}
+              className={ghostBtn + " !px-5 !py-2 !text-sm"}
+            >
               Nhập hàng loạt
             </button>
           </div>
@@ -196,7 +216,9 @@ export default function AdminQuestionsPage() {
             Môn này chưa có câu hỏi nào. Bấm "+ Thêm câu hỏi" để bắt đầu.
           </p>
         ) : filtered.length === 0 ? (
-          <p className={`${panel} text-center text-zinc-400`}>Không có câu nào khớp.</p>
+          <p className={`${panel} text-center text-zinc-400`}>
+            Không có câu nào khớp.
+          </p>
         ) : (
           <>
             {visible.map((q) =>
@@ -212,7 +234,10 @@ export default function AdminQuestionsPage() {
                   onCancel={() => setEditing(null)}
                 />
               ) : (
-                <div key={q.id} className={`${panel} flex items-start justify-between gap-4`}>
+                <div
+                  key={q.id}
+                  className={`${panel} flex items-start justify-between gap-4`}
+                >
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-yellow-300">
                       #{q.id}
@@ -222,7 +247,9 @@ export default function AdminQuestionsPage() {
                         </span>
                       )}
                     </p>
-                    <p className="mt-1 line-clamp-3 text-zinc-200">{q.question}</p>
+                    <p className="mt-1 line-clamp-3 text-zinc-200">
+                      {q.question}
+                    </p>
                     <p className="mt-1 text-xs text-zinc-500">
                       {q.options.length} đáp án · Đúng:{" "}
                       {(Array.isArray(q.answer) ? q.answer : [q.answer])
@@ -231,13 +258,20 @@ export default function AdminQuestionsPage() {
                     </p>
                   </div>
                   <div className="flex shrink-0 gap-2">
-                    <button onClick={() => startEdit(q.id)} className={ghostBtn}>
+                    <button
+                      onClick={() => startEdit(q.id)}
+                      className={ghostBtn}
+                    >
                       Sửa
                     </button>
                     <button
                       disabled={remove.isPending}
                       onClick={() => {
-                        if (window.confirm(`Xoá câu #${q.id}? Không hoàn tác được.`)) {
+                        if (
+                          window.confirm(
+                            `Xoá câu #${q.id}? Không hoàn tác được.`,
+                          )
+                        ) {
                           remove.mutate(q.id);
                         }
                       }}

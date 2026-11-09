@@ -59,8 +59,9 @@ export default function ResultsPage() {
 
   const answers = allAnswers[subjectId] ?? {};
   const questions = subject.questions;
-  // Chỉ đếm câu còn tồn tại (admin có thể đã xoá câu mà người học từng làm)
-  const answeredCount = questions.filter((q) => answers[q.id] !== undefined).length;
+  const answeredCount = questions.filter(
+    (q) => answers[q.id] !== undefined,
+  ).length;
   const correctCount = questions.filter(
     (q) => answers[q.id] !== undefined && isCorrect(q, answers[q.id]),
   ).length;
@@ -81,14 +82,8 @@ export default function ResultsPage() {
 
   const reviewWrongOnly = () => {
     if (wrongQuestions.length === 0) return;
-
     const retryIds = wrongQuestions.map(({ q }) => q.id);
-
-    // Mở lại các câu đã trả lời sai để người học có thể chọn lại đáp án
-    // (không đụng tới currentIndex của bài thi chính, để khi thoát chế độ
-    // làm lại người dùng quay lại đúng câu đang làm dở ở ngoài)
     clearAnswers(subjectId, retryIds);
-
     navigate(`/exam/${subjectId}`, { state: { retryIds } });
   };
 

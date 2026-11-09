@@ -4,11 +4,11 @@ const BREAK_REMINDER_INTERVAL = 30 * 60 * 1000;
 const BREAK_SNOOZE_INTERVAL = 10 * 60 * 1000;
 
 const BREAK_MESSAGES = [
-  "Bạn đã học được 30 phút rồi đó! Đứng dậy vươn vai, uống miếng nước nhé 💧",
-  "Não bộ cũng cần nạp lại năng lượng. Nghỉ 5 phút rồi quay lại chinh chiến tiếp nào 💪",
-  "Giỏi lắm! Nghỉ mắt một chút, nhìn ra xa cho đỡ mỏi nha 👀",
-  "Bạn đang làm rất tốt rồi đó! Hít thở sâu, thư giãn vai gáy một chút nhé 🌿",
-  "30 phút tập trung không phải chuyện đùa đâu, cho bản thân một lời khen đi nào 🌟",
+  "Bạn đã học được 30 phút rồi đó! Nghỉ ngơi một tí đi cực qua cua sẽ lo lắng lắm",
+  "Não bộ cũng cần nạp lại năng lượng. Nghỉ 5 phút rồi quay lại chinh chiến tiếp nào",
+  "Giỏi lắm! Nghỉ mắt một chút, nhìn ra xa cho đỡ mỏi nha",
+  "Bạn đang làm rất tốt rồi đó! Hít thở sâu, thư giãn vai gáy một chút nhé",
+  "30 phút tập trung không phải chuyện đùa đâu, cho bản thân một lời khen đi nào",
 ];
 
 export function useBreakReminder() {
