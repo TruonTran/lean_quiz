@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CONTACT } from "../config/contact";
 import PageShell from "../components/PageShell";
+import FeedbackForm from "../components/FeedbackForm";
 import { ghostBtn, panel } from "../components/adminStyles";
 
 type Channel = {
@@ -9,28 +10,28 @@ type Channel = {
   href: string;
 };
 
-const isHttp = (u: string) => /^https?:\/\//i.test(u);
+// const isHttp = (u: string) => /^https?:\/\//i.test(u);
 
 function buildChannels(): Channel[] {
   const out: Channel[] = [];
-  const email = CONTACT.email.trim();
-  const facebook = CONTACT.facebook.trim();
+  // const email = CONTACT.email.trim();
+  // const facebook = CONTACT.facebook.trim();
 
-  if (email) {
-    const subject = encodeURIComponent("Cập nhật đề – Quiz Cùng T");
-    out.push({
-      label: "Email",
-      value: email,
-      href: `mailto:${email}?subject=${subject}`,
-    });
-  }
-  if (facebook && isHttp(facebook)) {
-    out.push({
-      label: "Facebook",
-      value: facebook.replace(/^https?:\/\/(www\.)?/i, ""),
-      href: facebook,
-    });
-  }
+  // if (email) {
+  //   const subject = encodeURIComponent("Cập nhật đề – Quiz Cùng T");
+  //   out.push({
+  //     label: "Email",
+  //     value: email,
+  //     href: `mailto:${email}?subject=${subject}`,
+  //   });
+  // }
+  // if (facebook && isHttp(facebook)) {
+  //   out.push({
+  //     label: "Facebook",
+  //     value: facebook.replace(/^https?:\/\/(www\.)?/i, ""),
+  //     href: facebook,
+  //   });
+  // }
   return out;
 }
 
@@ -56,7 +57,7 @@ export default function ContactPage() {
       backTo="/"
       backLabel="← Trang chủ"
     >
-      {channels.length === 0 ? (
+      {channels.length === 0 && !CONTACT.web3formsKey.trim() ? (
         <p className={`${panel} mx-auto max-w-xl text-center text-zinc-400`}>
           Thông tin liên hệ chưa được cập nhật.
         </p>
@@ -92,6 +93,7 @@ export default function ContactPage() {
               </div>
             </div>
           ))}
+          <FeedbackForm />
         </div>
       )}
     </PageShell>
