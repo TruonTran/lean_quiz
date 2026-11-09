@@ -18,7 +18,6 @@ function SubjectNotes({ subject }: { subject: SubjectInfo }) {
     [subjectNotes],
   );
 
-  // Chỉ tải đúng những câu có ghi chú, không tải cả bộ đề
   const { data: questions } = useQuestionsByIds(subject.id, ids);
   const byId = new Map((questions ?? []).map((q) => [q.id, q]));
 

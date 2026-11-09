@@ -27,8 +27,6 @@ function ExamPageContent() {
   const location = useLocation();
   const subjectQuery = useSubject(subjectId);
   const subject = subjectQuery.data;
-
-  /* ---------- store ---------- */
   const allAnswers = useExamStore((s) => s.answers);
   const allCurrentIndex = useExamStore((s) => s.currentIndex);
   const allNotes = useExamStore((s) => s.notes);
@@ -36,7 +34,6 @@ function ExamPageContent() {
   const setCurrentIndex = useExamStore((s) => s.setCurrentIndex);
   const clearExam = useExamStore((s) => s.clearExam);
   const setNote = useExamStore((s) => s.setNote);
-
   const answers = useMemo(
     () => (subjectId ? (allAnswers[subjectId] ?? {}) : {}),
     [allAnswers, subjectId],
@@ -45,12 +42,9 @@ function ExamPageContent() {
     () => new Set<number>(Object.keys(answers).map(Number)),
     [answers],
   );
-
-  /* ---------- danh sách câu hỏi (thường / làm lại câu sai) ---------- */
   const retryIds = (location.state as { retryIds?: number[] } | null)?.retryIds;
   const isRetryMode = Boolean(retryIds && retryIds.length > 0);
   const retryKey = retryIds && retryIds.length > 0 ? retryIds.join(",") : "";
-
   const questions = useMemo(() => {
     if (!subject) return [];
     if (retryIds && retryIds.length > 0) {
@@ -64,8 +58,6 @@ function ExamPageContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subject, retryKey]);
   const questionIds = useMemo(() => questions.map((q) => q.id), [questions]);
-
-  /* ---------- vị trí câu hiện tại ---------- */
   const [retryIndex, setRetryIndex] = useState(0);
   const prevRetryKeyRef = useRef("");
   useLayoutEffect(() => {
@@ -80,9 +72,7 @@ function ExamPageContent() {
     : subjectId
       ? (allCurrentIndex[subjectId] ?? 0)
       : 0;
-
   const [slideDir, setSlideDir] = useState<SlideDir>("next");
-
   const goToIndex = useCallback(
     (index: number) => {
       const safe = Math.max(0, Math.min(index, questions.length - 1));
@@ -93,11 +83,8 @@ function ExamPageContent() {
     },
     [questions.length, currentIndex, isRetryMode, subjectId, setCurrentIndex],
   );
-
   const goPrev = () => goToIndex(currentIndex - 1);
   const goNext = () => goToIndex(currentIndex + 1);
-
-  /* ---------- cờ / chọn nhiều đáp án ---------- */
   const [flaggedIds, setFlaggedIds] = useState<number[]>([]);
   const [pendingSelection, setPendingSelection] = useState<number[]>([]);
   const prevPendingKeyRef = useRef("");
@@ -110,8 +97,6 @@ function ExamPageContent() {
   }, [subjectId, currentIndex]);
 
   const question = questions[currentIndex];
-
-  /* ---------- linh vật Cua: khen khi đúng, chọc khi sai ---------- */
   const [mascotEvent, setMascotEvent] = useState<{
     id: number;
     correct: boolean;
@@ -120,7 +105,7 @@ function ExamPageContent() {
   const reportToMascot = (correct: boolean) => {
     mascotCounterRef.current += 1;
     setMascotEvent({ id: mascotCounterRef.current, correct });
-    recordAnswer(correct); // tính vào thành tích tuần / tháng / năm
+    recordAnswer(correct);
   };
 
   const toggleFlag = () => {
@@ -136,7 +121,9 @@ function ExamPageContent() {
     if (!question || !subjectId || answers[question.id] !== undefined) return;
     if (Array.isArray(question.answer)) {
       setPendingSelection((prev) =>
-        prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
+        prev.includes(index)
+          ? prev.filter((i) => i !== index)
+          : [...prev, index],
       );
     } else {
       setAnswer(subjectId, question.id, index);
@@ -155,13 +142,9 @@ function ExamPageContent() {
         correctSet.every((a) => picked.includes(a)),
     );
   };
-
-  /* ---------- ô kiến thức tóm tắt (mặc định mở trên màn hình rộng) ---------- */
   const [summaryOpen, setSummaryOpen] = useState(
     () => window.matchMedia("(min-width: 1280px)").matches,
   );
-
-  /* ---------- reset / nghỉ giải lao / phím tắt / vuốt ---------- */
   const [showConfirmReset, setShowConfirmReset] = useState(false);
   const resetButtonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -192,17 +175,20 @@ function ExamPageContent() {
     },
   });
 
-  /* ---------- render ---------- */
   if (subjectQuery.isPending) {
     return (
-      <div className={`flex h-screen items-center justify-center text-xl font-semibold ${theme.page} ${theme.text}`}>
+      <div
+        className={`flex h-screen items-center justify-center text-xl font-semibold ${theme.page} ${theme.text}`}
+      >
         Đang tải đề…
       </div>
     );
   }
   if (subjectQuery.isError) {
     return (
-      <div className={`flex h-screen flex-col items-center justify-center gap-4 px-6 text-center ${theme.page} ${theme.text}`}>
+      <div
+        className={`flex h-screen flex-col items-center justify-center gap-4 px-6 text-center ${theme.page} ${theme.text}`}
+      >
         <p className="text-xl font-semibold">Không tải được đề</p>
         <p className={`text-sm ${theme.muted}`}>{errMsg(subjectQuery.error)}</p>
         <button
@@ -216,16 +202,23 @@ function ExamPageContent() {
   }
   if (!subject) {
     return (
-      <div className={`flex h-screen items-center justify-center text-2xl font-semibold ${theme.page} ${theme.text}`}>
+      <div
+        className={`flex h-screen items-center justify-center text-2xl font-semibold ${theme.page} ${theme.text}`}
+      >
         Subject not found
       </div>
     );
   }
   if (!question) {
     return (
-      <div className={`flex h-screen flex-col items-center justify-center gap-4 px-6 text-center ${theme.page} ${theme.text}`}>
+      <div
+        className={`flex h-screen flex-col items-center justify-center gap-4 px-6 text-center ${theme.page} ${theme.text}`}
+      >
         <p className="text-2xl font-semibold">Môn này chưa có câu hỏi nào</p>
-        <Link to="/subjects" className={`rounded-lg px-5 py-2 text-sm font-semibold ${theme.softBtn}`}>
+        <Link
+          to="/subjects"
+          className={`rounded-lg px-5 py-2 text-sm font-semibold ${theme.softBtn}`}
+        >
           ← Chọn môn khác
         </Link>
       </div>
@@ -235,7 +228,9 @@ function ExamPageContent() {
   const note = subjectId ? (allNotes[subjectId]?.[question.id] ?? "") : "";
 
   return (
-    <div className={`relative min-h-screen overflow-hidden py-10 ${theme.page}`}>
+    <div
+      className={`relative min-h-screen overflow-hidden py-10 ${theme.page}`}
+    >
       <div className={theme.ambient} />
 
       <div className="relative z-10 mx-auto flex max-w-[1600px] flex-col gap-4 px-3 lg:flex-row lg:items-start lg:gap-6 lg:px-6">
@@ -250,9 +245,15 @@ function ExamPageContent() {
 
         {/* Cột giữa: câu hỏi */}
         <div className="flex min-w-0 flex-1 items-start gap-3 lg:gap-6">
-          <NavArrow direction="prev" disabled={currentIndex === 0} onClick={goPrev} />
+          <NavArrow
+            direction="prev"
+            disabled={currentIndex === 0}
+            onClick={goPrev}
+          />
 
-          <div className={`relative z-10 min-w-0 flex-1 rounded-2xl p-8 ${theme.panel}`}>
+          <div
+            className={`relative z-10 min-w-0 flex-1 rounded-2xl p-8 ${theme.panel}`}
+          >
             <ExamHeader
               subjectId={subjectId}
               code={subject.code}
@@ -276,11 +277,13 @@ function ExamPageContent() {
               onOptionClick={selectOption}
               onSubmitMulti={submitMultiChoice}
               onToggleFlag={toggleFlag}
-              onNoteChange={(v) => subjectId && setNote(subjectId, question.id, v)}
+              onNoteChange={(v) =>
+                subjectId && setNote(subjectId, question.id, v)
+              }
             />
 
             <p className={`mt-6 text-center text-xs lg:hidden ${theme.faint}`}>
-              👆 Vuốt trái/phải trên câu hỏi để chuyển câu
+              Vuốt trái/phải trên câu hỏi để chuyển câu
             </p>
 
             <MobileNavBar
@@ -316,7 +319,7 @@ function ExamPageContent() {
           title="Kiến thức tóm tắt (phím K)"
           className={`fixed bottom-24 right-4 z-30 rounded-full px-4 py-2 text-sm font-semibold shadow-lg xl:bottom-6 ${theme.softBtn} ${theme.panel}`}
         >
-          📘 Kiến thức
+          Kiến thức
         </button>
       )}
 

@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 import { badgesFor, summarize, type PeriodStat } from "../data/achievements";
 import { useLeaderboard, useMyActivity, useMyProfile } from "../data/hooks";
 import PageShell from "../components/PageShell";
+import RankIcon from "../components/RankIcon";
 import RequireAuth from "../components/RequireAuth";
 import { ErrorBox, Loading } from "../components/LoadState";
 import { inputClass, panel, primaryBtn } from "../components/adminStyles";
 
 type Period = "week" | "month" | "year";
 const PERIOD_LABEL: Record<Period, string> = { week: "Tuần này", month: "Tháng này", year: "Năm nay" };
-const MEDAL = ["🥇", "🥈", "🥉"];
 
 const pct = (c: number, a: number) => (a > 0 ? `${Math.round((c / a) * 100)}%` : "–");
 
@@ -78,7 +78,7 @@ function Leaderboard() {
                   key={`${r.rnk}-${r.name}-${r.total_answered}-${r.is_me}`}
                   className={r.is_me ? "bg-yellow-400/10 font-semibold text-yellow-200" : "text-zinc-300"}
                 >
-                  <td className="px-4 py-2.5">{MEDAL[r.rnk - 1] ?? r.rnk}</td>
+                  <td className="px-4 py-2.5"><RankIcon rank={r.rnk} /></td>
                   <td className="px-4 py-2.5">
                     {r.name}
                     {r.is_me && " (bạn)"}

@@ -25,11 +25,7 @@ export const useThemeStore = create<ThemeState>()(
   persist(
     (set, get) => {
       const initial = getSystemPreference();
-
-      // Sync initial theme to <html> immediately so CSS vars / colors match
-      // before any component mounts (prevents FOUC / mismatched colors).
       applyThemeToDocument(initial);
-
       return {
         theme: initial,
 

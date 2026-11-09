@@ -23,7 +23,10 @@ export default function AdminPage() {
     e.preventDefault();
     setBusy(true);
     setError(null);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
     if (error) {
       setError(
         error.message.toLowerCase().includes("invalid")
@@ -79,7 +82,7 @@ export default function AdminPage() {
             {isAdmin ? (
               <>
                 <p className="font-semibold text-yellow-300">
-                  ✅ Bạn đang có quyền admin
+                  Bạn đang có quyền admin
                 </p>
                 <Link
                   to="/admin/subjects"

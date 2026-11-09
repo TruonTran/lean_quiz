@@ -5,7 +5,6 @@ import PageShell from "./PageShell";
 import { Loading } from "./LoadState";
 import { panel, primaryBtn, ghostBtn } from "./adminStyles";
 
-/** Chỉ cho người đã đăng nhập vào (vd: làm quiz). Quyền dữ liệu thật vẫn do RLS trong DB quyết định. */
 export default function RequireAuth({ children }: { children: ReactNode }) {
   const session = useAuthStore((s) => s.session);
   const ready = useAuthStore((s) => s.ready);
@@ -25,7 +24,7 @@ export default function RequireAuth({ children }: { children: ReactNode }) {
       <PageShell eyebrow="Tài khoản" title="Đăng nhập để làm quiz" backTo="/subjects" backLabel="← Chọn môn">
         <div className={`${panel} mx-auto max-w-md space-y-4 text-center`}>
           <p className="text-zinc-300">
-            Bạn cần có tài khoản để làm quiz, để mình lưu lại thành tích học của bạn theo tuần, tháng và năm.
+            Bạn cần có tài khoản để làm quiz, để mình lưu lại thành tích học của bạn.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link to={`/login?next=${next}`} className={`${primaryBtn} inline-block`}>

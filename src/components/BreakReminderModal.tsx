@@ -2,7 +2,11 @@ import { useExamTheme } from "../theme/ThemeContext";
 
 type Props = { message: string; onDismiss: () => void; onSnooze: () => void };
 
-export default function BreakReminderModal({ message, onDismiss, onSnooze }: Props) {
+export default function BreakReminderModal({
+  message,
+  onDismiss,
+  onSnooze,
+}: Props) {
   const { theme } = useExamTheme();
 
   return (
@@ -19,11 +23,9 @@ export default function BreakReminderModal({ message, onDismiss, onSnooze }: Pro
         className={`fade-up relative z-10 w-full max-w-md overflow-hidden rounded-2xl p-6 text-center ${theme.modal}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-yellow-400/10 text-3xl">
-          🧘
-        </div>
+        <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-yellow-400/10 text-3xl"></div>
         <h3 id="break-title" className={`text-lg font-bold ${theme.title}`}>
-          Đến giờ nghỉ ngơi rồi!
+          Học nhiều rồi nè. Uống miếng nước, ăn miếng bánh đi cục vàng nha. 
         </h3>
         <p className={`mt-2 text-sm ${theme.muted}`}>{message}</p>
 
@@ -32,7 +34,7 @@ export default function BreakReminderModal({ message, onDismiss, onSnooze }: Pro
             onClick={onDismiss}
             className="rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 px-5 py-2 text-sm font-semibold text-zinc-950 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-500/20 focus:outline-none focus:ring-2 focus:ring-yellow-300"
           >
-            Đã nghỉ xong, học tiếp
+            Đã nghỉ đủ, học tiếp
           </button>
           <button
             onClick={onSnooze}

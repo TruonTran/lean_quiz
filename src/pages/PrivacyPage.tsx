@@ -3,7 +3,7 @@ import PageShell from "../components/PageShell";
 import { panel } from "../components/adminStyles";
 import { Link } from "react-router-dom";
 
-const UPDATED = "08/11/2026";
+const UPDATED = "09/11/2026";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -14,20 +14,19 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-/** Chính sách quyền riêng tư. Google yêu cầu có trang này (cùng tên miền với trang chủ) để đưa đăng nhập Google lên chế độ công khai. */
 export default function PrivacyPage() {
   return (
     <PageShell
       eyebrow="Quyền riêng tư"
       title="Chính sách quyền riêng tư"
-      subtitle={`Quiz Cùng T · cập nhật ${UPDATED}`}
+      subtitle={`Quiz Cùng Cua · cập nhật ${UPDATED}`}
       backTo="/"
       backLabel="← Trang chủ"
     >
       <div className="mx-auto max-w-3xl space-y-5">
-        <Section title="Quiz Cùng T là gì?">
+        <Section title="Quiz Cùng Cua là gì?">
           <p>
-            Quiz Cùng T là trang web ôn tập cá nhân gồm làm trắc nghiệm, luyện thi viết và theo dõi
+            Quiz Cùng Cua là trang web ôn tập cá nhân gồm làm trắc nghiệm, luyện thi viết và theo dõi
             thành tích học. Trang này giải thích mình thu thập dữ liệu gì và dùng vào việc gì.
           </p>
         </Section>
@@ -44,6 +43,10 @@ export default function PrivacyPage() {
             <li>
               <b>Thành tích học:</b> mỗi ngày bạn làm bao nhiêu câu và đúng bao nhiêu câu. Mình không lưu
               nội dung từng câu bạn đã chọn trên máy chủ.
+            </li>
+            <li>
+              <b>Số liệu truy cập</b> (trang bạn xem, thiết bị, trình duyệt, khu vực ước tính) do{" "}
+              <b>Google Analytics</b> thu thập qua cookie, để mình biết web có người dùng và cải thiện nội dung.
             </li>
             <li>
               <b>Bài viết thi viết, ghi chú và đáp án</b> bạn làm được lưu <b>ngay trên trình duyệt của bạn</b>
@@ -70,14 +73,16 @@ export default function PrivacyPage() {
               người dùng đã đăng nhập khác xem. Email của bạn không bao giờ hiện trên bảng xếp hạng.
             </li>
           </ul>
-          <p>Mình không bán dữ liệu, không chạy quảng cáo và không chia sẻ dữ liệu của bạn cho bên thứ ba vì mục đích thương mại.</p>
+          <p>Mình không bán dữ liệu, không chạy quảng cáo và không chia sẻ dữ liệu của bạn cho bên thứ ba vì mục đích thương mại. Các dịch vụ vận hành web được nêu ở phần bên dưới.</p>
         </Section>
 
         <Section title="Lưu trữ và bên cung cấp dịch vụ">
           <p>
             Tài khoản và thành tích được lưu trên <b>Supabase</b> (dịch vụ cơ sở dữ liệu và xác thực);
-            trang web được phát hành qua nền tảng hosting của bên thứ ba. Các bên này xử lý dữ liệu để
-            vận hành dịch vụ theo chính sách của họ.
+            trang web được phát hành qua nền tảng hosting của bên thứ ba; số liệu truy cập do
+            <b> Google Analytics</b> xử lý. Các bên này xử lý dữ liệu để vận hành dịch vụ theo chính sách của
+            họ. Bạn có thể tắt cookie hoặc dùng tiện ích chặn Google Analytics trên trình duyệt nếu không muốn
+            bị tính vào thống kê.
           </p>
         </Section>
 

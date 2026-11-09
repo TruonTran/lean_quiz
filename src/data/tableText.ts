@@ -1,6 +1,5 @@
 import type { ClipboardEvent } from "react";
 
-/** Bảng viết theo cú pháp markdown: mỗi dòng bắt đầu bằng "|". */
 export const isTablePoint = (p: string) => p.trimStart().startsWith("|");
 
 export const TABLE_TEMPLATE = `| Tiêu chí | Khái niệm A | Khái niệm B |
@@ -8,11 +7,6 @@ export const TABLE_TEMPLATE = `| Tiêu chí | Khái niệm A | Khái niệm B |
 | Định nghĩa | ... | ... |
 | Ví dụ | ... | ... |`;
 
-/**
- * Tách ô nhập thành các "ý" cho tóm tắt kiến thức.
- * Mỗi dòng thường là một ý; các dòng liên tiếp bắt đầu bằng "|" gộp thành MỘT ý (một cái bảng).
- * Dòng trống kết thúc bảng, nên hai bảng liền nhau chỉ cần cách nhau một dòng trống.
- */
 export function parsePoints(text: string): string[] {
   const out: string[] = [];
   let table: string[] = [];
@@ -33,7 +27,6 @@ export function parsePoints(text: string): string[] {
   return out;
 }
 
-/** Bỏ các dòng bảng để làm đoạn xem trước (không hiện ký tự | lộn xộn). */
 export const plainPreview = (text: string) =>
   text
     .split("\n")
@@ -41,7 +34,6 @@ export const plainPreview = (text: string) =>
     .join(" ")
     .trim() || "(Đề có bảng — mở để xem)";
 
-/** Bảng copy từ Word/Excel/Google Sheets là chữ ngăn bằng Tab → đổi thành bảng markdown. Không phải bảng thì trả null. */
 export function tsvToMarkdownTable(text: string): string | null {
   const rows = text
     .replace(/\r/g, "")
@@ -56,7 +48,6 @@ export function tsvToMarkdownTable(text: string): string | null {
   return [line(rows[0]), line(rows[0].map(() => "---")), ...rows.slice(1).map(line)].join("\n");
 }
 
-/** Gắn vào onPaste của textarea: dán bảng từ Word/Excel sẽ tự thành bảng markdown, dán chữ thường thì giữ nguyên. */
 export function pasteTable(e: ClipboardEvent<HTMLTextAreaElement>, setValue: (v: string) => void) {
   const table = tsvToMarkdownTable(e.clipboardData.getData("text/plain"));
   if (!table) return;
@@ -68,10 +59,6 @@ export function pasteTable(e: ClipboardEvent<HTMLTextAreaElement>, setValue: (v:
   setValue(`${before}${pad}${table}\n\n${after}`);
 }
 
-/**
- * Markdown chỉ nhận bảng khi trước và sau bảng có dòng trống. Admin hay dán bảng ngay dưới câu chữ
- * (không cách dòng) nên bảng hiện thành chữ trơn. Hàm này tự chèn dòng trống đó (bỏ qua khối code ```).
- */
 export function normalizeTables(text: string): string {
   const out: string[] = [];
   let inFence = false;

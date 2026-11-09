@@ -185,7 +185,6 @@ export default function AdminEssaysPage() {
     <PageShell
       eyebrow="Quản trị"
       title={`Thi viết – ${subject?.code ?? ""}`}
-      subtitle="Thi tốt 1 phần nhờ cố gắng và 1 phần là may mắn. Chúc bạn thi ra trúng đề mà bạn muốn. Chúc may mắn"
       backTo="/admin/subjects"
       backLabel="← Quản lý môn"
     >

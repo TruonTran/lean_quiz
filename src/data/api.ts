@@ -3,7 +3,6 @@ import type { Question } from "../types/Question";
 import type { ExamType, Subject, SubjectInfo, SummarySection } from "../types/Subject";
 import type { QuestionPayload } from "./drafts";
 
-// Khớp max_rows mặc định của Supabase (1000 dòng / request)
 const PAGE_SIZE = 1000;
 const QUESTION_COLS = "id, question, options, answer, hint, rationale";
 
@@ -31,8 +30,6 @@ export function errMsg(e: unknown): string {
   }
   return String(e);
 }
-
-/* ------------------------------ đọc ------------------------------ */
 
 export async function fetchSubjectList(): Promise<SubjectInfo[]> {
   const base = "id, code, name, description, questions(count), summary_sections(count)";
@@ -63,7 +60,6 @@ export async function fetchSubjectList(): Promise<SubjectInfo[]> {
     questionCount: r.questions[0]?.count ?? 0,
     summaryCount: r.summary_sections[0]?.count ?? 0,
   }));
-  // Xếp theo học kì (chưa phân loại xuống cuối); sort ổn định nên trong cùng kì vẫn giữ thứ tự cũ.
   return list.sort((a, b) => (a.semester ?? 99) - (b.semester ?? 99));
 }
 
@@ -84,7 +80,6 @@ async function fetchQuestions(subjectId: string): Promise<Question[]> {
   return out;
 }
 
-/** Một môn kèm toàn bộ câu hỏi. Trả về null nếu không có môn này. */
 export async function fetchSubject(id: string): Promise<Subject | null> {
   const [subjectRes, questions] = await Promise.all([
     supabase
@@ -111,7 +106,6 @@ export async function fetchSubject(id: string): Promise<Subject | null> {
   };
 }
 
-/** Chỉ lấy các câu cần hiển thị (vd: trang Ghi chú). */
 export async function fetchQuestionsByIds(
   subjectId: string,
   ids: number[],
@@ -138,13 +132,8 @@ export async function fetchSummary(subjectId: string): Promise<SummarySection[]>
   return (data ?? []) as SummarySection[];
 }
 
-/* ------------------------ ghi (chỉ admin) ------------------------ */
-// RLS chặn ghi với người không phải admin. Với update/delete, Postgres trả về
-// 0 dòng thay vì báo lỗi, nên ta yêu cầu trả dòng về và tự kiểm tra.
-
 export const DENIED = "Không có quyền thực hiện (cần đăng nhập bằng tài khoản admin).";
 
-/** Lỗi thiếu quyền (42501: bị RLS hoặc thiếu grant chặn) luôn ra cùng một thông báo thân thiện. */
 export function raise(error: { code?: string }): never {
   if (error.code === "42501") throw new Error(DENIED);
   throw error;
@@ -186,7 +175,6 @@ export async function deleteSection(id: number): Promise<void> {
   if (!data || data.length === 0) throw new Error(DENIED);
 }
 
-/** Đổi chỗ thứ tự hai chủ đề. */
 export async function swapSections(
   a: SummarySection,
   b: SummarySection,
@@ -208,8 +196,6 @@ export async function swapSections(
     if (!r.data || r.data.length === 0) throw new Error(DENIED);
   }
 }
-
-/* ---------------- Môn & câu hỏi (chỉ admin) ---------------- */
 
 const DUPLICATE = "23505"; // mã lỗi Postgres: vi phạm khoá duy nhất
 
@@ -273,7 +259,6 @@ export async function deleteSubject(id: string): Promise<void> {
   if (!data || data.length === 0) throw new Error(DENIED);
 }
 
-/** id kế tiếp của môn = id lớn nhất hiện có + 1 (hoặc 1 nếu môn còn trống). */
 async function nextQuestionId(subjectId: string): Promise<number> {
   const { data, error } = await supabase
     .from("questions")
@@ -287,11 +272,6 @@ async function nextQuestionId(subjectId: string): Promise<number> {
 
 const BULK_CHUNK = 500;
 
-/**
- * Thêm nhiều câu hỏi một lượt, id liên tiếp từ id lớn nhất + 1.
- * Gửi theo lô 500 câu (mỗi lô là một giao dịch). Nếu một lô giữa chừng lỗi,
- * các lô trước đó đã được lưu — thông báo lỗi nói rõ đã nhập được bao nhiêu câu.
- */
 export async function createQuestionsBulk(
   subjectId: string,
   payloads: QuestionPayload[],
@@ -312,7 +292,6 @@ export async function createQuestionsBulk(
   return { first, last: first + rows.length - 1 };
 }
 
-/** Thêm câu hỏi vào cuối môn, id = id lớn nhất hiện có + 1. Trả về id mới. */
 export async function createQuestion(
   subjectId: string,
   payload: QuestionPayload,

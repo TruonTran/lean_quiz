@@ -1,8 +1,3 @@
-/**
- * DỮ LIỆU GỐC (seed) — CHỈ dùng cho script `npm run db:migrate`.
- * App KHÔNG được import file này: nguồn dữ liệu thật là Supabase.
- * (Nhờ vậy cả bộ đề không bị nhét vào bundle của web.)
- */
 import type { Subject } from "../../types/Subject";
 
 import { mln111 } from "./mln111";

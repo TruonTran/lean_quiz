@@ -4,8 +4,6 @@ import { supabase } from "../lib/supabase";
 import { useAuthStore } from "../store/authStore";
 import PageShell from "../components/PageShell";
 import { inputClass, primaryBtn } from "../components/adminStyles";
-
-/** Chỉ cho quay về đường dẫn nội bộ, tránh bị lợi dụng để chuyển sang trang lạ. */
 const safeNext = (n: string | null) => (n && n.startsWith("/") && !n.startsWith("//") ? n : "/");
 
 function friendlyError(message: string): string {
@@ -81,7 +79,6 @@ export default function LoginPage() {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
         if (error.message.toLowerCase().includes("email not confirmed")) {
-          // Đã đăng ký nhưng chưa xác nhận: chuyển sang bước nhập mã và gửi lại thư
           setStep("verify");
           await resend();
         } else setError(friendlyError(error.message));
@@ -94,7 +91,6 @@ export default function LoginPage() {
       });
       if (error) setError(friendlyError(error.message));
       else if (!data.session) {
-        // Dự án bật xác nhận email: chờ người dùng nhập mã hoặc bấm liên kết trong thư
         setStep("verify");
         setResendWait(true);
         setTimeout(() => setResendWait(false), 60_000);
@@ -109,7 +105,7 @@ export default function LoginPage() {
     setBusy(true);
     const { error } = await supabase.auth.verifyOtp({ email, token: code.trim(), type: "signup" });
     if (error) setError(friendlyError(error.message));
-    setBusy(false); // thành công thì session xuất hiện và trang tự chuyển hướng
+    setBusy(false);
   };
 
   const isRegister = mode === "register";
@@ -159,7 +155,7 @@ export default function LoginPage() {
             </button>
           </div>
           <p className="text-xs text-zinc-600">
-            Không thấy thư? Kiểm tra mục Spam, hoặc nếu bạn đã đăng ký trước đó thì hãy quay lại và Đăng nhập.
+            Không thấy thư? Kiểm tra mục Spam, hoặc bạn có thể liên hệ với Cua để được hỗ trợ nha. Cảm ơn rất nhiều
           </p>
         </form>
       </PageShell>
@@ -170,7 +166,7 @@ export default function LoginPage() {
     <PageShell
       eyebrow="Tài khoản"
       title={isRegister ? "Tạo tài khoản" : "Đăng nhập"}
-      subtitle="Đăng nhập để làm quiz và lưu thành tích học theo tuần, tháng, năm."
+      subtitle="Đăng nhập để trải nghiệm web của Cua nha. Cảm ơn bạn rất nhiều đã bỏ thời gian cho web Cua."
       backTo="/"
       backLabel="← Trang chủ"
     >

@@ -7,7 +7,6 @@ import { ghostBtn, inputClass, panel, primaryBtn } from "./adminStyles";
 
 type Props = {
   subjectId: string;
-  /** nội dung các câu đã có trong môn, để phát hiện câu trùng */
   existing: string[];
   onClose: () => void;
   onImported: (r: { count: number; first: number; last: number }) => void;
@@ -17,7 +16,12 @@ const MAX_FILE = 2 * 1024 * 1024;
 const SHOW_ISSUES = 15;
 const SHOW_PREVIEW = 8;
 
-export default function BulkImportPanel({ subjectId, existing, onClose, onImported }: Props) {
+export default function BulkImportPanel({
+  subjectId,
+  existing,
+  onClose,
+  onImported,
+}: Props) {
   const qc = useQueryClient();
   const [text, setText] = useState("");
   const [skipDup, setSkipDup] = useState(true);
@@ -39,10 +43,16 @@ export default function BulkImportPanel({ subjectId, existing, onClose, onImport
     return out;
   }, [parsed.items, existing]);
 
-  const toImport = parsed.items.filter((it) => !(skipDup && dupReason.has(it.index)));
+  const toImport = parsed.items.filter(
+    (it) => !(skipDup && dupReason.has(it.index)),
+  );
 
   const run = useMutation({
-    mutationFn: () => createQuestionsBulk(subjectId, toImport.map((i) => i.payload)),
+    mutationFn: () =>
+      createQuestionsBulk(
+        subjectId,
+        toImport.map((i) => i.payload),
+      ),
     onSuccess: async (r) => {
       await Promise.all([
         qc.invalidateQueries({ queryKey: ["subject", subjectId] }),
@@ -81,11 +91,15 @@ export default function BulkImportPanel({ subjectId, existing, onClose, onImport
         </summary>
         <div className="mt-3 space-y-3">
           <p>
-            Mỗi câu gồm: nội dung, các đáp án <code className="text-yellow-200">A. B. C.…</code>, rồi dòng{" "}
-            <code className="text-yellow-200">Đáp án: B</code> (chọn nhiều: <code className="text-yellow-200">Đáp án: A, C</code>).
-            Có thể thêm <code className="text-yellow-200">Gợi ý:</code> và{" "}
-            <code className="text-yellow-200">Giải thích:</code>. Các câu cách nhau một dòng trống, hoặc mở đầu bằng{" "}
-            <code className="text-yellow-200">Câu 1:</code>. Cũng dán được JSON (mảng các câu có{" "}
+            Mỗi câu gồm: nội dung, các đáp án{" "}
+            <code className="text-yellow-200">A. B. C.…</code>, rồi dòng{" "}
+            <code className="text-yellow-200">Đáp án: B</code> (chọn nhiều:{" "}
+            <code className="text-yellow-200">Đáp án: A, C</code>). Có thể thêm{" "}
+            <code className="text-yellow-200">Gợi ý:</code> và{" "}
+            <code className="text-yellow-200">Giải thích:</code>. Các câu cách
+            nhau một dòng trống, hoặc mở đầu bằng{" "}
+            <code className="text-yellow-200">Câu 1:</code>. Cũng dán được JSON
+            (mảng các câu có{" "}
             <code className="text-yellow-200">question, options, answer</code>).
           </p>
           <pre className="overflow-x-auto whitespace-pre-wrap rounded bg-black/30 p-3 text-xs text-zinc-300">
@@ -102,14 +116,20 @@ export default function BulkImportPanel({ subjectId, existing, onClose, onImport
             Dùng mẫu này
           </button>
           <p>
-            Mẹo: có thể nhờ ChatGPT hoặc Claude chuyển đề của bạn (Word, PDF…) sang đúng định dạng này rồi dán vào đây.
+            Mẹo: có thể nhờ ChatGPT hoặc Claude chuyển đề của bạn (Word, PDF…)
+            sang đúng định dạng này rồi dán vào đây.
           </p>
         </div>
       </details>
 
       <label className="block text-sm text-zinc-400">
         Hoặc chọn file (.txt, .md, .json):{" "}
-        <input type="file" accept=".txt,.md,.json,text/plain,application/json" onChange={onFile} className="text-xs" />
+        <input
+          type="file"
+          accept=".txt,.md,.json,text/plain,application/json"
+          onChange={onFile}
+          className="text-xs"
+        />
       </label>
       {fileError && (
         <p role="alert" className="text-sm text-red-300">
@@ -132,11 +152,13 @@ export default function BulkImportPanel({ subjectId, existing, onClose, onImport
       {hasInput && (
         <div className="space-y-3" aria-live="polite">
           <p className="text-sm text-zinc-300">
-            Đọc được <b className="text-emerald-300">{parsed.items.length}</b> câu hợp lệ
+            Đọc được <b className="text-emerald-300">{parsed.items.length}</b>{" "}
+            câu hợp lệ
             {parsed.issues.length > 0 && (
               <>
                 {" "}
-                · <b className="text-red-300">{parsed.issues.length}</b> câu có lỗi (sẽ bị bỏ qua)
+                · <b className="text-red-300">{parsed.issues.length}</b> câu có
+                lỗi (sẽ bị bỏ qua)
               </>
             )}
             {dupReason.size > 0 && (
@@ -153,11 +175,15 @@ export default function BulkImportPanel({ subjectId, existing, onClose, onImport
                 <li key={i}>
                   {is.index > 0 ? `Câu thứ ${is.index}` : "Lỗi"}
                   {is.line ? ` (dòng ${is.line})` : ""}: {is.message}
-                  {is.preview ? <span className="text-red-200/70"> — “{is.preview}”</span> : null}
+                  {is.preview ? (
+                    <span className="text-red-200/70"> — “{is.preview}”</span>
+                  ) : null}
                 </li>
               ))}
               {parsed.issues.length > SHOW_ISSUES && (
-                <li className="text-red-200/70">…và {parsed.issues.length - SHOW_ISSUES} lỗi nữa.</li>
+                <li className="text-red-200/70">
+                  …và {parsed.issues.length - SHOW_ISSUES} lỗi nữa.
+                </li>
               )}
             </ul>
           )}
@@ -167,22 +193,41 @@ export default function BulkImportPanel({ subjectId, existing, onClose, onImport
               {parsed.items.slice(0, SHOW_PREVIEW).map((it) => (
                 <li key={it.index} className="flex gap-2">
                   <span className="shrink-0 text-yellow-300">{it.index}.</span>
-                  <span className="min-w-0 truncate">{it.payload.question.replace(/\s+/g, " ")}</span>
+                  <span className="min-w-0 truncate">
+                    {it.payload.question.replace(/\s+/g, " ")}
+                  </span>
                   <span className="shrink-0 text-xs text-zinc-500">
-                    Đúng: {(Array.isArray(it.payload.answer) ? it.payload.answer : [it.payload.answer]).map(optionLabel).join(", ")}
-                    {dupReason.has(it.index) && <span className="text-yellow-300"> · {dupReason.get(it.index)}</span>}
+                    Đúng:{" "}
+                    {(Array.isArray(it.payload.answer)
+                      ? it.payload.answer
+                      : [it.payload.answer]
+                    )
+                      .map(optionLabel)
+                      .join(", ")}
+                    {dupReason.has(it.index) && (
+                      <span className="text-yellow-300">
+                        {" "}
+                        · {dupReason.get(it.index)}
+                      </span>
+                    )}
                   </span>
                 </li>
               ))}
               {parsed.items.length > SHOW_PREVIEW && (
-                <li className="text-zinc-500">…và {parsed.items.length - SHOW_PREVIEW} câu nữa.</li>
+                <li className="text-zinc-500">
+                  …và {parsed.items.length - SHOW_PREVIEW} câu nữa.
+                </li>
               )}
             </ul>
           )}
 
           {dupReason.size > 0 && (
             <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-300">
-              <input type="checkbox" checked={skipDup} onChange={(e) => setSkipDup(e.target.checked)} />
+              <input
+                type="checkbox"
+                checked={skipDup}
+                onChange={(e) => setSkipDup(e.target.checked)}
+              />
               Bỏ qua các câu trùng
             </label>
           )}

@@ -2,7 +2,6 @@ export type DayRow = { day: string; answered: number; correct: number };
 
 const DAY_MS = 86_400_000;
 
-/** Ngày hôm nay theo giờ Việt Nam, dạng YYYY-MM-DD (khớp với cách DB tính ngày). */
 export const vnToday = () =>
   new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Ho_Chi_Minh" });
 
@@ -10,7 +9,6 @@ const toMs = (iso: string) => Date.parse(`${iso}T00:00:00Z`);
 const fromMs = (ms: number) => new Date(ms).toISOString().slice(0, 10);
 export const addDays = (iso: string, n: number) => fromMs(toMs(iso) + n * DAY_MS);
 
-/** Thứ Hai của tuần chứa ngày này. */
 export const weekStart = (iso: string) => {
   const dow = (new Date(toMs(iso)).getUTCDay() + 6) % 7; // 0 = thứ Hai
   return addDays(iso, -dow);
@@ -39,8 +37,8 @@ export type Summary = {
   totalAnswered: number;
   currentStreak: number;
   bestStreak: number;
-  perfectWeeks: number; // số tuần học đủ 7/7 ngày
-  busyMonths: number; // số tháng học từ 20 ngày trở lên
+  perfectWeeks: number;
+  busyMonths: number; 
 };
 
 export function summarize(rows: DayRow[], today = vnToday()): Summary {

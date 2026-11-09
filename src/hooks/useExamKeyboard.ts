@@ -9,7 +9,6 @@ type Handlers = {
   onToggleSummary?: () => void;
 };
 
-/** Phím tắt: Home/End, ←/→, 1-9/0 chọn đáp án, K bật/tắt kiến thức tóm tắt. Bỏ qua khi đang gõ trong textarea/input. */
 export function useExamKeyboard(enabled: boolean, handlers: Handlers) {
   const ref = useRef(handlers);
   // eslint-disable-next-line react-hooks/refs

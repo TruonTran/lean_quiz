@@ -24,19 +24,22 @@ export default function HomePage() {
     0,
   );
   const essayDrafts = useEssayStore((s) => s.drafts);
-  const essayTotal = Object.values(essayDrafts).filter((d) => d.text.trim()).length;
+  const essayTotal = Object.values(essayDrafts).filter((d) =>
+    d.text.trim(),
+  ).length;
   const noteTotal = Object.values(allNotes).reduce(
     (sum, n) => sum + Object.values(n).filter((t) => t.trim()).length,
     0,
   );
   const summaryTotal =
-    subjects?.filter((s) => hasQuiz(s.examType) && s.summaryCount > 0).length ?? 0;
+    subjects?.filter((s) => hasQuiz(s.examType) && s.summaryCount > 0).length ??
+    0;
 
   const sections: Section[] = [
     {
       to: "/subjects",
       icon: "🎯",
-      title: "Môn học",
+      title: "trắc nghiệm",
       desc: "Chọn môn rồi làm trắc nghiệm, theo dõi tiến độ và làm lại câu sai.",
       stat: subjects
         ? `${subjects.filter((s) => hasQuiz(s.examType)).length} môn · ${answeredTotal} câu đã làm`
@@ -55,7 +58,7 @@ export default function HomePage() {
       to: "/summary",
       icon: "📚",
       title: "Tóm tắt kiến thức",
-      desc: "Các ý chính của từng môn, đọc nhanh trước khi vào làm bài.",
+      desc: "Các mẹo và ý chính của từng môn, đọc nhanh trước khi vào làm bài.",
       stat: !subjects
         ? "Đang tải…"
         : summaryTotal > 0
@@ -67,7 +70,7 @@ export default function HomePage() {
       to: "/notes",
       icon: "📝",
       title: "Ghi chú",
-      desc: "Mọi ghi chú bạn viết trong lúc làm bài, gộp lại theo từng môn.",
+      desc: "Mọi ghi chú của riêng bạn viết trong lúc làm bài, gộp lại theo từng môn.",
       stat: `${noteTotal} ghi chú`,
       cta: "Mở ghi chú",
     },
@@ -76,8 +79,6 @@ export default function HomePage() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#08090c] p-6 sm:p-10">
       <div className="bg-ambient" />
-
-      {/* Orb trôi nổi trang trí - thuần hiệu ứng, không ảnh hưởng bố cục */}
       <div
         aria-hidden="true"
         className="floating-orb -left-16 top-10 h-72 w-72 bg-yellow-400/10"
@@ -109,9 +110,9 @@ export default function HomePage() {
             className="fade-up mt-5 text-4xl font-extrabold text-white sm:text-5xl"
             style={{ animationDelay: "0.15s" }}
           >
-            Quiz{" "}
+            Ôn Quiz{" "}
             <span className="text-gradient-animate bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-300 bg-clip-text text-transparent">
-              Cùng T
+              Cùng Cua
             </span>
           </h1>
           <p
@@ -159,7 +160,7 @@ export default function HomePage() {
             to="/contact"
             className="rounded-full border border-yellow-400/25 bg-white/5 px-4 py-1.5 text-sm font-semibold text-yellow-200 transition hover:bg-white/10"
           >
-            💌 Liên hệ để cập nhật đề
+            Liên hệ nếu bạn muốn cập nhật
           </Link>
           <div className="flex items-center gap-4 text-xs text-zinc-600">
             <Link to="/privacy" className="transition hover:text-zinc-400">

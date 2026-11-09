@@ -9,7 +9,8 @@ export const EXAM_TYPE_LABEL: Record<ExamType, string> = {
   both: "Cả hai",
 };
 
-export const semesterLabel = (s: number | null) => (s ? `Kì ${s}` : "Chưa phân loại");
+export const semesterLabel = (s: number | null) =>
+  s ? `Kì ${s}` : "Chưa phân loại";
 
 /** Môn có phần trắc nghiệm không? */
 export const hasQuiz = (t: ExamType) => t !== "essay";

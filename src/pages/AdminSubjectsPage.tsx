@@ -1,10 +1,26 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createSubject, deleteSubject, errMsg, updateSubject } from "../data/api";
-import { slugify, validateSubjectDraft, type SubjectDraft, type SubjectValue } from "../data/drafts";
+import {
+  createSubject,
+  deleteSubject,
+  errMsg,
+  updateSubject,
+} from "../data/api";
+import {
+  slugify,
+  validateSubjectDraft,
+  type SubjectDraft,
+  type SubjectValue,
+} from "../data/drafts";
 import { useSubjectList } from "../data/hooks";
-import { EXAM_TYPE_LABEL, hasEssay, hasQuiz, type ExamType, type SubjectInfo } from "../types/Subject";
+import {
+  EXAM_TYPE_LABEL,
+  hasEssay,
+  hasQuiz,
+  type ExamType,
+  type SubjectInfo,
+} from "../types/Subject";
 import PageShell from "../components/PageShell";
 import { ErrorBox, Loading } from "../components/LoadState";
 import {
@@ -60,14 +76,14 @@ function SubjectForm({
       />
       {!lockCode && id && (
         <p className="text-xs text-zinc-500">
-          Đường dẫn của môn: <code className="text-yellow-200">/exam/{id}</code> (không đổi được
-          sau khi tạo)
+          Đường dẫn của môn: <code className="text-yellow-200">/exam/{id}</code>{" "}
+          (không đổi được sau khi tạo)
         </p>
       )}
       <input
         value={draft.name}
         onChange={(e) => setDraft({ ...draft, name: e.target.value })}
-        placeholder="Tên môn (vd: Tiếng Anh cơ bản)"
+        placeholder="Tên môn"
         className={inputClass}
         aria-label="Tên môn"
       />
@@ -75,7 +91,9 @@ function SubjectForm({
         <span className="text-xs text-zinc-400">Kiểu thi của môn</span>
         <select
           value={draft.examType}
-          onChange={(e) => setDraft({ ...draft, examType: e.target.value as ExamType })}
+          onChange={(e) =>
+            setDraft({ ...draft, examType: e.target.value as ExamType })
+          }
           className={inputClass}
           aria-label="Kiểu thi"
         >
@@ -199,7 +217,13 @@ export default function AdminSubjectsPage() {
         {mode === "new" && (
           <SubjectForm
             title="Thêm môn mới"
-            initial={{ code: "", name: "", description: "", examType: "quiz", semester: "" }}
+            initial={{
+              code: "",
+              name: "",
+              description: "",
+              examType: "quiz",
+              semester: "",
+            }}
             submitLabel="Tạo môn"
             pending={add.isPending}
             serverError={add.error ? errMsg(add.error) : null}
@@ -219,7 +243,9 @@ export default function AdminSubjectsPage() {
         ) : isError ? (
           <ErrorBox error={error} onRetry={() => refetch()} />
         ) : data.length === 0 ? (
-          <p className={`${panel} text-center text-zinc-400`}>Chưa có môn nào.</p>
+          <p className={`${panel} text-center text-zinc-400`}>
+            Chưa có môn nào.
+          </p>
         ) : (
           data.map((s) =>
             mode === s.id ? (
@@ -241,32 +267,47 @@ export default function AdminSubjectsPage() {
                 onCancel={() => open(null)}
               />
             ) : (
-              <div key={s.id} className={`${panel} flex flex-wrap items-center justify-between gap-4`}>
+              <div
+                key={s.id}
+                className={`${panel} flex flex-wrap items-center justify-between gap-4`}
+              >
                 <div>
-                  <h2 className="text-xl font-bold text-yellow-300">{s.code}</h2>
+                  <h2 className="text-xl font-bold text-yellow-300">
+                    {s.code}
+                  </h2>
                   <p className="text-sm text-zinc-400">{s.name}</p>
                   <p className="mt-1 text-xs text-zinc-500">
                     {s.semester ? `Kì ${s.semester} · ` : ""}
                     {EXAM_TYPE_LABEL[s.examType]}
-                    {hasQuiz(s.examType) && ` · ${s.questionCount} câu hỏi · ${s.summaryCount} chủ đề tóm tắt`}
+                    {hasQuiz(s.examType) &&
+                      ` · ${s.questionCount} câu hỏi · ${s.summaryCount} chủ đề tóm tắt`}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {hasQuiz(s.examType) && (
-                    <Link to={`/admin/subjects/${s.id}/questions`} className={primaryBtn}>
+                    <Link
+                      to={`/admin/subjects/${s.id}/questions`}
+                      className={primaryBtn}
+                    >
                       Quản lý câu hỏi
                     </Link>
                   )}
                   {hasEssay(s.examType) && (
                     <Link
                       to={`/admin/subjects/${s.id}/essays`}
-                      className={(hasQuiz(s.examType) ? ghostBtn : primaryBtn) + " inline-flex items-center"}
+                      className={
+                        (hasQuiz(s.examType) ? ghostBtn : primaryBtn) +
+                        " inline-flex items-center"
+                      }
                     >
                       Đề thi viết
                     </Link>
                   )}
                   {hasQuiz(s.examType) && (
-                    <Link to={`/summary/${s.id}`} className={ghostBtn + " inline-flex items-center"}>
+                    <Link
+                      to={`/summary/${s.id}`}
+                      className={ghostBtn + " inline-flex items-center"}
+                    >
                       Tóm tắt
                     </Link>
                   )}

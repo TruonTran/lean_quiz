@@ -47,8 +47,6 @@ const toSample = (r: SampleRow): EssaySample => ({
   sortOrder: r.sort_order,
 });
 
-/* ------------------------------ đọc ------------------------------ */
-
 export async function fetchEssayPrompts(subjectId: string): Promise<EssayPrompt[]> {
   const { data, error } = await supabase
     .from("essay_prompts")
@@ -71,8 +69,6 @@ export async function fetchEssaySamples(subjectId: string): Promise<EssaySample[
   return ((data ?? []) as SampleRow[]).map(toSample);
 }
 
-/* ------------------------ ghi (chỉ admin) ------------------------ */
-
 export async function createEssayPrompt(
   subjectId: string,
   input: EssayPromptInput,
@@ -90,7 +86,6 @@ export async function updateEssayPrompt(
 ): Promise<void> {
   const { data, error } = await supabase
     .from("essay_prompts")
-    // Chỉ gửi đúng các cột được sửa — không được gửi kèm "id"
     .update({
       title: input.title,
       prompt: input.prompt,

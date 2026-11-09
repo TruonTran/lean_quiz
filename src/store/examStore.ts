@@ -4,7 +4,6 @@ import { persist } from "zustand/middleware";
 interface ExamState {
   answers: Record<string, Record<number, number | number[]>>;
   currentIndex: Record<string, number>;
-  // Ghi chú học tập của người dùng cho từng câu hỏi, theo từng môn
   notes: Record<string, Record<number, string>>;
 
   setAnswer: (
@@ -14,12 +13,8 @@ interface ExamState {
   ) => void;
 
   setCurrentIndex: (subjectId: string, index: number) => void;
-
   clearExam: (subjectId: string) => void;
-
-  // Mở lại (xoá) đáp án của các câu hỏi cụ thể để người học làm lại (dùng cho "Làm lại câu sai")
   clearAnswers: (subjectId: string, questionIds: number[]) => void;
-
   setNote: (subjectId: string, questionId: number, note: string) => void;
 }
 
@@ -93,9 +88,6 @@ export const useExamStore = create<ExamState>()(
       migrate: (persisted, version) => {
         const state = persisted as Partial<ExamState>;
         if (version < 1) {
-          // PRM393 từng có id câu hỏi bị trùng (1–48, 1–50, 1–326) và đã được
-          // đánh lại 1–424. Đáp án/vị trí cũ của môn này không còn khớp câu nữa
-          // nên bỏ đi. Ghi chú (do người dùng tự viết) được giữ lại.
           const answers = { ...state.answers };
           const currentIndex = { ...state.currentIndex };
           delete answers.prm393;

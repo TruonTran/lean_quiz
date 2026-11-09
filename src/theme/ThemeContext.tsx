@@ -51,6 +51,7 @@ export function ExamThemeProvider({ children }: { children: ReactNode }) {
 // eslint-disable-next-line react-refresh/only-export-components
 export function useExamTheme() {
   const ctx = useContext(ExamThemeContext);
-  if (!ctx) throw new Error("useExamTheme must be used inside ExamThemeProvider");
+  if (!ctx)
+    throw new Error("useExamTheme must be used inside ExamThemeProvider");
   return ctx;
 }

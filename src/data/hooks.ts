@@ -19,7 +19,6 @@ export const useSubjectList = () =>
     staleTime: 5 * MIN,
   });
 
-/** Một môn kèm câu hỏi — chỉ tải khi vào làm bài / xem kết quả. */
 export const useSubject = (id: string | undefined) =>
   useQuery({
     queryKey: ["subject", id],
@@ -59,7 +58,6 @@ export const useQuestionsByIds = (subjectId: string, ids: number[]) =>
     staleTime: 10 * MIN,
   });
 
-/** Quyền admin do DB quyết định (hàm is_admin()), UI chỉ dùng để ẩn/hiện nút. */
 export function useIsAdmin() {
   const userId = useAuthStore((s) => s.session?.user.id);
   const q = useQuery({
@@ -75,7 +73,6 @@ export function useIsAdmin() {
   return { isAdmin: q.data === true, isLoading: Boolean(userId) && q.isPending };
 }
 
-/** Hoạt động học của chính người dùng (400 ngày gần nhất, đủ để tính chuỗi 365 ngày). */
 export function useMyActivity() {
   const userId = useAuthStore((s) => s.session?.user.id);
   return useQuery({
@@ -118,7 +115,6 @@ export function useLeaderboard(period: "week" | "month" | "year") {
   });
 }
 
-/** Tên hiển thị của chính người dùng (hiện trên bảng xếp hạng). */
 export function useMyProfile() {
   const userId = useAuthStore((s) => s.session?.user.id);
   return useQuery({

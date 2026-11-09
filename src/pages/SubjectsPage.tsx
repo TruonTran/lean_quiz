@@ -10,7 +10,7 @@ export default function SubjectsPage() {
     <PageShell
       eyebrow="Môn học"
       title="Chọn môn để ôn luyện"
-      subtitle="Tiến độ làm bài của từng môn được lưu lại tự động."
+      subtitle="Tiến độ làm bài của bạn cho từng môn được Cua lưu lại tự động."
       backTo="/"
       backLabel="← Trang chủ"
     >

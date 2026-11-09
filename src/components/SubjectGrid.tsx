@@ -12,7 +12,6 @@ export type SubjectMeta = {
 type Props = {
   hrefFor: (subject: SubjectInfo) => string;
   metaFor: (subject: SubjectInfo) => SubjectMeta;
-  /** Chỉ hiện các môn thoả điều kiện (vd: môn có trắc nghiệm). */
   filter?: (subject: SubjectInfo) => boolean;
 };
 
@@ -38,13 +37,12 @@ export default function SubjectGrid({ hrefFor, metaFor, filter }: Props) {
     );
   }
 
-  // Gom theo học kì (chưa phân loại xuống cuối). Nếu chưa môn nào có học kì thì không hiện tiêu đề.
   const semesters = [...new Set(data.map((d) => d.semester ?? 0))].sort(
     (a, b) => (a || 99) - (b || 99),
   );
   const showHeadings = data.some((d) => d.semester !== null);
-  let order = 0; // thứ tự thẻ, dùng cho độ trễ hiệu ứng
-
+  let order = 0;
+  
   const renderCard = (subject: SubjectInfo) => {
     const meta = metaFor(subject);
     const i = order++;

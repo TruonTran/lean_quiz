@@ -1,23 +1,17 @@
 import type { Question } from "../types/Question";
 import type { ExamType } from "../types/Subject";
-
-/* =============================== Câu hỏi =============================== */
-
 export const MIN_OPTIONS = 2;
 export const MAX_OPTIONS = 10;
 
-/** Bản nháp trong form: đáp án đúng lưu theo chỉ số (0 = A, 1 = B, …). */
 export type QuestionDraft = {
   question: string;
   options: string[];
   correct: number[];
-  /** true = câu chọn nhiều đáp án (answer là mảng), false = chọn 1 (answer là số) */
   multi: boolean;
   hint: string;
   rationale: string;
 };
 
-/** Dữ liệu đúng dạng cột trong bảng `questions`. */
 export type QuestionPayload = {
   question: string;
   options: string[];
@@ -46,7 +40,6 @@ export const draftFromQuestion = (q: Question): QuestionDraft => ({
   rationale: q.rationale ?? "",
 });
 
-/** Chọn / bỏ chọn đáp án đúng. Câu chọn 1 đáp án thì luôn chỉ giữ đúng 1. */
 export function toggleCorrect(d: QuestionDraft, i: number): QuestionDraft {
   if (!d.multi) return { ...d, correct: [i] };
   const has = d.correct.includes(i);
@@ -56,7 +49,6 @@ export function toggleCorrect(d: QuestionDraft, i: number): QuestionDraft {
 
 export function setMulti(d: QuestionDraft, multi: boolean): QuestionDraft {
   if (multi) return { ...d, multi };
-  // chuyển về chọn 1: giữ lại đáp án đúng đầu tiên (nếu có)
   return { ...d, multi, correct: d.correct.length > 0 ? [d.correct[0]] : [] };
 }
 
@@ -65,7 +57,6 @@ export function addOption(d: QuestionDraft): QuestionDraft {
   return { ...d, options: [...d.options, ""] };
 }
 
-/** Xoá đáp án i và dồn lại chỉ số các đáp án đúng phía sau. */
 export function removeOption(d: QuestionDraft, i: number): QuestionDraft {
   if (d.options.length <= MIN_OPTIONS) return d;
   return {
@@ -114,17 +105,14 @@ export function validateDraft(
   };
 }
 
-/* ================================= Môn ================================= */
-
 export type SubjectDraft = {
   code: string;
   name: string;
   description: string;
   examType: ExamType;
-  semester: string; // "" = chưa phân loại, "1".."9" = học kì
+  semester: string;
 };
 
-/** Dữ liệu môn đã kiểm tra hợp lệ, sẵn sàng gửi lên DB. */
 export type SubjectValue = {
   id: string;
   code: string;
@@ -134,7 +122,6 @@ export type SubjectValue = {
   semester: number | null;
 };
 
-/** "MLN111" → "mln111", "MLN 111" → "mln-111", "Kinh tế" → "kinh-te". Dùng làm id trong URL. */
 export function slugify(code: string): string {
   return code
     .normalize("NFD")

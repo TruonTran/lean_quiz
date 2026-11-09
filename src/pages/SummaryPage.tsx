@@ -11,7 +11,7 @@ function SummaryIndex() {
     <PageShell
       eyebrow="Tóm tắt kiến thức"
       title="Chọn môn để xem tóm tắt"
-      subtitle="Ôn nhanh các ý chính trước khi làm bài."
+      subtitle="Ôn nhanh các mẹo và ý chính trước khi làm bài."
       backTo="/"
       backLabel="← Trang chủ"
     >

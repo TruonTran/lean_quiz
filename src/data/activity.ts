@@ -1,10 +1,6 @@
 import { supabase } from "../lib/supabase";
 import { useAuthStore } from "../store/authStore";
 
-/**
- * Ghi số câu đã làm để tính thành tích. Gom lại và gửi theo lô (không gửi từng câu),
- * lỗi mạng thì giữ lại gửi sau. Chạy ngoài React nên không dính quy tắc effect.
- */
 let pending = { answered: 0, correct: 0 };
 let timer: ReturnType<typeof setTimeout> | undefined;
 let flushing = false;
@@ -15,14 +11,13 @@ async function flush() {
   flushing = true;
   try {
     while (pending.answered > 0) {
-      // DB chỉ nhận tối đa 50 câu mỗi lần gọi
       const answered = Math.min(50, pending.answered);
       const correct = Math.min(pending.correct, answered);
       const { error } = await supabase.rpc("record_answers", {
         p_answered: answered,
         p_correct: correct,
       });
-      if (error) return; // giữ nguyên, lần sau gửi lại
+      if (error) return; 
       pending = { answered: pending.answered - answered, correct: pending.correct - correct };
     }
   } finally {

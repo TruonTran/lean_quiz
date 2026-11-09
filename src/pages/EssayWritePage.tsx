@@ -79,7 +79,6 @@ export default function EssayWritePage() {
         <Loading />
       ) : (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {/* Trái: đề, gợi ý, bài mẫu */}
           <div className="space-y-4">
             <div className={panel}>
               <h2 className="mb-2 font-bold text-yellow-300">Đề bài</h2>
@@ -95,7 +94,7 @@ export default function EssayWritePage() {
             {prompt.hint && (
               <div className={panel}>
                 <button onClick={() => setShowHint((v) => !v)} className={ghostBtn}>
-                  {showHint ? "Ẩn gợi ý dàn ý" : "💡 Xem gợi ý dàn ý"}
+                  {showHint ? "Ẩn gợi ý dàn ý" : "Xem gợi ý dàn ý"}
                 </button>
                 {showHint && (
                   <div className="mt-3">
@@ -112,7 +111,7 @@ export default function EssayWritePage() {
                 </button>
                 {!showSample && (
                   <p className="mt-2 text-xs text-zinc-500">
-                    Hãy thử tự viết trước rồi mới đối chiếu với bài mẫu.
+                    Bạn có thể tham khảo bài mẫu trước khi viết
                   </p>
                 )}
                 {showSample && (
@@ -147,7 +146,7 @@ export default function EssayWritePage() {
               </p>
               <div className="flex flex-wrap gap-2">
                 <button onClick={copy} disabled={!text} className={ghostBtn}>
-                  {copied ? "Đã chép ✓" : "Sao chép"}
+                  {copied ? "Đã chép" : "Sao chép"}
                 </button>
                 <button onClick={download} disabled={!text} className={ghostBtn}>
                   Tải .txt
@@ -156,7 +155,7 @@ export default function EssayWritePage() {
                   Xoá bài
                 </button>
                 <button onClick={finish} disabled={!text.trim()} className={primaryBtn}>
-                  ✅ Hoàn thành bài viết
+                  Hoàn thành bài viết
                 </button>
               </div>
             </div>

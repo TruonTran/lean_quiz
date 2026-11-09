@@ -28,13 +28,15 @@ function SetupNotice() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#08090c] p-6 text-zinc-200">
       <div className="max-w-lg rounded-2xl border border-yellow-400/25 bg-white/5 p-8">
-        <h1 className="text-xl font-bold text-yellow-300">Chưa cấu hình Supabase</h1>
+        <h1 className="text-xl font-bold text-yellow-300">
+          Chưa cấu hình Supabase
+        </h1>
         <p className="mt-3 text-sm text-zinc-400">
           Tạo file <code className="text-yellow-200">.env.local</code> (xem{" "}
           <code className="text-yellow-200">.env.example</code>) với{" "}
           <code className="text-yellow-200">VITE_SUPABASE_URL</code> và{" "}
-          <code className="text-yellow-200">VITE_SUPABASE_ANON_KEY</code>, rồi chạy lại{" "}
-          <code className="text-yellow-200">npm run dev</code>.
+          <code className="text-yellow-200">VITE_SUPABASE_ANON_KEY</code>, rồi
+          chạy lại <code className="text-yellow-200">npm run dev</code>.
         </p>
       </div>
     </div>
@@ -76,8 +78,14 @@ export default function App() {
         />
         <Route path="/essays" element={<EssaySubjectsPage />} />
         <Route path="/essays/:subjectId" element={<EssayListPage />} />
-        <Route path="/essays/:subjectId/sample/:sampleId" element={<EssaySamplePage />} />
-        <Route path="/essays/:subjectId/:promptId" element={<EssayWritePage />} />
+        <Route
+          path="/essays/:subjectId/sample/:sampleId"
+          element={<EssaySamplePage />}
+        />
+        <Route
+          path="/essays/:subjectId/:promptId"
+          element={<EssayWritePage />}
+        />
         <Route path="/notes" element={<NotesPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
