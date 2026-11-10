@@ -10,6 +10,7 @@ export type QuestionDraft = {
   multi: boolean;
   hint: string;
   rationale: string;
+  image?: string; // địa chỉ ảnh, trống = không có ảnh
 };
 
 export type QuestionPayload = {
@@ -18,6 +19,8 @@ export type QuestionPayload = {
   answer: number | number[];
   hint: string | null;
   rationale: string | null;
+  /** Chỉ có khi câu có (hoặc vừa bỏ) ảnh, để không đụng tới cột image_url khi chưa dùng ảnh. */
+  image_url?: string | null;
 };
 
 export const optionLabel = (i: number) => String.fromCharCode(65 + i);
@@ -29,6 +32,7 @@ export const emptyDraft = (): QuestionDraft => ({
   multi: false,
   hint: "",
   rationale: "",
+  image: "",
 });
 
 export const draftFromQuestion = (q: Question): QuestionDraft => ({
@@ -38,6 +42,7 @@ export const draftFromQuestion = (q: Question): QuestionDraft => ({
   multi: Array.isArray(q.answer),
   hint: q.hint ?? "",
   rationale: q.rationale ?? "",
+  image: q.image ?? "",
 });
 
 export function toggleCorrect(d: QuestionDraft, i: number): QuestionDraft {

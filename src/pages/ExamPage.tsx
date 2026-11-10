@@ -263,6 +263,8 @@ function ExamPageContent() {
               isRetryMode={isRetryMode}
               resetButtonRef={resetButtonRef}
               onReset={() => setShowConfirmReset(true)}
+              breakEnabled={breakReminder.enabled}
+              onToggleBreak={breakReminder.toggle}
             />
 
             <QuestionCard
@@ -330,6 +332,7 @@ function ExamPageContent() {
           message={breakReminder.message}
           onDismiss={breakReminder.dismiss}
           onSnooze={breakReminder.snooze}
+          onTurnOff={breakReminder.turnOff}
         />
       )}
 

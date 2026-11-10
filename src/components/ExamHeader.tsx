@@ -11,6 +11,8 @@ type Props = {
   isRetryMode: boolean;
   resetButtonRef: RefObject<HTMLButtonElement | null>;
   onReset: () => void;
+  breakEnabled: boolean;
+  onToggleBreak: () => void;
 };
 
 export default function ExamHeader({
@@ -22,6 +24,8 @@ export default function ExamHeader({
   isRetryMode,
   resetButtonRef,
   onReset,
+  breakEnabled,
+  onToggleBreak,
 }: Props) {
   const { theme } = useExamTheme();
   const progress = ((currentIndex + 1) / total) * 100;
@@ -70,6 +74,15 @@ export default function ExamHeader({
           >
             Xem kết quả
           </Link>
+
+          <button
+            onClick={onToggleBreak}
+            aria-pressed={breakEnabled}
+            title="Nhắc nghỉ ngơi sau mỗi 30 phút học"
+            className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${breakEnabled ? theme.softBtn : theme.ghostBtn} ${focus}`}
+          >
+            Nhắc nghỉ: {breakEnabled ? "Bật" : "Tắt"}
+          </button>
 
           <button
             ref={resetButtonRef}

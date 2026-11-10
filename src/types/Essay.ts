@@ -5,9 +5,7 @@ export interface EssayPrompt {
   prompt: string;
   requirement?: string;
   hint?: string;
-  /** Số ký tự tối thiểu để được hoàn thành bài (không đặt = không yêu cầu). */
   minChars?: number;
-  /** Số ký tự tối đa của bài (không đặt = không giới hạn). */
   maxChars?: number;
   sortOrder: number;
 }

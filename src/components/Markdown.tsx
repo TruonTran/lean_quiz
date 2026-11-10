@@ -20,10 +20,20 @@ export default function Markdown({
   return (
     <div className={`space-y-3 text-sm leading-relaxed ${className}`}>
       <ReactMarkdown
-        // singleDollarTextMath: false → "$120,000" vẫn là tiền; công thức phải viết $$...$$
         remarkPlugins={[remarkGfm, [remarkMath, { singleDollarTextMath: false }]]}
         rehypePlugins={[rehypeKatex]}
         components={{
+          img: ({ src, alt }) =>
+            typeof src === "string" && /^https:\/\//i.test(src) ? (
+              <a href={src} target="_blank" rel="noopener noreferrer" className="block">
+                <img
+                  src={src}
+                  alt={alt || "Hình minh hoạ"}
+                  loading="lazy"
+                  className="mx-auto my-2 max-h-96 max-w-full rounded-lg border border-white/10 object-contain"
+                />
+              </a>
+            ) : null,
           table: (p) => (
             <div className="max-w-full overflow-x-auto">
               <table className="w-full border-collapse text-left" {...omitNode(p)} />
