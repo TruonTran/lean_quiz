@@ -1,11 +1,17 @@
 import { useExamTheme } from "../theme/ThemeContext";
 
-type Props = { message: string; onDismiss: () => void; onSnooze: () => void };
+type Props = {
+  message: string;
+  onDismiss: () => void;
+  onSnooze: () => void;
+  onTurnOff: () => void;
+};
 
 export default function BreakReminderModal({
   message,
   onDismiss,
   onSnooze,
+  onTurnOff,
 }: Props) {
   const { theme } = useExamTheme();
 
@@ -43,6 +49,16 @@ export default function BreakReminderModal({
             Nhắc lại sau 10 phút
           </button>
         </div>
+
+        <button
+          onClick={onTurnOff}
+          className={`mt-4 text-xs underline underline-offset-2 transition hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-yellow-300 ${theme.muted}`}
+        >
+          Không nhắc nghỉ nữa
+        </button>
+        <p className={`mt-1 text-xs ${theme.muted}`}>
+          Bạn có thể bật lại bằng nút ở đầu trang làm bài.
+        </p>
       </div>
     </div>
   );

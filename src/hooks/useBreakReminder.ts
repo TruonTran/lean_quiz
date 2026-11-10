@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useSettingsStore } from "../store/settingsStore";
 
 const BREAK_REMINDER_INTERVAL = 30 * 60 * 1000;
 const BREAK_SNOOZE_INTERVAL = 10 * 60 * 1000;
@@ -12,7 +13,9 @@ const BREAK_MESSAGES = [
 ];
 
 export function useBreakReminder() {
-  const [visible, setVisible] = useState(false);
+  const enabled = useSettingsStore((s) => s.breakReminder);
+  const setEnabled = useSettingsStore((s) => s.setBreakReminder);
+  const [shown, setShown] = useState(false);
   const [message, setMessage] = useState(BREAK_MESSAGES[0]);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -22,26 +25,40 @@ export function useBreakReminder() {
       setMessage(
         BREAK_MESSAGES[Math.floor(Math.random() * BREAK_MESSAGES.length)],
       );
-      setVisible(true);
+      setShown(true);
     }, delay);
   }, []);
 
+  // Tắt nhắc nghỉ thì không hẹn giờ; bật lại thì đếm lại từ đầu 30 phút
   useEffect(() => {
+    if (!enabled) return;
     schedule();
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [schedule]);
+  }, [enabled, schedule]);
 
   const dismiss = useCallback(() => {
-    setVisible(false);
+    setShown(false);
     schedule();
   }, [schedule]);
 
   const snooze = useCallback(() => {
-    setVisible(false);
+    setShown(false);
     schedule(BREAK_SNOOZE_INTERVAL);
   }, [schedule]);
 
-  return { visible, message, dismiss, snooze };
+  /** Tắt hẳn nhắc nghỉ (nhớ lựa chọn cho các lần sau). */
+  const turnOff = useCallback(() => {
+    setShown(false);
+    setEnabled(false);
+  }, [setEnabled]);
+
+  /** Bật / tắt từ nút trên đầu trang làm bài. */
+  const toggle = useCallback(() => {
+    setShown(false);
+    setEnabled(!enabled);
+  }, [enabled, setEnabled]);
+
+  return { visible: shown && enabled, message, enabled, dismiss, snooze, turnOff, toggle };
 }
