@@ -3,8 +3,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../lib/supabase";
 import { useAuthStore } from "../store/authStore";
 import { Link } from "react-router-dom";
-import { badgesFor, summarize, type PeriodStat } from "../data/achievements";
-import { useLeaderboard, useMyActivity, useMyProfile } from "../data/hooks";
+import { badgesFor, essayBadges, summarize, type PeriodStat } from "../data/achievements";
+import type { EssaySubmissionInfo } from "../types/Essay";
+import { useLeaderboard, useMyActivity, useMyProfile, useMySubmissions } from "../data/hooks";
 import PageShell from "../components/PageShell";
 import RankIcon from "../components/RankIcon";
 import RequireAuth from "../components/RequireAuth";
@@ -162,13 +163,55 @@ function NameEditor() {
   );
 }
 
+function EssaysSection({ rows }: { rows: EssaySubmissionInfo[] }) {
+  return (
+    <section className="space-y-4">
+      <h2 className="text-lg font-bold text-yellow-300">Bài viết đã hoàn thành ({rows.length})</h2>
+      {rows.length === 0 ? (
+        <p className={`${panel} text-center text-zinc-400`}>
+          Chưa có bài nào. Hoàn thành một bài ở mục Thi viết để lưu vào đây nhé!
+        </p>
+      ) : (
+        <div className="space-y-3">
+          {rows.map((r) => {
+            const date = new Date(r.firstCompletedAt).toLocaleDateString("vi-VN");
+            const body = (
+              <>
+                <div className="min-w-0">
+                  <p className="font-bold text-yellow-300">{r.promptTitle}</p>
+                  <p className="font-mono-brand text-xs text-zinc-500">
+                    {r.charCount} ký tự · {r.wordCount} từ · hoàn thành {date}
+                  </p>
+                </div>
+                {r.promptId && r.subjectId && <span className="text-sm text-yellow-200">Xem lại →</span>}
+              </>
+            );
+            return r.promptId && r.subjectId ? (
+              <Link key={r.id} to={`/essays/${r.subjectId}/${r.promptId}`} className={`${panel} glow-hover flex items-center justify-between gap-3`}>
+                {body}
+              </Link>
+            ) : (
+              <div key={r.id} className={`${panel} flex items-center justify-between gap-3`}>
+                {body}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </section>
+  );
+}
+
 function Content() {
   const q = useMyActivity();
+  const essays = useMySubmissions();
   if (q.isError) return <ErrorBox error={q.error} onRetry={() => q.refetch()} />;
   if (q.isPending) return <Loading />;
 
+  // Lỗi tải bài viết (vd: chưa chạy SQL) không làm hỏng cả trang thành tích
+  const essayRows = essays.data ?? [];
   const s = summarize(q.data);
-  const badges = badgesFor(s);
+  const badges = [...badgesFor(s), ...essayBadges(essayRows.length)];
   const earned = badges.filter((b) => b.current >= b.target).length;
 
   return (
@@ -231,6 +274,8 @@ function Content() {
           })}
         </div>
       </section>
+
+      <EssaysSection rows={essayRows} />
 
       <Leaderboard />
     </div>

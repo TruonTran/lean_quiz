@@ -7,7 +7,12 @@ import {
   fetchSubjectList,
   fetchSummary,
 } from "./api";
-import { fetchEssayPrompts, fetchEssaySamples } from "./essayApi";
+import {
+  fetchEssayPrompts,
+  fetchEssaySamples,
+  fetchMySubmissionContent,
+  fetchMySubmissions,
+} from "./essayApi";
 import { addDays, vnToday, type DayRow } from "./achievements";
 
 const MIN = 60_000;
@@ -126,5 +131,27 @@ export function useMyProfile() {
       if (error) throw error;
       return data ? { displayName: (data as { display_name: string }).display_name } : null;
     },
+  });
+}
+
+/** Danh sách bài thi viết đã hoàn thành của người dùng đang đăng nhập. */
+export function useMySubmissions() {
+  const userId = useAuthStore((s) => s.session?.user.id);
+  return useQuery({
+    queryKey: ["my-submissions", userId],
+    enabled: Boolean(userId),
+    staleTime: 30_000,
+    queryFn: fetchMySubmissions,
+  });
+}
+
+/** Bài đã nộp cho một đề (để khôi phục khi đổi máy hoặc lỡ xoá dữ liệu trình duyệt). */
+export function useMySubmissionContent(promptId: number | undefined) {
+  const userId = useAuthStore((s) => s.session?.user.id);
+  return useQuery({
+    queryKey: ["my-submission", userId, promptId],
+    enabled: Boolean(userId) && Boolean(promptId),
+    staleTime: 30_000,
+    queryFn: () => fetchMySubmissionContent(promptId as number),
   });
 }
