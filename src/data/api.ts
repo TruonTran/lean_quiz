@@ -5,6 +5,7 @@ import type { QuestionPayload } from "./drafts";
 
 const PAGE_SIZE = 1000;
 const QUESTION_COLS = "id, question, options, answer, hint, rationale";
+const QUESTION_COLS_IMG = `${QUESTION_COLS}, image_url`;
 
 type QuestionRow = {
   id: number;
@@ -13,6 +14,7 @@ type QuestionRow = {
   answer: number | number[];
   hint: string | null;
   rationale: string | null;
+  image_url?: string | null;
 };
 
 const toQuestion = (r: QuestionRow): Question => ({
@@ -22,6 +24,7 @@ const toQuestion = (r: QuestionRow): Question => ({
   answer: r.answer,
   hint: r.hint ?? undefined,
   rationale: r.rationale ?? undefined,
+  image: r.image_url ?? undefined,
 });
 
 export function errMsg(e: unknown): string {
@@ -65,15 +68,19 @@ export async function fetchSubjectList(): Promise<SubjectInfo[]> {
 
 async function fetchQuestions(subjectId: string): Promise<Question[]> {
   const out: Question[] = [];
+  let cols = QUESTION_COLS_IMG;
   for (let from = 0; ; from += PAGE_SIZE) {
-    const { data, error } = await supabase
-      .from("questions")
-      .select(QUESTION_COLS)
-      .eq("subject_id", subjectId)
-      .order("id")
-      .range(from, from + PAGE_SIZE - 1);
+    const page = (c: string) =>
+      supabase.from("questions").select(c).eq("subject_id", subjectId).order("id").range(from, from + PAGE_SIZE - 1);
+    let res = await page(cols);
+    // Chưa chạy supabase/images.sql (thiếu cột image_url): vẫn tải được câu hỏi, chỉ chưa có ảnh
+    if (res.error?.code === "42703" && cols !== QUESTION_COLS) {
+      cols = QUESTION_COLS;
+      res = await page(cols);
+    }
+    const { data, error } = res;
     if (error) throw error;
-    const rows = (data ?? []) as QuestionRow[];
+    const rows = (data ?? []) as unknown as QuestionRow[];
     out.push(...rows.map(toQuestion));
     if (rows.length < PAGE_SIZE) break;
   }
@@ -111,14 +118,12 @@ export async function fetchQuestionsByIds(
   ids: number[],
 ): Promise<Question[]> {
   if (ids.length === 0) return [];
-  const { data, error } = await supabase
-    .from("questions")
-    .select(QUESTION_COLS)
-    .eq("subject_id", subjectId)
-    .in("id", ids)
-    .order("id");
-  if (error) throw error;
-  return ((data ?? []) as QuestionRow[]).map(toQuestion);
+  const load = (c: string) =>
+    supabase.from("questions").select(c).eq("subject_id", subjectId).in("id", ids).order("id");
+  let res = await load(QUESTION_COLS_IMG);
+  if (res.error?.code === "42703") res = await load(QUESTION_COLS);
+  if (res.error) throw res.error;
+  return ((res.data ?? []) as unknown as QuestionRow[]).map(toQuestion);
 }
 
 export async function fetchSummary(subjectId: string): Promise<SummarySection[]> {

@@ -113,10 +113,27 @@ export default function QuestionCard({
             onClick={() => setShowNotes((s) => !s)}
             className={`${smallBtn} ${showNotes ? theme.toggleOn : theme.toggleOff}`}
           >
-            📝 {note ? "Ghi chú" : "Thêm ghi chú"}
+            {note ? "Ghi chú" : "Thêm ghi chú"}
           </button>
         </div>
       </div>
+
+      {question.image && (
+        <a
+          href={question.image}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Bấm để xem ảnh lớn"
+          className="mb-4 block"
+        >
+          <img
+            src={question.image}
+            alt="Hình minh hoạ cho câu hỏi"
+            loading="lazy"
+            className="mx-auto max-h-80 max-w-full rounded-lg border border-black/10 object-contain"
+          />
+        </a>
+      )}
 
       <div className="space-y-3">
         {question.options.map((option, index) => (

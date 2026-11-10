@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import {
   MAX_OPTIONS,
   MIN_OPTIONS,
@@ -11,6 +11,7 @@ import {
   type QuestionDraft,
   type QuestionPayload,
 } from "../data/drafts";
+import { imageFromClipboard, uploadContentImage } from "../data/imageUpload";
 import { dangerBtn, ghostBtn, inputClass, panel, primaryBtn } from "./adminStyles";
 
 type Props = {
@@ -35,6 +36,22 @@ export default function QuestionForm({
 }: Props) {
   const [draft, setDraft] = useState<QuestionDraft>(initial);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [imageError, setImageError] = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const upload = async (file: File) => {
+    setImageError(null);
+    setUploading(true);
+    try {
+      const url = await uploadContentImage(file);
+      setDraft((d) => ({ ...d, image: url }));
+    } catch (err) {
+      setImageError(err instanceof Error ? err.message : "Không tải được ảnh.");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -44,7 +61,9 @@ export default function QuestionForm({
       return;
     }
     setLocalError(null);
-    onSubmit(result.value);
+    // Chỉ gửi image_url khi câu có ảnh hoặc vừa được bỏ ảnh
+    const imagePart = draft.image || initial.image ? { image_url: draft.image || null } : {};
+    onSubmit({ ...result.value, ...imagePart });
   };
 
   const error = localError ?? serverError;
@@ -56,11 +75,56 @@ export default function QuestionForm({
       <textarea
         value={draft.question}
         onChange={(e) => setDraft({ ...draft, question: e.target.value })}
-        placeholder="Nội dung câu hỏi"
+        onPaste={(e) => {
+          // Dán ảnh (Ctrl+V) khi không kèm chữ → tải lên làm ảnh của câu hỏi
+          if (e.clipboardData.getData("text/plain").trim()) return;
+          const file = imageFromClipboard(e.clipboardData);
+          if (!file) return;
+          e.preventDefault();
+          void upload(file);
+        }}
+        placeholder="Nội dung câu hỏi (có thể dán ảnh bằng Ctrl+V)"
         rows={3}
         className={`${inputClass} resize-y`}
         aria-label="Nội dung câu hỏi"
       />
+
+      <div className="space-y-2">
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/png,image/jpeg,image/webp,image/gif"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            e.target.value = "";
+            if (file) void upload(file);
+          }}
+        />
+        {draft.image ? (
+          <div className="flex flex-wrap items-start gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3">
+            <img src={draft.image} alt="Ảnh của câu hỏi" className="max-h-40 max-w-full rounded-md object-contain" />
+            <div className="flex gap-2">
+              <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className={ghostBtn}>
+                Đổi ảnh
+              </button>
+              <button type="button" onClick={() => setDraft({ ...draft, image: "" })} className={dangerBtn}>
+                Xoá ảnh
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading} className={ghostBtn}>
+            {uploading ? "Đang tải ảnh…" : "🖼️ Thêm ảnh (hoặc dán Ctrl+V vào ô câu hỏi)"}
+          </button>
+        )}
+        {uploading && draft.image && <p className="text-xs text-zinc-400">Đang tải ảnh…</p>}
+        {imageError && (
+          <p role="alert" className="text-sm text-red-300">
+            {imageError}
+          </p>
+        )}
+      </div>
 
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm font-semibold text-zinc-300">

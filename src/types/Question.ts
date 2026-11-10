@@ -8,4 +8,7 @@ export interface Question {
 
   hint?: string;
   rationale?: string;
+
+  /** Ảnh minh hoạ (địa chỉ https) hiện dưới nội dung câu hỏi. */
+  image?: string;
 }

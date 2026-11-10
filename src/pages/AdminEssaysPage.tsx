@@ -14,7 +14,8 @@ import { useEssayPrompts, useEssaySamples, useSubjectList } from "../data/hooks"
 import type { EssayPrompt, EssayPromptInput, EssaySample, EssaySampleInput } from "../types/Essay";
 import PageShell from "../components/PageShell";
 import TableHelp from "../components/TableHelp";
-import { pasteTable, plainPreview } from "../data/tableText";
+import { plainPreview } from "../data/tableText";
+import { handleContentPaste } from "../data/imageUpload";
 import { ErrorBox, Loading } from "../components/LoadState";
 import { dangerBtn, ghostBtn, inputClass, panel, primaryBtn } from "../components/adminStyles";
 
@@ -40,6 +41,7 @@ function PromptForm({
   const [minChars, setMinChars] = useState(initial?.minChars ? String(initial.minChars) : "");
   const [maxChars, setMaxChars] = useState(initial?.maxChars ? String(initial.maxChars) : "");
   const [localError, setLocalError] = useState<string | null>(null);
+  const [imgMsg, setImgMsg] = useState<string | null>(null);
 
   // Ô số ký tự: để trống = không giới hạn; có thì phải là số nguyên dương
   const parseLimit = (v: string): number | null | "bad" => {
@@ -72,10 +74,10 @@ function PromptForm({
     <form onSubmit={submit} className={`${panel} space-y-3`}>
       <h2 className="text-lg font-bold text-yellow-300">{initial ? "Sửa đề" : "Thêm đề"}</h2>
       <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Tiêu đề (vd: Đề 1 – Nghị luận xã hội)" className={inputClass} aria-label="Tiêu đề" />
-      <textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} onPaste={(e) => pasteTable(e, setPrompt)} placeholder="Nội dung đề bài (có thể chèn bảng, xem “Cách tạo bảng”)" rows={6} className={inputClass} aria-label="Đề bài" />
+      <textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} onPaste={(e) => handleContentPaste(e, setPrompt, setImgMsg)} placeholder="Nội dung đề bài (có thể chèn bảng, dán ảnh bằng Ctrl+V)" rows={6} className={inputClass} aria-label="Đề bài" />
       <TableHelp onInsert={(t) => setPrompt((v) => (v.trim() ? `${v}\n\n${t}\n` : `${t}\n`))} />
       <input value={requirement} onChange={(e) => setRequirement(e.target.value)} placeholder="Yêu cầu (vd: 300–400 từ, 45 phút) — không bắt buộc" className={inputClass} aria-label="Yêu cầu" />
-      <textarea value={hint} onChange={(e) => setHint(e.target.value)} onPaste={(e) => pasteTable(e, setHint)} placeholder="Gợi ý dàn ý (markdown) — không bắt buộc" rows={4} className={inputClass} aria-label="Gợi ý dàn ý" />
+      <textarea value={hint} onChange={(e) => setHint(e.target.value)} onPaste={(e) => handleContentPaste(e, setHint, setImgMsg)} placeholder="Gợi ý dàn ý (markdown) — không bắt buộc" rows={4} className={inputClass} aria-label="Gợi ý dàn ý" />
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <label className="block space-y-1">
           <span className="text-xs text-zinc-400">Số ký tự tối thiểu để được hoàn thành (không bắt buộc)</span>
@@ -87,6 +89,7 @@ function PromptForm({
         </label>
       </div>
       <p className="text-xs text-zinc-500">Tính cả dấu cách. Người học chỉ bấm được “Hoàn thành bài viết” khi số ký tự nằm trong khoảng này.</p>
+      {imgMsg && <p role="status" className="text-sm text-yellow-200">{imgMsg}</p>}
       {error && <p role="alert" className="text-sm text-red-300">{error}</p>}
       <div className="flex gap-2">
         <button type="submit" disabled={pending} className={primaryBtn}>{pending ? "Đang lưu…" : "Lưu"}</button>
@@ -116,6 +119,7 @@ function SampleForm({
   const [outline, setOutline] = useState(initial?.outline ?? "");
   const [content, setContent] = useState(initial?.content ?? "");
   const [localError, setLocalError] = useState<string | null>(null);
+  const [imgMsg, setImgMsg] = useState<string | null>(null);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -141,9 +145,10 @@ function SampleForm({
           <option key={p.id} value={p.id}>Gắn với: {p.title}</option>
         ))}
       </select>
-      <textarea value={outline} onChange={(e) => setOutline(e.target.value)} onPaste={(e) => pasteTable(e, setOutline)} placeholder="Dàn ý (markdown) — không bắt buộc" rows={4} className={inputClass} aria-label="Dàn ý" />
-      <textarea value={content} onChange={(e) => setContent(e.target.value)} onPaste={(e) => pasteTable(e, setContent)} placeholder="Nội dung bài mẫu (markdown: **đậm**, - gạch đầu dòng, ## tiêu đề)" rows={12} className={inputClass} aria-label="Nội dung" />
+      <textarea value={outline} onChange={(e) => setOutline(e.target.value)} onPaste={(e) => handleContentPaste(e, setOutline, setImgMsg)} placeholder="Dàn ý (markdown) — không bắt buộc" rows={4} className={inputClass} aria-label="Dàn ý" />
+      <textarea value={content} onChange={(e) => setContent(e.target.value)} onPaste={(e) => handleContentPaste(e, setContent, setImgMsg)} placeholder="Nội dung bài mẫu (markdown: **đậm**, - gạch đầu dòng, ## tiêu đề)" rows={12} className={inputClass} aria-label="Nội dung" />
       <TableHelp onInsert={(t) => setContent((v) => (v.trim() ? `${v}\n\n${t}\n` : `${t}\n`))} />
+      {imgMsg && <p role="status" className="text-sm text-yellow-200">{imgMsg}</p>}
       {error && <p role="alert" className="text-sm text-red-300">{error}</p>}
       <div className="flex gap-2">
         <button type="submit" disabled={pending} className={primaryBtn}>{pending ? "Đang lưu…" : "Lưu"}</button>
