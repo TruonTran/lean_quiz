@@ -33,7 +33,6 @@ function SummaryDetail({ subjectId }: { subjectId: string }) {
   const { isAdmin } = useIsAdmin();
 
   const subject = list.data?.find((s) => s.id === subjectId);
-  // Môn chỉ thi viết không có phần tóm tắt kiến thức
   if (list.data && (!subject || !hasQuiz(subject.examType))) {
     return <Navigate to="/summary" replace />;
   }

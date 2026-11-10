@@ -4,7 +4,6 @@ import { deleteSection, errMsg, saveSection, swapSections } from "../data/api";
 import type { SummarySection } from "../types/Subject";
 import { isTablePoint, parsePoints, pasteTable } from "../data/tableText";
 import Markdown from "./Markdown";
-import TableHelp from "./TableHelp";
 
 type Props = {
   subjectId: string;
@@ -57,11 +56,10 @@ function SectionForm({
         value={pointsText}
         onPaste={(e) => pasteTable(e, setPointsText)}
         onChange={(e) => setPointsText(e.target.value)}
-        placeholder={"Mỗi dòng là một ý chính. Muốn thêm bảng: bấm \"Cách tạo bảng\" bên dưới."}
+        placeholder={"Mỗi dòng là một ý chính. Có thể dán bảng từ Word hoặc Excel."}
         rows={7}
         className={`${inputClass} resize-y`}
       />
-      <TableHelp onInsert={(t) => setPointsText((v) => (v.trim() ? `${v}\n\n${t}\n` : `${t}\n`))} />
       {error && <p className="text-sm text-red-300">{error}</p>}
       <div className="flex gap-2">
         <button
