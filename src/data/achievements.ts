@@ -127,3 +127,16 @@ export function badgesFor(s: Summary): Badge[] {
     volume(5000, "🦄", "5.000 câu"),
   ];
 }
+
+/** Huy hiệu cho phần thi viết: tính theo số bài đã hoàn thành. */
+export function essayBadges(completed: number): Badge[] {
+  const b = (target: number, icon: string, title: string): Badge => ({
+    id: `essay-${target}`,
+    icon,
+    title,
+    desc: target === 1 ? "Hoàn thành bài viết đầu tiên" : `Hoàn thành ${target} bài viết`,
+    current: completed,
+    target,
+  });
+  return [b(1, "✍️", "Cây bút mới"), b(5, "📝", "Cây bút chăm chỉ"), b(10, "📚", "Nhà văn tập sự")];
+}

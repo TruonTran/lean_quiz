@@ -5,6 +5,10 @@ export interface EssayPrompt {
   prompt: string;
   requirement?: string;
   hint?: string;
+  /** Số ký tự tối thiểu để được hoàn thành bài (không đặt = không yêu cầu). */
+  minChars?: number;
+  /** Số ký tự tối đa của bài (không đặt = không giới hạn). */
+  maxChars?: number;
   sortOrder: number;
 }
 
@@ -23,6 +27,8 @@ export type EssayPromptInput = {
   prompt: string;
   requirement: string | null;
   hint: string | null;
+  minChars: number | null;
+  maxChars: number | null;
 };
 
 export type EssaySampleInput = {
@@ -31,3 +37,14 @@ export type EssaySampleInput = {
   outline: string | null;
   content: string;
 };
+
+/** Bài viết đã hoàn thành của người dùng (không kèm nội dung, dùng cho danh sách thành tích). */
+export interface EssaySubmissionInfo {
+  id: number;
+  promptId: number | null;
+  subjectId: string | null;
+  promptTitle: string;
+  charCount: number;
+  wordCount: number;
+  firstCompletedAt: string;
+}
