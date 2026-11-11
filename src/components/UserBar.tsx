@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuthStore } from "../store/authStore";
 import { useMyProfile } from "../data/hooks";
+import WeatherPicker from "./WeatherPicker";
 
 export default function UserBar() {
   const session = useAuthStore((s) => s.session);
@@ -21,6 +22,7 @@ export default function UserBar() {
         <Link to="/login?mode=register" className={chip}>
           Đăng ký
         </Link>
+        <WeatherPicker />
       </div>
     );
   }
@@ -38,6 +40,7 @@ export default function UserBar() {
       <button onClick={() => supabase.auth.signOut()} className={chip}>
         Đăng xuất
       </button>
+      <WeatherPicker />
     </div>
   );
 }
