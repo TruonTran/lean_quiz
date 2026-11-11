@@ -5,6 +5,7 @@ import ExamPage from "./pages/ExamPage";
 import ResultsPage from "./pages/Resultspage";
 import CursorGlow from "./components/CursorGlow";
 import ThemeToggle from "./components/ThemeToggle";
+import WeatherEffects from "./components/WeatherEffects";
 import NotesPage from "./pages/Notespage";
 import SubjectsPage from "./pages/SubjectsPage";
 import SummaryPage from "./pages/SummaryPage";
@@ -50,6 +51,7 @@ export default function App() {
     <BrowserRouter>
       <CursorGlow />
       <ThemeToggle />
+      <WeatherEffects />
       <Routes>
         <Route path="/" element={<HomePage />} />
 
