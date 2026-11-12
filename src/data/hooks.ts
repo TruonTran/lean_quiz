@@ -86,13 +86,19 @@ export function useMyActivity() {
     staleTime: 30_000,
     queryFn: async (): Promise<DayRow[]> => {
       const since = addDays(vnToday(), -400);
-      const { data, error } = await supabase
-        .from("daily_activity")
-        .select("day, answered, correct")
-        .gte("day", since)
-        .order("day");
-      if (error) throw error;
-      return (data ?? []) as DayRow[];
+      const load = (cols: string) =>
+        supabase.from("daily_activity").select(cols).gte("day", since).order("day");
+      let res = await load("day, answered, correct, pop_answered, pop_correct");
+      if (res.error?.code === "42703") res = await load("day, answered, correct");
+      if (res.error) throw res.error;
+      type Row = { day: string; answered: number; correct: number; pop_answered?: number; pop_correct?: number };
+      return ((res.data ?? []) as unknown as Row[]).map((r) => ({
+        day: r.day,
+        answered: r.answered,
+        correct: r.correct,
+        popAnswered: r.pop_answered ?? 0,
+        popCorrect: r.pop_correct ?? 0,
+      }));
     },
   });
 }
@@ -134,7 +140,6 @@ export function useMyProfile() {
   });
 }
 
-/** Danh sách bài thi viết đã hoàn thành của người dùng đang đăng nhập. */
 export function useMySubmissions() {
   const userId = useAuthStore((s) => s.session?.user.id);
   return useQuery({

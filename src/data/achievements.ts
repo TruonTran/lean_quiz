@@ -1,4 +1,10 @@
-export type DayRow = { day: string; answered: number; correct: number };
+export type DayRow = {
+  day: string;
+  answered: number;
+  correct: number;
+  popAnswered?: number;
+  popCorrect?: number;
+};
 
 const DAY_MS = 86_400_000;
 
@@ -35,6 +41,9 @@ export type Summary = {
   month: PeriodStat;
   year: PeriodStat;
   totalAnswered: number;
+  popAnswered: number; // tổng số câu hỏi bất ngờ đã trả lời
+  popCorrect: number; // số câu bất ngờ trả lời đúng
+  bonusPoints: number; // điểm thưởng = số câu bất ngờ đúng x 10
   currentStreak: number;
   bestStreak: number;
   perfectWeeks: number;
@@ -78,6 +87,9 @@ export function summarize(rows: DayRow[], today = vnToday()): Summary {
     month: sumFrom(rows, monthStart(today)),
     year: sumFrom(rows, yearStart(today)),
     totalAnswered: rows.reduce((s, r) => s + r.answered, 0),
+    popAnswered: rows.reduce((s, r) => s + (r.popAnswered ?? 0), 0),
+    popCorrect: rows.reduce((s, r) => s + (r.popCorrect ?? 0), 0),
+    bonusPoints: rows.reduce((s, r) => s + (r.popCorrect ?? 0), 0) * 10,
     currentStreak: current,
     bestStreak: best,
     perfectWeeks: [...perWeek.values()].filter((n) => n >= 7).length,
@@ -112,6 +124,15 @@ export function badgesFor(s: Summary): Badge[] {
     target,
   });
 
+  const pop = (target: number, icon: string, title: string): Badge => ({
+    id: `pop-${target}`,
+    icon,
+    title,
+    desc: `Trả lời đúng ${target} câu hỏi bất ngờ`,
+    current: s.popCorrect,
+    target,
+  });
+
   return [
     streak(3, "🔥", "Khởi động"),
     streak(7, "📅", "Một tuần liên tục"),
@@ -121,6 +142,9 @@ export function badgesFor(s: Summary): Badge[] {
     { id: "perfect-week", icon: "🌟", title: "Tuần trọn vẹn", desc: "Học đủ 7/7 ngày trong một tuần", current: s.perfectWeeks, target: 1 },
     { id: "perfect-week-4", icon: "🌠", title: "Bốn tuần trọn vẹn", desc: "Có 4 tuần học đủ 7/7 ngày", current: s.perfectWeeks, target: 4 },
     { id: "busy-month", icon: "🗓️", title: "Tháng chăm chỉ", desc: "Học từ 20 ngày trở lên trong một tháng", current: s.busyMonths, target: 1 },
+    pop(10, "⚡", "Phản xạ nhanh"),
+    pop(50, "🎖️", "Tay nhanh mắt tinh"),
+    pop(100, "🧠", "Bậc thầy bất ngờ"),
     volume(100, "🎯", "100 câu đầu tiên"),
     volume(500, "🚀", "500 câu"),
     volume(1000, "🏆", "1.000 câu"),

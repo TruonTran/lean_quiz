@@ -13,6 +13,8 @@ type Props = {
   onReset: () => void;
   breakEnabled: boolean;
   onToggleBreak: () => void;
+  popEnabled: boolean;
+  onTogglePop: () => void;
 };
 
 export default function ExamHeader({
@@ -26,6 +28,8 @@ export default function ExamHeader({
   onReset,
   breakEnabled,
   onToggleBreak,
+  popEnabled,
+  onTogglePop,
 }: Props) {
   const { theme } = useExamTheme();
   const progress = ((currentIndex + 1) / total) * 100;
@@ -82,6 +86,15 @@ export default function ExamHeader({
             className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${breakEnabled ? theme.softBtn : theme.ghostBtn} ${focus}`}
           >
             Nhắc nghỉ: {breakEnabled ? "Bật" : "Tắt"}
+          </button>
+
+          <button
+            onClick={onTogglePop}
+            aria-pressed={popEnabled}
+            title="Thỉnh thoảng hỏi lại bất ngờ một câu bạn đã làm, đúng thì được thưởng điểm"
+            className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${popEnabled ? theme.softBtn : theme.ghostBtn} ${focus}`}
+          >
+            Câu hỏi bất ngờ: {popEnabled ? "Bật" : "Tắt"}
           </button>
 
           <button

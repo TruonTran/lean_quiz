@@ -1,10 +1,7 @@
-/** Các kiểu hiệu ứng thời tiết và lịch xuất hiện "lâu lâu". */
-
 export type WeatherKind = "snow" | "rain" | "wind" | "sun";
 export type WeatherStrength = "light" | "strong";
 export type WeatherPlan = { kind: WeatherKind; strength: WeatherStrength };
 
-/** auto = thỉnh thoảng tự xuất hiện; off = tắt; còn lại = chạy liên tục theo kiểu đã chọn. */
 export type WeatherMode = "auto" | "off" | `${WeatherKind}-${WeatherStrength}`;
 
 export const WEATHER_OPTIONS: { value: WeatherMode; label: string }[] = [

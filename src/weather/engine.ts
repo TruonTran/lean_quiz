@@ -1,24 +1,18 @@
 import type { WeatherKind, WeatherStrength } from "./modes";
-
-/** Vẽ và cập nhật các hạt (tuyết, mưa, gió, nắng) trên canvas. Không phụ thuộc React nên dễ kiểm thử. */
-
 export type Rng = () => number;
 
 export interface Effect {
   resize(w: number, h: number): void;
   update(dt: number): void;
   draw(ctx: CanvasRenderingContext2D): void;
-  /** Số hạt đang có (để kiểm thử). */
   count(): number;
 }
 
 const TAU = Math.PI * 2;
 const between = (rng: Rng, a: number, b: number) => a + rng() * (b - a);
-/** Màn hình càng rộng càng nhiều hạt (0.5x → 1.6x), điện thoại nhỏ giảm bớt cho đỡ nặng máy. */
 const density = (w: number, h: number) =>
   Math.min(1.6, Math.max(0.5, (w * h) / (1280 * 720))) * (w < 640 ? 0.6 : 1);
 
-/* ------------------------------------ tuyết ------------------------------------ */
 type Flake = { x: number; y: number; r: number; vy: number; phase: number; amp: number };
 
 function snow(strong: boolean, w: number, h: number, dark: boolean, rng: Rng): Effect {
