@@ -239,6 +239,20 @@ function Content() {
         </div>
       </section>
 
+      <section className={`${panel} flex flex-wrap items-center justify-between gap-4`}>
+        <div>
+          <p className="font-mono-brand text-xs uppercase tracking-widest text-zinc-500">Điểm thưởng</p>
+          <p className="mt-1 text-3xl font-extrabold text-yellow-300">{s.bonusPoints}</p>
+          <p className="text-sm text-zinc-400">
+            từ {s.popCorrect}/{s.popAnswered} câu hỏi bất ngờ trả lời đúng
+          </p>
+        </div>
+        <p className="max-w-sm text-sm text-zinc-400">
+          Thỉnh thoảng khi bạn đang làm quiz, web sẽ hỏi lại bất ngờ một câu bạn đã làm trong đề để gợi nhớ.
+          Trả lời đúng được +10 điểm thưởng và tích huy hiệu.
+        </p>
+      </section>
+
       {s.totalAnswered === 0 && (
         <div className={`${panel} text-center`}>
           <p className="text-zinc-300">Bạn chưa làm câu nào. Làm vài câu để bắt đầu tích lũy thành tích nhé!</p>

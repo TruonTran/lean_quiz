@@ -17,6 +17,9 @@ import CrabMascot from "../components/CrabMascot";
 import SummaryPanel from "../components/SummaryPanel";
 
 import { useBreakReminder } from "../hooks/useBreakReminder";
+import { usePopQuiz } from "../hooks/usePopQuiz";
+import { recordPopQuiz, studiedPool } from "../data/popQuiz";
+import PopQuizModal from "../components/PopQuizModal";
 import { useSwipe } from "../hooks/useSwipe";
 import { useExamKeyboard } from "../hooks/useExamKeyboard";
 import { recordAnswer } from "../data/activity";
@@ -102,10 +105,10 @@ function ExamPageContent() {
     correct: boolean;
   } | null>(null);
   const mascotCounterRef = useRef(0);
-  const reportToMascot = (correct: boolean) => {
+  const reportToMascot = (correct: boolean, countAsAnswer = true) => {
     mascotCounterRef.current += 1;
     setMascotEvent({ id: mascotCounterRef.current, correct });
-    recordAnswer(correct);
+    if (countAsAnswer) recordAnswer(correct); // câu hỏi bất ngờ không tính vào số câu đã làm
   };
 
   const toggleFlag = () => {
@@ -162,9 +165,12 @@ function ExamPageContent() {
   };
 
   const breakReminder = useBreakReminder();
+  // Chỉ hỏi lại các câu đã làm trong đề này (gợi nhớ), không hỏi câu chưa học
+  const studied = useMemo(() => studiedPool(questions, answeredIds, question?.id), [questions, answeredIds, question?.id]);
+  const popQuiz = usePopQuiz(studied, breakReminder.visible || showConfirmReset);
   const swipe = useSwipe(goNext, goPrev);
 
-  useExamKeyboard(Boolean(subjectId) && !showConfirmReset, {
+  useExamKeyboard(Boolean(subjectId) && !showConfirmReset && !popQuiz.visible, {
     onFirst: () => goToIndex(0),
     onLast: () => goToIndex(questions.length - 1),
     onPrev: goPrev,
@@ -265,6 +271,8 @@ function ExamPageContent() {
               onReset={() => setShowConfirmReset(true)}
               breakEnabled={breakReminder.enabled}
               onToggleBreak={breakReminder.toggle}
+              popEnabled={popQuiz.enabled}
+              onTogglePop={popQuiz.toggle}
             />
 
             <QuestionCard
@@ -333,6 +341,18 @@ function ExamPageContent() {
           onDismiss={breakReminder.dismiss}
           onSnooze={breakReminder.snooze}
           onTurnOff={breakReminder.turnOff}
+        />
+      )}
+
+      {popQuiz.visible && popQuiz.question && (
+        <PopQuizModal
+          key={popQuiz.question.id}
+          question={popQuiz.question}
+          onAnswered={(correct) => {
+            void recordPopQuiz(correct);
+            reportToMascot(correct, false);
+          }}
+          onClose={popQuiz.close}
         />
       )}
 
