@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createQuestion,
+  deleteAllQuestions,
   deleteQuestion,
   errMsg,
   updateQuestion,
@@ -41,6 +42,8 @@ export default function AdminQuestionsPage() {
   const [notice, setNotice] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
+  const [confirmAll, setConfirmAll] = useState(false); // đang hiện khung xác nhận xoá toàn bộ
+  const [typed, setTyped] = useState(""); // mã môn người dùng gõ để xác nhận
 
   const id = subjectId ?? "";
   const refresh = () =>
@@ -75,6 +78,24 @@ export default function AdminQuestionsPage() {
     },
   });
 
+  const removeAll = useMutation({
+    mutationFn: () => deleteAllQuestions(id),
+    onSuccess: async ({ deleted, idsMayRestart }) => {
+      await refresh();
+      setConfirmAll(false);
+      setTyped("");
+      setSearch("");
+      setPage(0);
+      setEditing(null);
+      setNotice(
+        `Đã xoá toàn bộ ${deleted} câu hỏi.` +
+          (idsMayRestart
+            ? " Lưu ý: chưa chạy supabase/delete-all-questions.sql nên câu thêm mới sẽ đánh số lại từ 1."
+            : ""),
+      );
+    },
+  });
+
   const questions = useMemo(() => subject?.questions ?? [], [subject]);
   const filtered = useMemo(() => {
     const t = search.trim().toLowerCase();
@@ -91,14 +112,26 @@ export default function AdminQuestionsPage() {
     (safePage + 1) * PAGE_SIZE,
   );
 
+  const startConfirmAll = () => {
+    removeAll.reset();
+    setNotice(null);
+    setEditing(null);
+    setAdding(false);
+    setImporting(false);
+    setTyped("");
+    setConfirmAll(true);
+  };
+
   const startAdd = () => {
     add.reset();
+    setConfirmAll(false);
     setNotice(null);
     setEditing(null);
     setImporting(false);
     setAdding(true);
   };
   const startImport = () => {
+    setConfirmAll(false);
     setNotice(null);
     setEditing(null);
     setAdding(false);
@@ -106,6 +139,7 @@ export default function AdminQuestionsPage() {
   };
   const startEdit = (qid: number) => {
     update.reset();
+    setConfirmAll(false);
     setNotice(null);
     setAdding(false);
     setImporting(false);
@@ -159,6 +193,58 @@ export default function AdminQuestionsPage() {
             >
               Nhập hàng loạt
             </button>
+            {questions.length > 0 && !confirmAll && (
+              <button onClick={startConfirmAll} className={`${dangerBtn} ml-auto`}>
+                Xoá toàn bộ câu hỏi
+              </button>
+            )}
+          </div>
+        )}
+
+        {confirmAll && (
+          <div role="alertdialog" aria-labelledby="del-all-title" className={`${panel} space-y-3 border-red-400/40`}>
+            <h2 id="del-all-title" className="text-lg font-bold text-red-300">
+              Xoá toàn bộ {questions.length} câu hỏi của môn {subject.code}?
+            </h2>
+            <p className="text-sm text-zinc-300">
+              Thao tác này <b>không hoàn tác được</b>. Môn học, phần tóm tắt và đề thi viết vẫn được giữ. Chỉ các câu
+              hỏi trắc nghiệm của môn này bị xoá.
+            </p>
+            <label className="block space-y-1">
+              <span className="text-sm text-zinc-400">
+                Gõ mã môn <b className="text-yellow-200">{subject.code}</b> để xác nhận:
+              </span>
+              <input
+                value={typed}
+                onChange={(e) => setTyped(e.target.value)}
+                placeholder={subject.code}
+                autoComplete="off"
+                autoFocus
+                className={inputClass}
+                aria-label="Gõ mã môn để xác nhận"
+              />
+            </label>
+            {removeAll.error && (
+              <p role="alert" className="text-sm text-red-300">
+                {errMsg(removeAll.error)}
+              </p>
+            )}
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => removeAll.mutate()}
+                disabled={removeAll.isPending || typed.trim().toLowerCase() !== subject.code.toLowerCase()}
+                className={`${dangerBtn} disabled:opacity-40`}
+              >
+                {removeAll.isPending ? "Đang xoá…" : `Xoá toàn bộ ${questions.length} câu`}
+              </button>
+              <button
+                onClick={() => setConfirmAll(false)}
+                disabled={removeAll.isPending}
+                className={ghostBtn}
+              >
+                Huỷ
+              </button>
+            </div>
           </div>
         )}
 

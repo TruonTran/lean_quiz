@@ -108,7 +108,8 @@ function ExamPageContent() {
   const reportToMascot = (correct: boolean, countAsAnswer = true) => {
     mascotCounterRef.current += 1;
     setMascotEvent({ id: mascotCounterRef.current, correct });
-    if (countAsAnswer) recordAnswer(correct); // câu hỏi bất ngờ không tính vào số câu đã làm
+    // Câu hỏi bất ngờ không tính vào số câu đã làm; mỗi câu chỉ tính một lần mỗi ngày
+    if (countAsAnswer && subjectId && question) recordAnswer(subjectId, question.id, correct);
   };
 
   const toggleFlag = () => {
