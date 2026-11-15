@@ -272,7 +272,17 @@ async function nextQuestionId(subjectId: string): Promise<number> {
     .order("id", { ascending: false })
     .limit(1);
   if (error) raise(error);
-  return ((data?.[0] as { id: number } | undefined)?.id ?? 0) + 1;
+  const maxId = (data?.[0] as { id: number } | undefined)?.id ?? 0;
+
+  // Số lớn nhất từng dùng (lưu khi xoá toàn bộ) để không dùng lại số cũ. Chưa chạy SQL thì bỏ qua.
+  const { data: sub, error: floorErr } = await supabase
+    .from("subjects")
+    .select("question_id_floor")
+    .eq("id", subjectId)
+    .maybeSingle();
+  const floor = floorErr ? 0 : ((sub as { question_id_floor?: number } | null)?.question_id_floor ?? 0);
+
+  return Math.max(maxId, floor) + 1;
 }
 
 const BULK_CHUNK = 500;
@@ -334,4 +344,24 @@ export async function deleteQuestion(subjectId: string, id: number): Promise<voi
     .select("id");
   if (error) raise(error);
   if (!data || data.length === 0) throw new Error(DENIED);
+}
+
+/**
+ * Xoá toàn bộ câu hỏi của một môn. Trả về số câu đã xoá.
+ * `idsMayRestart` = true khi chưa chạy supabase/delete-all-questions.sql: câu thêm sau đó sẽ đánh số lại từ 1,
+ * nên đáp án / ghi chú người học lưu trên máy có thể bị gắn nhầm vào câu mới.
+ */
+export async function deleteAllQuestions(
+  subjectId: string,
+): Promise<{ deleted: number; idsMayRestart: boolean }> {
+  const { data, error } = await supabase.rpc("delete_all_questions", { p_subject: subjectId });
+  if (!error) return { deleted: Number(data ?? 0), idsMayRestart: false };
+
+  // Chưa có hàm trong DB (PGRST202 / 42883): xoá trực tiếp như cách cũ
+  const missing = error.code === "PGRST202" || error.code === "42883";
+  if (!missing) raise(error);
+
+  const res = await supabase.from("questions").delete().eq("subject_id", subjectId).select("id");
+  if (res.error) raise(res.error);
+  return { deleted: res.data?.length ?? 0, idsMayRestart: true };
 }
