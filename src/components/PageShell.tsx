@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { useAdminEmbedded } from "./adminContext";
 
 type Props = {
   eyebrow?: string;
@@ -18,6 +19,34 @@ export default function PageShell({
   backLabel = "← Quay lại",
   children,
 }: Props) {
+  const embedded = useAdminEmbedded();
+  if (embedded) {
+    return (
+      <div className="mx-auto w-full max-w-6xl">
+        {backTo && (
+          <Link
+            to={backTo}
+            className="mb-4 inline-flex items-center text-sm font-semibold text-yellow-200 hover:underline"
+          >
+            {backLabel}
+          </Link>
+        )}
+        <div className="mb-6 pr-14 lg:pr-0">
+          {eyebrow && (
+            <p className="font-mono-brand text-xs uppercase tracking-[0.2em] text-yellow-300">
+              {eyebrow}
+            </p>
+          )}
+          <h1 className="mt-1 text-2xl font-extrabold text-white sm:text-3xl">
+            {title}
+          </h1>
+          {subtitle && <p className="mt-1 text-sm text-zinc-400">{subtitle}</p>}
+        </div>
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#08090c] p-6 sm:p-10">
       <div className="bg-ambient" />

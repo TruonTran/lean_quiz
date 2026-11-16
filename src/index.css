@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-/* ============================================================
-   LUMORA-INSPIRED THEME — Vàng & Đen hiện đại
-   ============================================================ */
-
 :root {
   --bg: #08090c;
   --bg-soft: #0d0e13;
@@ -20,9 +16,6 @@
   color-scheme: dark;
 }
 
-/* ============================================================
-   LIGHT THEME — kích hoạt qua <html data-theme="light">
-   ============================================================ */
 [data-theme="light"] {
   --bg: #f9f8f4;
   --bg-soft: #f2f0e8;
@@ -58,7 +51,6 @@ body {
     color 0.25s var(--ease);
 }
 
-/* ---------- Ghi đè các class Tailwind "hard-coded" cho theme sáng ---------- */
 [data-theme="light"] .bg-\[\#08090c\] {
   background-color: var(--bg) !important;
 }
@@ -106,7 +98,6 @@ body {
   color: #1c1c1e;
 }
 
-/* Chữ vàng nhạt bị chìm trên nền sáng -> đổi sang vàng đậm/nâu để đọc được */
 [data-theme="light"] .text-yellow-50 {
   color: #713f12 !important;
 }
@@ -267,6 +258,20 @@ textarea:focus-visible {
   border: 1px solid var(--panel-border);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+}
+
+/* Hộp thoại (câu hỏi bất ngờ, nhắc nghỉ, xác nhận reset...): nền ĐẶC.
+   Không dùng .glass-panel vì nền của nó gần như trong suốt (rgba 0.045),
+   khiến hộp thoại ở chế độ tối bị lẫn với nội dung phía sau. */
+.modal-surface {
+  background: rgba(24, 24, 27, 0.98);
+  border: 1px solid rgba(250, 204, 21, 0.28);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+[data-theme="light"] .modal-surface {
+  background: rgba(255, 255, 255, 0.97);
+  border-color: rgba(180, 130, 0, 0.28);
 }
 
 .glow-hover {

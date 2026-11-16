@@ -119,7 +119,7 @@ export default function HomePage() {
             className="fade-up mt-4 text-base text-zinc-400 sm:text-lg"
             style={{ animationDelay: "0.25s" }}
           >
-            Hôm nay của bạn thế nào?
+           Vô đây rồi. Thì học đi cục vàng. Ko là thành cục cớt đó. 
           </p>
         </div>
 
@@ -160,7 +160,7 @@ export default function HomePage() {
             to="/contact"
             className="rounded-full border border-yellow-400/25 bg-white/5 px-4 py-1.5 text-sm font-semibold text-yellow-200 transition hover:bg-white/10"
           >
-            Liên hệ nếu bạn muốn cập nhật
+            Chủ nợ thì vào đây
           </Link>
           <div className="flex items-center gap-4 text-xs text-zinc-600">
             <Link to="/privacy" className="transition hover:text-zinc-400">

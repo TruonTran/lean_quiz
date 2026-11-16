@@ -151,8 +151,8 @@ export default function AdminQuestionsPage() {
       <PageShell
         eyebrow="Quản trị"
         title="Câu hỏi"
-        backTo="/admin/subjects"
-        backLabel="← Quản lý môn"
+        backTo="/admin/questions"
+        backLabel="← Chọn môn khác"
       >
         {subjectQuery.isError ? (
           <ErrorBox
@@ -164,7 +164,7 @@ export default function AdminQuestionsPage() {
         ) : (
           <p className={`${panel} mx-auto max-w-md text-center text-zinc-400`}>
             Không tìm thấy môn này.{" "}
-            <Link to="/admin/subjects" className="text-yellow-200 underline">
+            <Link to="/admin/questions" className="text-yellow-200 underline">
               Quay lại
             </Link>
           </p>
@@ -178,8 +178,8 @@ export default function AdminQuestionsPage() {
       eyebrow={subject.code}
       title={`Câu hỏi — ${subject.name}`}
       subtitle={`${questions.length} câu hỏi`}
-      backTo="/admin/subjects"
-      backLabel="← Quản lý môn"
+      backTo="/admin/questions"
+      backLabel="← Chọn môn khác"
     >
       <div className="space-y-5">
         {!adding && !importing && (

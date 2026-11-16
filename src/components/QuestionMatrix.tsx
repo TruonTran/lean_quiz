@@ -94,7 +94,7 @@ export default function QuestionMatrix({
           <span
             className={`text-xs font-semibold uppercase tracking-[0.18em] ${theme.muted}`}
           >
-            Ma trận câu hỏi
+            Một ề đề
           </span>
           <p className={`mt-0.5 text-xs ${theme.faint}`}>
             {answeredIds.size}/{total} đã làm
@@ -111,7 +111,6 @@ export default function QuestionMatrix({
       </div>
 
       <div className={`${openMobile ? "block" : "hidden"} lg:block`}>
-        {/* Chọn khoảng tự do: từ câu ... đến câu ... */}
         <div className="mt-3 flex items-center gap-2">
           <input
             type="number"

@@ -100,7 +100,7 @@ export default function ResultsPage() {
             to={`/exam/${subjectId}`}
             className="rounded-lg border border-yellow-400/25 bg-white/5 px-4 py-2 text-sm font-semibold text-yellow-200 transition hover:bg-white/10"
           >
-            ← Quay lại bài làm
+            Về làm tiếp
           </Link>
         </div>
 

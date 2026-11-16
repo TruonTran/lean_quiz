@@ -1,8 +1,3 @@
-/**
- * Toàn bộ class màu sáng/tối nằm ở đây.
- * Muốn đổi màu giao diện -> chỉ sửa file này.
- * (Tailwind vẫn quét được vì class là chuỗi đầy đủ.)
- */
 const dark = {
   page: "bg-[#08090c]",
   ambient: "bg-ambient",
@@ -11,7 +6,7 @@ const dark = {
   mobileBar: "glass-panel bg-zinc-900/85 shadow-lg shadow-black/40 backdrop-blur-md",
   card: "border border-white/10 bg-black/30",
   box: "border border-white/10 bg-white/[0.02]",
-  modal: "glass-panel bg-zinc-900/90 shadow-2xl",
+  modal: "modal-surface shadow-2xl shadow-black/50",
   overlay: "bg-black/50",
 
   title: "text-white",
