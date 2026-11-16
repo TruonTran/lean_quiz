@@ -37,8 +37,8 @@ export default function HomePage() {
   const sections: Section[] = [
     {
       to: "/subjects",
-      title: "trắc nghiệm",
-      desc: "Chọn môn rồi làm trắc nghiệm, theo dõi tiến độ và làm lại câu sai.",
+      title: "Khoanh lụi đại pháp",
+      desc: "Chọn môn rồi làm trắc nghiệm đi nè.",
       stat: subjects
         ? `${subjects.filter((s) => hasQuiz(s.examType)).length} môn · ${answeredTotal} câu đã làm`
         : "Đang tải…",
@@ -46,14 +46,14 @@ export default function HomePage() {
     },
     {
       to: "/essays",
-      title: "Thi viết",
+      title: "Quay tay thần chưởng",
       desc: "Đọc đề tự luận, viết bài của bạn và đối chiếu với bài mẫu.",
       stat: essayTotal > 0 ? `${essayTotal} bài đã viết` : "Chưa có bài viết",
       cta: "Luyện viết",
     },
     {
       to: "/summary",
-      title: "Tóm tắt kiến thức",
+      title: "Đan dược tinh luyện",
       desc: "Các mẹo và ý chính của từng môn, đọc nhanh trước khi vào làm bài.",
       stat: !subjects
         ? "Đang tải…"
@@ -64,7 +64,7 @@ export default function HomePage() {
     },
     {
       to: "/notes",
-      title: "Ghi chú",
+      title: "Chú nội tâm",
       desc: "Mọi ghi chú của riêng bạn viết trong lúc làm bài, gộp lại theo từng môn.",
       stat: `${noteTotal} ghi chú`,
       cta: "Mở ghi chú",
