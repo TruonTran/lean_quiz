@@ -176,14 +176,14 @@ export default function QuestionCard({
           }`}
         >
           <p className="mb-2">
-            <strong className={theme.hintTitle}>Correct answer:</strong>{" "}
+            <strong className={theme.hintTitle}>đáp án mém đúng:</strong>{" "}
             {Array.isArray(question.answer)
               ? question.answer.map(letter).join(", ")
               : letter(question.answer)}
           </p>
           {question.rationale && (
             <p>
-              <strong className={theme.hintTitle}>Explanation:</strong>{" "}
+              <strong className={theme.hintTitle}>Để nói cho nghe:</strong>{" "}
               {question.rationale}
             </p>
           )}
