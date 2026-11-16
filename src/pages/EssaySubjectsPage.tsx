@@ -9,10 +9,10 @@ export default function EssaySubjectsPage() {
   return (
     <PageShell
       eyebrow="Thi viết"
-      title="Chọn môn để luyện viết"
-      subtitle="Bài viết của bạn được lưu ngay trên trình duyệt này."
+      title="Chọn môn để luyện trình động não"
+      subtitle="Có công tu luyện có ngày thành công 'cóc'."
       backTo="/"
-      backLabel="← Trang chủ"
+      backLabel="Ra tiền sảnh"
     >
       <SubjectGrid
         filter={(s) => hasEssay(s.examType)}
@@ -23,7 +23,7 @@ export default function EssaySubjectsPage() {
           ).length;
           return {
             badge: written > 0 ? `${written} bài đã viết` : undefined,
-            cta: written > 0 ? "Tiếp tục viết" : "Xem đề",
+            cta: written > 0 ? "Luyện công tiếp" : "Mở chân kinh",
           };
         }}
       />
