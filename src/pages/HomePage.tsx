@@ -7,7 +7,6 @@ import { useEssayStore } from "../store/essayStore";
 
 type Section = {
   to: string;
-  icon: string;
   title: string;
   desc: string;
   stat: string;
@@ -38,7 +37,6 @@ export default function HomePage() {
   const sections: Section[] = [
     {
       to: "/subjects",
-      icon: "🎯",
       title: "trắc nghiệm",
       desc: "Chọn môn rồi làm trắc nghiệm, theo dõi tiến độ và làm lại câu sai.",
       stat: subjects
@@ -48,7 +46,6 @@ export default function HomePage() {
     },
     {
       to: "/essays",
-      icon: "🖋️",
       title: "Thi viết",
       desc: "Đọc đề tự luận, viết bài của bạn và đối chiếu với bài mẫu.",
       stat: essayTotal > 0 ? `${essayTotal} bài đã viết` : "Chưa có bài viết",
@@ -56,7 +53,6 @@ export default function HomePage() {
     },
     {
       to: "/summary",
-      icon: "📚",
       title: "Tóm tắt kiến thức",
       desc: "Các mẹo và ý chính của từng môn, đọc nhanh trước khi vào làm bài.",
       stat: !subjects
@@ -68,7 +64,6 @@ export default function HomePage() {
     },
     {
       to: "/notes",
-      icon: "📝",
       title: "Ghi chú",
       desc: "Mọi ghi chú của riêng bạn viết trong lúc làm bài, gộp lại theo từng môn.",
       stat: `${noteTotal} ghi chú`,
@@ -119,7 +114,7 @@ export default function HomePage() {
             className="fade-up mt-4 text-base text-zinc-400 sm:text-lg"
             style={{ animationDelay: "0.25s" }}
           >
-           Vô đây rồi. Thì học đi cục vàng. Ko là thành cục cớt đó. 
+            Vô đây rồi. Thì học đi cục vàng. Ko là thành cục cớt đó.
           </p>
         </div>
 
@@ -132,10 +127,6 @@ export default function HomePage() {
               style={{ animationDelay: `${0.35 + i * 0.1}s` }}
             >
               <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-yellow-400/10 opacity-60 blur-2xl transition-opacity duration-300 group-hover:opacity-100" />
-
-              <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-yellow-400/25 bg-yellow-400/10 text-3xl">
-                <span aria-hidden="true">{s.icon}</span>
-              </div>
 
               <h2 className="relative mt-5 text-2xl font-bold text-yellow-300">
                 {s.title}
