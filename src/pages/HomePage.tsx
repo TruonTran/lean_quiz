@@ -103,7 +103,7 @@ export default function HomePage() {
             style={{ animationDelay: "0.05s" }}
           >
             <span className="h-1.5 w-1.5 rounded-full bg-yellow-400 shadow-[0_0_10px_theme(colors.yellow.400)]" />
-            Nền tảng ôn luyện
+            Web tu tiên
           </span>
 
           <h1
