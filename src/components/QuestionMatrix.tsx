@@ -97,7 +97,7 @@ export default function QuestionMatrix({
             Một ề đề
           </span>
           <p className={`mt-0.5 text-xs ${theme.faint}`}>
-            {answeredIds.size}/{total} đã làm
+            {answeredIds.size}/{total} chọn đại
           </p>
         </div>
 
