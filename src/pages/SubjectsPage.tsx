@@ -9,10 +9,10 @@ export default function SubjectsPage() {
   return (
     <PageShell
       eyebrow="Môn học"
-      title="Chọn môn để ôn luyện"
-      subtitle="Tiến độ làm bài của bạn cho từng môn được Cua lưu lại tự động."
+      title="Buffet câu hỏi"
+      subtitle="Vô tới đây r còn ko chọn môn mà học đi."
       backTo="/"
-      backLabel="← Trang chủ"
+      backLabel="Về cửa động"
     >
       <SubjectGrid
         filter={(s) => hasQuiz(s.examType)}
@@ -23,7 +23,7 @@ export default function SubjectsPage() {
           return {
             badge: answered > 0 ? `${answered}/${total}` : `${total} câu`,
             progress: total > 0 ? answered / total : 0,
-            cta: answered > 0 ? "Tiếp tục làm bài" : "Bắt đầu làm bài",
+            cta: answered > 0 ? "Tiếp tục cày cuốc" : "Làm đề này nè",
           };
         }}
       />

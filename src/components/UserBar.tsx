@@ -38,7 +38,7 @@ export default function UserBar() {
         Thành tích
       </Link>
       <button onClick={() => supabase.auth.signOut()} className={chip}>
-        Đăng xuất
+        Ẩn thân chi thuật
       </button>
       <WeatherPicker />
     </div>
