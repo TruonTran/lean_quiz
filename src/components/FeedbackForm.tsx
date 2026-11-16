@@ -109,7 +109,7 @@ export default function FeedbackForm() {
       <textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder="Bạn có yêu cầu gì cứ việc gửi tin nhắn cho Cua nha. Cua sẽ đọc và phản hồi sớm nhất có thể."
+        placeholder="Có lời thì nói. Có rắm thì thả vào đây. thiêu kành"
         rows={6}
         maxLength={LIMITS.messageMax}
         required

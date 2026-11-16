@@ -59,7 +59,7 @@ export default function OptionButton({
         <div className="flex-1">{option}</div>
         {isChosen && (
           <span className="mt-0.5 shrink-0 rounded-md bg-black/20 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide">
-            Bạn chọn
+            Bọn chạn
           </span>
         )}
       </div>

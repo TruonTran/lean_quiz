@@ -248,7 +248,7 @@ function Content() {
           </p>
         </div>
         <p className="max-w-sm text-sm text-zinc-400">
-          Thỉnh thoảng khi bạn đang làm quiz, web sẽ hỏi lại bất ngờ một câu bạn đã làm trong đề để gợi nhớ.
+          Thỉnh thoảng khi bạn đang làm quiz, web sẽ đánhh úp một câu bạn đã làm trong đề để gợi nhớ.
           Trả lời đúng được +10 điểm thưởng và tích huy hiệu.
         </p>
       </section>

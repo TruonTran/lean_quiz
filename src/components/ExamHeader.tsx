@@ -76,7 +76,7 @@ export default function ExamHeader({
             to={`/exam/${subjectId}/results`}
             className={`rounded-lg bg-linear-to-r from-yellow-400 to-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-500/20 ${focus}`}
           >
-            Xem kết quả
+            xua kết qẻm
           </Link>
 
           <button
@@ -94,7 +94,7 @@ export default function ExamHeader({
             title="Thỉnh thoảng hỏi lại bất ngờ một câu bạn đã làm, đúng thì được thưởng điểm"
             className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${popEnabled ? theme.softBtn : theme.ghostBtn} ${focus}`}
           >
-            Câu hỏi bất ngờ: {popEnabled ? "Bật" : "Tắt"}
+            Câu hỏi đánh úp: {popEnabled ? "Đánh" : "Né"}
           </button>
 
           <button

@@ -9,7 +9,10 @@ import WeatherEffects from "./components/WeatherEffects";
 import NotesPage from "./pages/Notespage";
 import SubjectsPage from "./pages/SubjectsPage";
 import SummaryPage from "./pages/SummaryPage";
-import AdminPage from "./pages/AdminPage";
+import AdminLayout from "./components/AdminLayout";
+import AdminOverviewPage from "./pages/AdminOverviewPage";
+import AdminPickerPage from "./pages/AdminPickerPage";
+import AdminUsersPage from "./pages/AdminUsersPage";
 import AdminSubjectsPage from "./pages/AdminSubjectsPage";
 import AdminQuestionsPage from "./pages/AdminQuestionsPage";
 import EssaySubjectsPage from "./pages/EssaySubjectsPage";
@@ -22,7 +25,6 @@ import LoginPage from "./pages/LoginPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import AchievementsPage from "./pages/AchievementsPage";
 import RequireAuth from "./components/RequireAuth";
-import RequireAdmin from "./components/RequireAdmin";
 import { isSupabaseConfigured } from "./lib/supabase";
 
 function SetupNotice() {
@@ -91,32 +93,17 @@ export default function App() {
         <Route path="/notes" element={<NotesPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route
-          path="/admin/subjects"
-          element={
-            <RequireAdmin>
-              <AdminSubjectsPage />
-            </RequireAdmin>
-          }
-        />
-        <Route
-          path="/admin/subjects/:subjectId/questions"
-          element={
-            <RequireAdmin>
-              <AdminQuestionsPage />
-            </RequireAdmin>
-          }
-        />
-
-        <Route
-          path="/admin/subjects/:subjectId/essays"
-          element={
-            <RequireAdmin>
-              <AdminEssaysPage />
-            </RequireAdmin>
-          }
-        />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminOverviewPage />} />
+          <Route path="subjects" element={<AdminSubjectsPage />} />
+          <Route path="subjects/:subjectId/questions" element={<AdminQuestionsPage />} />
+          <Route path="subjects/:subjectId/essays" element={<AdminEssaysPage />} />
+          <Route path="questions" element={<AdminPickerPage kind="questions" />} />
+          <Route path="essays" element={<AdminPickerPage kind="essays" />} />
+          <Route path="summaries" element={<AdminPickerPage kind="summaries" />} />
+          <Route path="users" element={<AdminUsersPage />} />
+          <Route path="*" element={<Navigate to="/admin" replace />} />
+        </Route>
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

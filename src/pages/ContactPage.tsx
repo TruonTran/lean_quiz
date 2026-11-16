@@ -55,7 +55,7 @@ export default function ContactPage() {
       title={CONTACT.name ? `Tìm ${CONTACT.name}` : "Liên hệ"}
       subtitle={CONTACT.note}
       backTo="/"
-      backLabel="← Trang chủ"
+      backLabel="tru chảng"
     >
       {channels.length === 0 && !CONTACT.web3formsKey.trim() ? (
         <p className={`${panel} mx-auto max-w-xl text-center text-zinc-400`}>

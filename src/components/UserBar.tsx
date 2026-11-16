@@ -17,10 +17,10 @@ export default function UserBar() {
     return (
       <div className="mb-6 flex flex-wrap items-center gap-2 self-start">
         <Link to="/login" className={chip}>
-          Đăng nhập
+          Đập nhăng
         </Link>
         <Link to="/login?mode=register" className={chip}>
-          Đăng ký
+          Đy kắng
         </Link>
         <WeatherPicker />
       </div>

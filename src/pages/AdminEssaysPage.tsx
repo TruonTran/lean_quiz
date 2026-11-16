@@ -42,7 +42,6 @@ function PromptForm({
   const [localError, setLocalError] = useState<string | null>(null);
   const [imgMsg, setImgMsg] = useState<string | null>(null);
 
-  // Ô số ký tự: để trống = không giới hạn; có thì phải là số nguyên dương
   const parseLimit = (v: string): number | null | "bad" => {
     if (!v.trim()) return null;
     const n = Number(v);
@@ -213,8 +212,8 @@ export default function AdminEssaysPage() {
     <PageShell
       eyebrow="Quản trị"
       title={`Thi viết – ${subject?.code ?? ""}`}
-      backTo="/admin/subjects"
-      backLabel="← Quản lý môn"
+      backTo="/admin/essays"
+      backLabel="← Chọn môn khác"
     >
       {failed ? (
         <ErrorBox error={failed.error} onRetry={() => failed.refetch()} />

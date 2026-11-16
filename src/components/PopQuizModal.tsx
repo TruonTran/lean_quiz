@@ -75,7 +75,7 @@ export default function PopQuizModal({ question, onAnswered, onClose }: Props) {
         {result === true && <Confetti />}
 
         <div className="overflow-y-auto p-6">
-          <p className={`font-mono-brand text-xs uppercase tracking-widest ${theme.accent}`}>Câu hỏi bất ngờ</p>
+          <p className={`font-mono-brand text-xs uppercase tracking-widest ${theme.accent}`}>Câu hỏi đánh úp</p>
           <p className={`mt-1 text-xs ${theme.muted}`}>Ôn nhanh một câu bạn đã làm trong đề này.</p>
           <h3 id="popquiz-title" className={`mt-3 whitespace-pre-wrap text-lg font-bold ${theme.title}`}>
             {question.question}
@@ -109,9 +109,9 @@ export default function PopQuizModal({ question, onAnswered, onClose }: Props) {
           {done && (
             <div role="status" className={`mt-4 rounded-xl p-4 text-sm ${result ? theme.correctBox : theme.wrongBox}`}>
               {result ? (
-                <p className="font-bold">Chính xác! Bạn được thưởng +{POINTS_PER_CORRECT} điểm.</p>
+                <p className="font-bold">Thông minh! Bạn được thưởng {POINTS_PER_CORRECT} nụ hôn.</p>
               ) : (
-                <p className="font-bold">Chưa đúng rồi. Đáp án đúng là {correctLabels(question)}. Lần sau nhé!</p>
+                <p className="font-bold">Ngu chưa kìa. Đáp án đúng là {correctLabels(question)}. Làm lại kỹ hơn nha cục cớt!</p>
               )}
               {question.rationale && <p className="mt-2 whitespace-pre-wrap opacity-90">{question.rationale}</p>}
             </div>

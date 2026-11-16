@@ -21,17 +21,17 @@ export default function RequireAuth({ children }: { children: ReactNode }) {
   if (!session) {
     const next = encodeURIComponent(location.pathname + location.search);
     return (
-      <PageShell eyebrow="Tài khoản" title="Đăng nhập để làm quiz" backTo="/subjects" backLabel="← Chọn môn">
+      <PageShell eyebrow="Tài khoản" title="Đập nhăng đi cục vàng chần chừ gì" backTo="/subjects" backLabel="← Chọn môn">
         <div className={`${panel} mx-auto max-w-md space-y-4 text-center`}>
           <p className="text-zinc-300">
-            Bạn cần có tài khoản để làm quiz, để mình lưu lại thành tích học của bạn.
+            Đăng nhập để lưu lại vết răng trên từng chặng đường nha tình yêu.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link to={`/login?next=${next}`} className={`${primaryBtn} inline-block`}>
-              Đăng nhập
+              Có tài khoản
             </Link>
             <Link to={`/login?mode=register&next=${next}`} className={`${ghostBtn} inline-block py-2.5`}>
-              Tạo tài khoản
+              Chưa có tài khoản
             </Link>
           </div>
         </div>

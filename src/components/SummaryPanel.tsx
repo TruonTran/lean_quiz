@@ -54,7 +54,7 @@ function SummaryBody({
         <h2
           className={`text-sm font-bold uppercase tracking-wider ${theme.accent}`}
         >
-          Kiến thức tóm tắt
+          Tinh tùy được chắt lọc
         </h2>
         <div className="flex items-center gap-1">
           {!searching && (summary.data?.length ?? 0) > 0 && (
@@ -69,7 +69,7 @@ function SummaryBody({
               }
               className={`rounded-md px-2 py-1 text-xs ${theme.ghostBtn}`}
             >
-              {openIds.size > 0 ? "Thu hết" : "Mở hết"}
+              {openIds.size > 0 ? "Thu gọn" : "Bung bét"}
             </button>
           )}
           <button

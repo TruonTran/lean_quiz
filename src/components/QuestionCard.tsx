@@ -98,7 +98,7 @@ export default function QuestionCard({
               onClick={() => setShowHint((s) => !s)}
               className={`${smallBtn} ${theme.softBtn} focus:outline-none focus:ring-2 focus:ring-yellow-300`}
             >
-              Hint
+              Bí thì bấm
             </button>
           )}
           <button
@@ -113,7 +113,7 @@ export default function QuestionCard({
             onClick={() => setShowNotes((s) => !s)}
             className={`${smallBtn} ${showNotes ? theme.toggleOn : theme.toggleOff}`}
           >
-            {note ? "Ghi chú" : "Thêm ghi chú"}
+            {note ? "Ghi chú" : "Tự note"}
           </button>
         </div>
       </div>
