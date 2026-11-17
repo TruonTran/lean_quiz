@@ -32,7 +32,7 @@ export default function UserBar() {
   return (
     <div className="mb-6 flex flex-wrap items-center gap-2 self-start">
       <span className="text-sm text-zinc-400">
-        Xin chào, <span className="font-semibold text-yellow-200">{name}</span>
+        Bái Kiến, <span className="font-semibold text-yellow-200">{name}</span>
       </span>
       <Link to="/achievements" className={chip}>
         Thành tích
