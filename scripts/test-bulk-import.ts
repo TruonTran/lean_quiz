@@ -1,5 +1,5 @@
 import { subjects } from "../src/data/subjects/index.ts";
-import { SAMPLE_TEXT, parseAnswerLetters, parseBulk } from "../src/data/bulkImport.ts";
+import { SAMPLE_TEXT, findDuplicates, parseAnswerLetters, parseBulk } from "../src/data/bulkImport.ts";
 let pass = 0, fail = 0;
 const ok = (n: string, c: boolean, x = "") => { if (c) pass++; else fail++; console.log(`${c ? "✅" : "❌"} ${n} ${x}`); };
 const one = (t: string) => { const r = parseBulk(t); return { ...r, p: r.items[0]?.payload }; };
@@ -76,5 +76,52 @@ ok(`TEXT: xuất rồi đọc lại ${total} câu thật → không mất câu n
 ok(`TEXT: ... và không câu nào bị đổi nội dung/đáp án`, mismatch === 0, `(đổi ${mismatch}) ${bad.join(" | ")}`);
 let jl = 0; for (const sub of subjects) { const r = parseBulk(JSON.stringify(sub.questions)); jl += sub.questions.length - r.items.length; }
 ok("JSON: xuất rồi đọc lại toàn bộ 1668 câu → không mất câu nào", jl === 0, `(mất ${jl})`);
+
+
+// ---- nhãn câu, khoảng dòng, đoạn gốc của câu lỗi ----
+{
+  const r = parseBulk("Câu 5: H?\nA. a\nB. b\nĐáp án: A\n\nCâu 9: hỏng\nA. a\nB. b");
+  ok("giữ nhãn 'Câu 5' người dùng viết + khoảng dòng 1–4", r.items[0]?.label === "Câu 5" && r.items[0].line === 1 && r.items[0].endLine === 4, JSON.stringify(r.items[0]));
+  const is = r.issues[0];
+  ok("câu lỗi có nhãn 'Câu 9', dòng 6–8 và đoạn gốc", is?.label === "Câu 9" && is.line === 6 && is.endLine === 8 && !!is.raw?.includes("Câu 9: hỏng") && !!is.raw.includes("B. b"), JSON.stringify(is));
+  const u = parseBulk("Hỏi một?\nA. x\nB. y\nĐáp án: A\nHỏi hai?\nA. x\nB. y\nĐáp án: B");
+  ok("không đánh số: không có nhãn, vẫn có dòng (1–4 và 5–8)", u.items[0].label === undefined && u.items[0].endLine === 4 && u.items[1].line === 5 && u.items[1].endLine === 8);
+  const j = parseBulk(JSON.stringify([{ question: "Q", options: ["a"], answer: 0 }]));
+  ok("JSON lỗi có đoạn gốc", !!j.issues[0]?.raw?.includes('"question"'));
+}
+
+// ---- báo trùng: trùng với câu nào, vì sao ----
+{
+  const ex = [
+    { id: 41, question: "Thủ đô của Việt Nam là gì?", options: ["Hà Nội", "Huế", "Đà Nẵng"], answer: 0 as number | number[] },
+    { id: 42, question: "2 + 2 bằng mấy", options: ["3", "4", "5"], answer: 1 as number | number[] },
+  ];
+  const q = (question: string, options: string[], answer: number | number[]) => ({ question, options, answer, hint: null, rationale: null });
+  const items = (list: ReturnType<typeof q>[]) => list.map((payload, k) => ({ index: k + 1, payload }));
+
+  const a = findDuplicates(items([q("thủ đô của việt nam là gì", ["Hà Nội", "Huế", "Đà Nẵng"], 0)]), ex);
+  const m = a.get(1)?.matches[0];
+  ok("trùng với câu có sẵn: chỉ rõ #41, giống hệt (bỏ qua hoa/thường, dấu ? cuối)", m?.target.source === "existing" && m.target.ref === 41 && m.kind === "identical" && !m.reordered, JSON.stringify(m));
+
+  const b = findDuplicates(items([q("Thủ đô của Việt Nam là gì?", ["Đà Nẵng", "Hà Nội", "Huế"], 1)]), ex).get(1)?.matches[0];
+  ok("đảo thứ tự đáp án vẫn là giống hệt, có cờ reordered", b?.kind === "identical" && b.reordered === true);
+
+  const c = findDuplicates(items([q("Thủ đô của Việt Nam là gì?", ["Hà Nội", "Huế", "Đà Nẵng"], 1)]), ex).get(1)?.matches[0];
+  ok("cùng câu + cùng đáp án nhưng đáp án đúng khác → answer-differs", c?.kind === "answer-differs" && c.target.ref === 41);
+
+  const d = findDuplicates(items([q("Thủ đô của Việt Nam là gì?", ["Hà Nội", "TP.HCM"], 0)]), ex).get(1)?.matches[0];
+  ok("cùng câu nhưng đáp án khác → options-differ", d?.kind === "options-differ");
+
+  const e = findDuplicates(items([q("Câu mới 1?", ["a", "b"], 0), q("Câu khác?", ["a", "b"], 0), q("câu mới 1", ["a", "b"], 0), q("CÂU MỚI 1?", ["a", "b"], 1)]), ex);
+  ok("trùng trong nội dung dán: câu đầu là bản gốc (không bị đánh dấu)", !e.has(1) && !e.has(2));
+  ok("câu 3 trùng câu 1 (nguồn batch, ref 1)", e.get(3)?.matches.length === 1 && e.get(3)?.matches[0].target.source === "batch" && e.get(3)?.matches[0].target.ref === 1);
+  ok("câu 4 trùng cả câu 1 và 3, khác đáp án đúng", e.get(4)?.matches.length === 2 && e.get(4)?.matches.every((x) => x.kind === "answer-differs") === true);
+
+  const f = findDuplicates(items([q("2 + 2 bằng mấy?", ["3", "4", "5"], 1), q("2 + 2 bằng mấy", ["3", "4", "5"], 1)]), ex);
+  ok("trùng cả bộ đề lẫn nội dung dán: câu đã có (#42) được xếp chính", f.get(2)?.matches[0].target.source === "existing" && f.get(2)?.matches[0].target.ref === 42 && f.get(2)?.matches.length === 2);
+
+  ok("không báo trùng khi chỉ giống phần đầu", findDuplicates(items([q("Thủ đô của Việt Nam là gì? Giải thích", ["a", "b"], 0)]), ex).size === 0);
+  ok("code khác một ký tự KHÔNG bị gộp (a+b vs a-b)", findDuplicates(items([q("Kết quả của a+b?", ["1", "2"], 0), q("Kết quả của a-b?", ["1", "2"], 0)]), []).size === 0);
+}
 
 console.log(`\n${pass} đạt, ${fail} lỗi`); process.exit(fail ? 1 : 0);

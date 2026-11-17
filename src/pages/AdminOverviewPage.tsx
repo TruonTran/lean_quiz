@@ -26,7 +26,7 @@ export default function AdminOverviewPage() {
   const admins = users.data?.filter((u) => u.isAdmin).length ?? 0;
 
   return (
-    <PageShell eyebrow="Quản trị" title="Dashboard" subtitle="Tổng quan nội dung và tài khoản của web.">
+    <PageShell eyebrow="Tông Môn Quản Sự" title="Dashboard" subtitle="Khái quát tình hình Tông Môn, Tàng Kinh Các và toàn bộ Đệ Tử.">
       <div className="space-y-8">
         <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <Stat label="Môn học" value={subjects.data ? list.length : "…"} />

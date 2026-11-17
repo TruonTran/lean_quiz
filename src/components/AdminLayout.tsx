@@ -21,7 +21,7 @@ const NAV: { group: string; items: NavItem[] }[] = [
     items: [
       {
         to: "/admin",
-        label: "Dashboard",
+        label: "Tông Môn Chủ Điện",
         match: (p) => p === "/admin" || p === "/admin/",
       },
     ],
@@ -31,26 +31,26 @@ const NAV: { group: string; items: NavItem[] }[] = [
     items: [
       {
         to: "/admin/subjects",
-        label: "Môn học",
+        label: "Công Pháp Các",
         match: (p) => p === "/admin/subjects",
       },
       {
         to: "/admin/questions",
-        label: "Câu hỏi trắc nghiệm",
+        label: "Khảo Hạch Đề Các",
         match: (p) =>
           p.startsWith("/admin/questions") ||
           /^\/admin\/subjects\/[^/]+\/questions/.test(p),
       },
       {
         to: "/admin/essays",
-        label: "Đề thi viết",
+        label: "Luận Đạo Điện",
         match: (p) =>
           p.startsWith("/admin/essays") ||
           /^\/admin\/subjects\/[^/]+\/essays/.test(p),
       },
       {
         to: "/admin/summaries",
-        label: "Tóm tắt kiến thức",
+        label: "Huyền Yếu Lục",
         match: (p) => p.startsWith("/admin/summaries"),
       },
     ],
@@ -60,7 +60,7 @@ const NAV: { group: string; items: NavItem[] }[] = [
     items: [
       {
         to: "/admin/users",
-        label: "Tài khoản",
+        label: "Đệ Tử Danh Sách",
         match: (p) => p.startsWith("/admin/users"),
       },
     ],
@@ -74,7 +74,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full flex-col">
       <div className="px-5 pb-4 pt-6">
-        <p className="mt-1 text-lg font-extrabold text-white">Quiz Vì Em</p>
+        <p className="mt-1 text-lg font-extrabold text-white">Vấn Đạo Thiên</p>
       </div>
 
       <nav
@@ -194,7 +194,6 @@ function AdminShell() {
   );
 }
 
-/** Cổng vào /admin: đăng nhập → kiểm tra quyền admin → hiện dashboard (sidebar + nội dung). */
 export default function AdminLayout() {
   const session = useAuthStore((s) => s.session);
   const ready = useAuthStore((s) => s.ready);
@@ -206,7 +205,7 @@ export default function AdminLayout() {
         eyebrow="Quản trị"
         title="Quản trị"
         backTo="/"
-        backLabel="← Trang chủ"
+        backLabel="Về tiền điện"
       >
         <Loading />
       </PageShell>
@@ -221,7 +220,7 @@ export default function AdminLayout() {
         eyebrow="Quản trị"
         title="Khu vực dành cho admin"
         backTo="/"
-        backLabel="← Trang chủ"
+        backLabel="Lùi về tiền điện"
       >
         <div className={`${panel} mx-auto max-w-md space-y-4 text-center`}>
           <p className="text-sm text-zinc-400">{session.user.email}</p>

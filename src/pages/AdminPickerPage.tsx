@@ -21,8 +21,8 @@ const CONFIG: Record<
   }
 > = {
   questions: {
-    title: "Câu hỏi trắc nghiệm",
-    subtitle: "Chọn môn để thêm, sửa, xoá hoặc nhập hàng loạt câu hỏi.",
+    title: "Khảo Hạch Đạo Đề",
+    subtitle: "Chọn công pháp để thêm mới, chỉnh sửa, xóa hoặc nhập hàng loạt đạo đề khảo hạch.",
     filter: (s) => hasQuiz(s.examType),
     href: (s) => `/admin/subjects/${s.id}/questions`,
     cta: "Quản lý câu hỏi",
@@ -30,8 +30,8 @@ const CONFIG: Record<
     empty: "Chưa có môn nào có phần trắc nghiệm.",
   },
   essays: {
-    title: "Đề thi viết",
-    subtitle: "Chọn môn để quản lý đề tự luận và bài mẫu.",
+    title: "Luận Đạo Khảo Hạch",
+    subtitle: "Chọn công pháp để quản lý đề tự luận và bài mẫu.",
     filter: (s) => hasEssay(s.examType),
     href: (s) => `/admin/subjects/${s.id}/essays`,
     cta: "Quản lý đề viết",
@@ -39,8 +39,8 @@ const CONFIG: Record<
     empty: "Chưa có môn nào có phần thi viết. Vào Môn học và đổi kiểu thi của môn sang “Thi viết” hoặc “Cả hai”.",
   },
   summaries: {
-    title: "Tóm tắt kiến thức",
-    subtitle: "Chọn môn rồi chỉnh sửa tại trang tóm tắt (tài khoản admin sẽ thấy nút thêm / sửa / xoá / đổi thứ tự).",
+    title: "Huyền Yếu Bí Lục",
+    subtitle: "Chọn công pháp để tiến vào trang tổng hợp kiến thức. Admin có thể thêm mới, chỉnh sửa, xóa và sắp xếp lại thứ tự các mục huyền yếu.",
     filter: (s) => hasQuiz(s.examType),
     href: (s) => `/summary/${s.id}`,
     cta: "Mở trang tóm tắt",
@@ -60,7 +60,7 @@ export default function AdminPickerPage({ kind }: { kind: Kind }) {
     .filter((s) => !t || s.code.toLowerCase().includes(t) || s.name.toLowerCase().includes(t));
 
   return (
-    <PageShell eyebrow="Quản trị" title={cfg.title} subtitle={cfg.subtitle}>
+    <PageShell eyebrow="Tông Môn Quản Sự" title={cfg.title} subtitle={cfg.subtitle}>
       <div className="space-y-4">
         <input
           value={search}
