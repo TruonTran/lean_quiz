@@ -105,9 +105,9 @@ export default function HomePage() {
             className="fade-up mt-5 text-4xl font-extrabold text-white sm:text-5xl"
             style={{ animationDelay: "0.15s" }}
           >
-            Ôn Quiz{" "}
+            Khu{" "}
             <span className="text-gradient-animate bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-300 bg-clip-text text-transparent">
-              Cùng Cua
+              Tự Học
             </span>
           </h1>
           <p

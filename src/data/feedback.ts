@@ -13,13 +13,12 @@ export const LIMITS = { messageMin: 10, messageMax: 2000, nameMax: 50 };
 export type FeedbackInput = {
   type: FeedbackType;
   name: string;
-  email: string; // không bắt buộc; có thì dùng để chủ web trả lời
+  email: string; 
   message: string;
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** Trả về câu báo lỗi nếu dữ liệu chưa hợp lệ, hoặc null nếu ổn. */
 export function validateFeedback(i: FeedbackInput): string | null {
   const msg = i.message.trim();
   if (msg.length < LIMITS.messageMin) return `Nội dung cần ít nhất ${LIMITS.messageMin} ký tự.`;
@@ -30,8 +29,6 @@ export function validateFeedback(i: FeedbackInput): string | null {
   return null;
 }
 
-/* Giới hạn gửi phía trình duyệt để tránh bấm liên tục làm hết hạn mức của dịch vụ gửi mail.
-   (Chỉ là rào chắn nhẹ; chống bot thật cần CAPTCHA.) */
 const SENT_KEY = "feedback-sent-times";
 const MIN_GAP_MS = 60_000;
 const MAX_PER_HOUR = 5;
