@@ -13,7 +13,7 @@ import { ErrorBox, Loading } from "../components/LoadState";
 import { inputClass, panel, primaryBtn } from "../components/adminStyles";
 
 type Period = "week" | "month" | "year";
-const PERIOD_LABEL: Record<Period, string> = { week: "Tuần này", month: "Tháng này", year: "Năm nay" };
+const PERIOD_LABEL: Record<Period, string> = { week: "Chu Tuần", month: "Nguyệt Kỳ", year: "Niên Kỳ" };
 
 const pct = (c: number, a: number) => (a > 0 ? `${Math.round((c / a) * 100)}%` : "–");
 
@@ -22,7 +22,7 @@ function StatCard({ label, stat }: { label: string; stat: PeriodStat }) {
     <div className={panel}>
       <p className="font-mono-brand text-xs uppercase tracking-widest text-zinc-500">{label}</p>
       <p className="mt-2 text-3xl font-extrabold text-yellow-300">{stat.answered}</p>
-      <p className="text-sm text-zinc-400">câu đã làm</p>
+      <p className="text-sm text-zinc-400">đề mục đã thông</p>
       <p className="mt-3 text-xs text-zinc-500">
         Đúng {pct(stat.correct, stat.answered)} · học {stat.activeDays} ngày
       </p>
@@ -36,7 +36,7 @@ function Leaderboard() {
 
   return (
     <section className="space-y-4">
-      <h2 className="text-lg font-bold text-yellow-300">Bảng xếp hạng</h2>
+      <h2 className="text-lg font-bold text-yellow-300">Bảng Phong Thần</h2>
       <div className="flex gap-2" role="tablist">
         {(Object.keys(PERIOD_LABEL) as Period[]).map((p) => (
           <button
@@ -66,11 +66,11 @@ function Leaderboard() {
           <table className="w-full text-left text-sm">
             <thead className="text-xs uppercase tracking-wider text-zinc-500">
               <tr>
-                <th className="px-4 py-3">Hạng</th>
-                <th className="px-4 py-3">Tên</th>
-                <th className="px-4 py-3 text-right">Số câu</th>
-                <th className="px-4 py-3 text-right">Đúng</th>
-                <th className="px-4 py-3 text-right">Ngày học</th>
+                <th className="px-4 py-3">Thứ Bậc</th>
+                <th className="px-4 py-3">Đạo Hữu</th>
+                <th className="px-4 py-3 text-right">Số Đạo Đề</th>
+                <th className="px-4 py-3 text-right">Ngộ Đạo</th>
+                <th className="px-4 py-3 text-right">Tu Hành Nhật</th>
               </tr>
             </thead>
             <tbody>
@@ -139,7 +139,7 @@ function NameEditor() {
   return (
     <form onSubmit={submit} className={`${panel} space-y-2`}>
       <label className="font-mono-brand text-xs uppercase tracking-widest text-zinc-500" htmlFor="display-name">
-        Tên hiển thị
+        Có thể gọi trư vị là 
       </label>
       <div className="flex flex-wrap gap-2">
         <input
@@ -155,7 +155,7 @@ function NameEditor() {
         </button>
       </div>
       <p className="text-xs text-zinc-500">
-        Tên này hiện công khai trên bảng xếp hạng với mọi người đã đăng nhập. Nên dùng biệt danh thay vì tên thật.
+        Danh tánh các hạ sẽ hiện ở BXH cùng các trư tiên khác. Nên thích đặt gì đặt ko nhất thiết dùng tên thật. 
       </p>
       {msg && <p role="status" className="text-sm text-yellow-200">{msg}</p>}
       {save.isError && <p role="alert" className="text-sm text-red-300">{(save.error as Error).message}</p>}
@@ -166,10 +166,10 @@ function NameEditor() {
 function EssaysSection({ rows }: { rows: EssaySubmissionInfo[] }) {
   return (
     <section className="space-y-4">
-      <h2 className="text-lg font-bold text-yellow-300">Bài viết đã hoàn thành ({rows.length})</h2>
+      <h2 className="text-lg font-bold text-yellow-300">Tu Luyện Bút Lục ({rows.length})</h2>
       {rows.length === 0 ? (
         <p className={`${panel} text-center text-zinc-400`}>
-          Chưa có bài nào. Hoàn thành một bài ở mục Thi viết để lưu vào đây nhé!
+          Chưa luyện ma pháp hãy mau luyện công để tích đạo ẩn. 
         </p>
       ) : (
         <div className="space-y-3">
@@ -219,50 +219,49 @@ function Content() {
       <NameEditor />
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard label="Tuần này" stat={s.week} />
-        <StatCard label="Tháng này" stat={s.month} />
-        <StatCard label="Năm nay" stat={s.year} />
+        <StatCard label="Chu" stat={s.week} />
+        <StatCard label="Nguyệt" stat={s.month} />
+        <StatCard label="Niên" stat={s.year} />
       </section>
 
       <section className={`${panel} flex flex-wrap items-center justify-around gap-6 text-center`}>
         <div>
           <p className="text-3xl font-extrabold text-yellow-300">🔥 {s.currentStreak}</p>
-          <p className="text-sm text-zinc-400">ngày liên tiếp hiện tại</p>
+          <p className="text-sm text-zinc-400">Liên Tu Nhật</p>
         </div>
         <div>
           <p className="text-3xl font-extrabold text-yellow-300">{s.bestStreak}</p>
-          <p className="text-sm text-zinc-400">chuỗi dài nhất</p>
+          <p className="text-sm text-zinc-400">Cực Hạn Tu Hành</p>
         </div>
         <div>
           <p className="text-3xl font-extrabold text-yellow-300">{s.perfectWeeks}</p>
-          <p className="text-sm text-zinc-400">tuần học đủ 7/7 ngày</p>
+          <p className="text-sm text-zinc-400">Thất Nhật Viên Mãn (7/7)</p>
         </div>
       </section>
 
       <section className={`${panel} flex flex-wrap items-center justify-between gap-4`}>
         <div>
-          <p className="font-mono-brand text-xs uppercase tracking-widest text-zinc-500">Điểm thưởng</p>
+          <p className="font-mono-brand text-xs uppercase tracking-widest text-zinc-500">Linh Thạch</p>
           <p className="mt-1 text-3xl font-extrabold text-yellow-300">{s.bonusPoints}</p>
           <p className="text-sm text-zinc-400">
-            từ {s.popCorrect}/{s.popAnswered} câu hỏi bất ngờ trả lời đúng
+            Đã vượt qua {s.popCorrect}/{s.popAnswered} lượt Tâm Ma Khảo Hạch.
           </p>
         </div>
         <p className="max-w-sm text-sm text-zinc-400">
-          Thỉnh thoảng khi bạn đang làm quiz, web sẽ đánhh úp một câu bạn đã làm trong đề để gợi nhớ.
-          Trả lời đúng được +10 điểm thưởng và tích huy hiệu.
+          Trong lúc đạo hữu đang tham gia khảo hạch, hệ thống đôi khi sẽ bất ngờ triệu hồi một câu hỏi đã từng xuất hiện trong đề thi để kiểm nghiệm trí nhớ. Nếu trả lời chính xác, đạo hữu sẽ nhận được +10 Đạo Huân cùng cơ hội tích lũy Đạo Ấn quý hiếm. 
         </p>
       </section>
 
       {s.totalAnswered === 0 && (
         <div className={`${panel} text-center`}>
-          <p className="text-zinc-300">Bạn chưa làm câu nào. Làm vài câu để bắt đầu tích lũy thành tích nhé!</p>
+          <p className="text-zinc-300">Trư vị chưa làm câu nào. Làm vài câu để bắt đầu tích lũy linh thạch nhé!</p>
           <Link to="/subjects" className={`${primaryBtn} mt-4 inline-block`}>Chọn môn để học</Link>
         </div>
       )}
 
       <section className="space-y-4">
         <h2 className="text-lg font-bold text-yellow-300">
-          Huy hiệu ({earned}/{badges.length})
+          Đạo Ấn ({earned}/{badges.length})
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {badges.map((b) => {
@@ -300,10 +299,10 @@ export default function AchievementsPage() {
   return (
     <PageShell
       eyebrow="Thành tích"
-      title="Thành tích của bạn"
-      subtitle="Mỗi câu bạn làm trong phần quiz đều được tính vào thành tích."
+      title="Tu Luyện Lục"
+      subtitle="Thành tích luyện công sẽ được lưu trữ tại đây."
       backTo="/"
-      backLabel="← Trang chủ"
+      backLabel="quay về huyền điện"
     >
       <RequireAuth>
         <Content />

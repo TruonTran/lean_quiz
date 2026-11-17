@@ -40,7 +40,7 @@ export default function HomePage() {
       title: "Khoanh lụi đại pháp",
       desc: "Chọn môn rồi làm trắc nghiệm đi nè.",
       stat: subjects
-        ? `${subjects.filter((s) => hasQuiz(s.examType)).length} môn · ${answeredTotal} câu đã làm`
+        ? `${subjects.filter((s) => hasQuiz(s.examType)).length} môn · ${answeredTotal} đề Mục Đã Thông`
         : "Đang tải…",
       cta: "Chọn môn để học",
     },
