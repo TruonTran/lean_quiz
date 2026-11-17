@@ -201,9 +201,9 @@ export default function AdminSubjectsPage() {
 
   return (
     <PageShell
-      eyebrow="Quản trị"
-      title="Quản lý môn & câu hỏi"
-      subtitle="Thêm môn mới, hoặc vào từng môn để thêm / sửa / xoá câu hỏi."
+      eyebrow="Tông Môn Quản Sự"
+      title="Quản Lý Công Pháp & Khảo Hạch"
+      subtitle="Thêm công pháp mới, hoặc tiến vào từng công pháp để biên soạn, chỉnh sửa và xóa các đạo đề khảo hạch."
       backTo="/admin"
       backLabel="← Quản trị"
     >

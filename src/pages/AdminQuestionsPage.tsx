@@ -251,7 +251,7 @@ export default function AdminQuestionsPage() {
         {importing && (
           <BulkImportPanel
             subjectId={id}
-            existing={questions.map((q) => q.question)}
+            existing={questions}
             onClose={() => setImporting(false)}
             onImported={({ count, first, last }) => {
               setImporting(false);

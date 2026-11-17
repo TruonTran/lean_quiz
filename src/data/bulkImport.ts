@@ -1,11 +1,24 @@
 import { MAX_OPTIONS, validateDraft, type QuestionPayload } from "./drafts";
 
-export type ParsedItem = { index: number; payload: QuestionPayload };
+export type ParsedItem = {
+  /** Số thứ tự câu theo thứ tự xuất hiện trong nội dung dán (1, 2, 3…). */
+  index: number;
+  /** Nhãn người dùng viết trong file, vd "Câu 12" (không có nếu không đánh số). */
+  label?: string;
+  /** Dòng bắt đầu / kết thúc của câu trong nội dung dán (chỉ có với dạng văn bản). */
+  line?: number;
+  endLine?: number;
+  payload: QuestionPayload;
+};
 export type ParseIssue = {
   index: number;
+  label?: string;
   line?: number;
+  endLine?: number;
   message: string;
   preview: string;
+  /** Đoạn gốc của câu bị lỗi, để đối chiếu và sửa trong file. */
+  raw?: string;
 };
 export type ParseResult = {
   format: "empty" | "json" | "text";
@@ -38,8 +51,8 @@ B. High Tech Modern Language
 
 /* ----------------------------- nhận diện dòng ----------------------------- */
 
-const NUMBERED = /^(?:câu|cau|question|q)\s*\.?\s*\d+\s*[.:)\-–]\s*(.*)$/i; // "Câu 1: …", "Q2. …"
-const NUMBERED_PLAIN = /^\d+\s*[.)]\s+(.*)$/; // "1. …", "12) …"
+const NUMBERED = /^(?:câu|cau|question|q)\s*\.?\s*(\d+)\s*[.:)\-–]\s*(.*)$/i; // "Câu 1: …", "Q2. …"
+const NUMBERED_PLAIN = /^(\d+)\s*[.)]\s+(.*)$/; // "1. …", "12) …"
 const OPTION = /^([A-Ja-j])\s*[.):]\s*(.*)$/; // "A. …", "b) …"
 const ANSWER =
   /^(?:đáp\s*án(?:\s*đúng)?|dap\s*an(?:\s*dung)?|answer|ans|đa)\s*[:：=]\s*(.*)$/i;
@@ -94,6 +107,7 @@ function matchOption(line: string, cur: Block | null): RegExpExecArray | null {
 
 type Block = {
   startLine: number;
+  label?: string;
   question: string;
   options: { letter: string; text: string }[];
   answerRaw: string | null;
@@ -102,8 +116,9 @@ type Block = {
   field: "question" | "option" | "hint" | "rationale" | null;
 };
 
-const newBlock = (line: number, question = ""): Block => ({
+const newBlock = (line: number, question = "", label?: string): Block => ({
   startLine: line,
+  label,
   question,
   options: [],
   answerRaw: null,
@@ -116,6 +131,13 @@ const preview = (s: string) => {
   const t = s.replace(/\s+/g, " ").trim();
   return t.length > 70 ? t.slice(0, 67) + "…" : t || "(không có nội dung)";
 };
+
+const RAW_MAX_LINES = 14;
+function rawExcerpt(lines: string[], start: number, end: number): string {
+  const part = lines.slice(start - 1, end).map((l) => l.replace(/\s+$/, ""));
+  if (part.length <= RAW_MAX_LINES) return part.join("\n");
+  return [...part.slice(0, RAW_MAX_LINES), `… (còn ${part.length - RAW_MAX_LINES} dòng nữa)`].join("\n");
+}
 
 function finalize(
   b: Block,
@@ -175,10 +197,12 @@ function finalize(
 function parseText(input: string): ParseResult {
   const items: ParsedItem[] = [];
   const issues: ParseIssue[] = [];
+  const lines = input.replace(/\r\n?/g, "\n").split("\n");
   let cur: Block | null = null;
   let n = 0;
+  let lastNonEmpty = 0; // số dòng gần nhất có chữ, để biết một câu kết thúc ở dòng nào
 
-  const flush = () => {
+  const flush = (endLine: number) => {
     if (!cur) return;
     const b = cur;
     cur = null;
@@ -187,17 +211,17 @@ function parseText(input: string): ParseResult {
     if (empty) return;
     n++;
     const r = finalize(b, n);
-    if (r.ok) items.push({ index: n, payload: r.payload });
+    const pos = { index: n, label: b.label, line: b.startLine, endLine };
+    if (r.ok) items.push({ ...pos, payload: r.payload });
     else
       issues.push({
-        index: n,
-        line: b.startLine,
+        ...pos,
         message: r.message,
         preview: preview(b.question),
+        raw: rawExcerpt(lines, b.startLine, endLine),
       });
   };
 
-  const lines = input.replace(/\r\n?/g, "\n").split("\n");
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
     const raw = lines[i].replace(/\s+$/, ""); 
@@ -205,17 +229,20 @@ function parseText(input: string): ParseResult {
 
     if (!line) {
       // dòng trống kết thúc một câu đã có đáp án (hoặc có đáp án nào đó)
-      if (cur && (cur.options.length > 0 || cur.answerRaw !== null)) flush();
+      if (cur && (cur.options.length > 0 || cur.answerRaw !== null))
+        flush(lastNonEmpty);
       continue;
     }
+    const prev = lastNonEmpty; // dòng có chữ ngay trước dòng này = nơi câu trước kết thúc
+    lastNonEmpty = lineNo;
 
     let m: RegExpExecArray | null;
 
     m = NUMBERED.exec(line);
     if (!m && (!cur || cur.answerRaw !== null)) m = NUMBERED_PLAIN.exec(line);
     if (m) {
-      flush();
-      cur = newBlock(lineNo, m[1].trim());
+      flush(prev);
+      cur = newBlock(lineNo, m[2].trim(), `Câu ${m[1]}`);
       continue;
     }
     if ((m = ANSWER.exec(line)) || (m = ANSWER_NO_SEP.exec(line))) {
@@ -245,7 +272,7 @@ function parseText(input: string): ParseResult {
 
     // dòng thường: nối vào phần đang viết, hoặc mở câu mới
     if (!cur || cur.field === null) {
-      flush();
+      flush(prev);
       cur = newBlock(lineNo, line);
     } else if (cur.field === "question") {
       cur.question += "\n" + raw;
@@ -257,7 +284,7 @@ function parseText(input: string): ParseResult {
       cur.rationale += "\n" + raw;
     }
   }
-  flush();
+  flush(lastNonEmpty);
   return { format: "text", items, issues };
 }
 
@@ -327,6 +354,10 @@ function parseJson(input: string): ParseResult {
       unknown
     >;
     const pv = preview(String(o.question ?? ""));
+    const rawJson = (() => {
+      const t = JSON.stringify(raw, null, 2) ?? "";
+      return t.length > 500 ? t.slice(0, 500) + "\n…" : t;
+    })();
     if (
       typeof o.question !== "string" ||
       !Array.isArray(o.options) ||
@@ -336,12 +367,13 @@ function parseJson(input: string): ParseResult {
         index,
         message: "Mỗi câu cần “question” (chuỗi) và “options” (mảng chuỗi).",
         preview: pv,
+        raw: rawJson,
       });
       return;
     }
     const idx = answerToIndexes(o.answer);
     if ("error" in idx) {
-      issues.push({ index, message: idx.error, preview: pv });
+      issues.push({ index, message: idx.error, preview: pv, raw: rawJson });
       return;
     }
     const r = validateDraft({
@@ -353,7 +385,7 @@ function parseJson(input: string): ParseResult {
       rationale: typeof o.rationale === "string" ? o.rationale : "",
     });
     if (r.ok) items.push({ index, payload: r.value });
-    else issues.push({ index, message: r.error, preview: pv });
+    else issues.push({ index, message: r.error, preview: pv, raw: rawJson });
   });
   return { format: "json", items, issues };
 }
@@ -364,5 +396,156 @@ export function parseBulk(input: string): ParseResult {
   return t.startsWith("[") || t.startsWith("{") ? parseJson(t) : parseText(t);
 }
 
+/* ------------------------------- kiểm tra trùng ------------------------------- */
+
+/** Chuẩn hoá để so sánh: bỏ khác biệt hoa/thường, khoảng trắng và dấu ?.:; ở cuối. */
 export const normalizeForDup = (s: string) =>
-  s.toLowerCase().replace(/\s+/g, " ").trim();
+  s
+    .normalize("NFC")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/[\s?.:;]+$/, "");
+
+/** Một câu đã có trong bộ đề (chỉ cần các trường dùng để so sánh). */
+export type ExistingQuestion = {
+  id: number;
+  question: string;
+  options: string[];
+  answer: number | number[];
+};
+
+/**
+ * Mức độ trùng (cùng nội dung câu hỏi):
+ *  - identical:      cùng cả các đáp án lẫn đáp án đúng
+ *  - answer-differs: cùng câu hỏi + cùng các đáp án nhưng ĐÁP ÁN ĐÚNG KHÁC (mâu thuẫn, nên kiểm tra)
+ *  - options-differ: cùng nội dung câu hỏi nhưng các đáp án khác nhau
+ */
+export type DupKind = "identical" | "answer-differs" | "options-differ";
+
+export type DupTarget = {
+  /** existing = câu đã có trong bộ đề; batch = câu khác trong nội dung đang dán */
+  source: "existing" | "batch";
+  /** existing: mã câu (#id) trong bộ đề · batch: số thứ tự trong nội dung dán */
+  ref: number;
+  label?: string;
+  line?: number;
+  endLine?: number;
+  question: string;
+  options: string[];
+  answer: number | number[];
+};
+
+export type DupMatch = {
+  kind: DupKind;
+  /** identical nhưng thứ tự các đáp án khác nhau */
+  reordered: boolean;
+  target: DupTarget;
+};
+
+/** matches[0] là câu trùng chính (ưu tiên câu đã có trong bộ đề), các câu còn lại là trùng thêm. */
+export type DupInfo = { matches: DupMatch[] };
+
+export const DUP_KIND_LABEL: Record<DupKind, string> = {
+  identical: "Giống hệt",
+  "answer-differs": "Khác đáp án đúng",
+  "options-differ": "Khác các đáp án",
+};
+
+export function describeDup(m: DupMatch): string {
+  switch (m.kind) {
+    case "identical":
+      return m.reordered
+        ? "Cùng nội dung câu hỏi, cùng các đáp án và cùng đáp án đúng (chỉ khác thứ tự sắp xếp đáp án)."
+        : "Cùng nội dung câu hỏi, cùng các đáp án và cùng đáp án đúng.";
+    case "answer-differs":
+      return "Cùng nội dung câu hỏi và cùng các đáp án, nhưng ĐÁP ÁN ĐÚNG KHÁC nhau — nên kiểm tra xem bên nào đúng.";
+    case "options-differ":
+      return "Cùng nội dung câu hỏi nhưng các đáp án khác nhau (có thể là bản sửa, hoặc câu khác dùng chung đề bài).";
+  }
+}
+
+const toArr = (a: number | number[]) => (Array.isArray(a) ? a : [a]);
+const SEP = "\u0000";
+
+function compare(
+  a: { options: string[]; answer: number | number[] },
+  b: { options: string[]; answer: number | number[] },
+): { kind: DupKind; reordered: boolean } {
+  const oa = a.options.map(normalizeForDup);
+  const ob = b.options.map(normalizeForDup);
+  const sameSet =
+    oa.length === ob.length &&
+    [...oa].sort().join(SEP) === [...ob].sort().join(SEP);
+  if (!sameSet) return { kind: "options-differ", reordered: false };
+  const correct = (x: string[], ans: number | number[]) =>
+    toArr(ans)
+      .map((i) => x[i])
+      .sort()
+      .join(SEP);
+  if (correct(oa, a.answer) !== correct(ob, b.answer))
+    return { kind: "answer-differs", reordered: false };
+  return { kind: "identical", reordered: oa.join(SEP) !== ob.join(SEP) };
+}
+
+/**
+ * Tìm các câu trùng nội dung câu hỏi, cho từng câu trong `items`:
+ *  1. trùng với câu ĐÃ CÓ trong bộ đề (trả về mã #id của câu đó),
+ *  2. trùng với câu xuất hiện TRƯỚC ĐÓ trong chính nội dung đang dán (trả về số thứ tự/nhãn câu đó).
+ * Câu đầu tiên trong nhóm trùng được coi là bản gốc; chỉ các câu sau mới bị đánh dấu.
+ */
+export function findDuplicates(
+  items: ParsedItem[],
+  existing: ExistingQuestion[],
+): Map<number, DupInfo> {
+  const byKey = new Map<string, ExistingQuestion[]>();
+  for (const q of existing) {
+    const k = normalizeForDup(q.question);
+    const list = byKey.get(k);
+    if (list) list.push(q);
+    else byKey.set(k, [q]);
+  }
+
+  const seen = new Map<string, ParsedItem[]>();
+  const out = new Map<number, DupInfo>();
+
+  for (const it of items) {
+    const k = normalizeForDup(it.payload.question);
+    const mine = { options: it.payload.options, answer: it.payload.answer };
+    const matches: DupMatch[] = [];
+
+    for (const q of byKey.get(k) ?? []) {
+      matches.push({
+        ...compare(mine, q),
+        target: {
+          source: "existing",
+          ref: q.id,
+          question: q.question,
+          options: q.options,
+          answer: q.answer,
+        },
+      });
+    }
+    for (const prev of seen.get(k) ?? []) {
+      matches.push({
+        ...compare(mine, prev.payload),
+        target: {
+          source: "batch",
+          ref: prev.index,
+          label: prev.label,
+          line: prev.line,
+          endLine: prev.endLine,
+          question: prev.payload.question,
+          options: prev.payload.options,
+          answer: prev.payload.answer,
+        },
+      });
+    }
+    if (matches.length > 0) out.set(it.index, { matches });
+
+    const list = seen.get(k);
+    if (list) list.push(it);
+    else seen.set(k, [it]);
+  }
+  return out;
+}
