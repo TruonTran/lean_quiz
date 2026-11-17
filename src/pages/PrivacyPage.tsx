@@ -21,7 +21,7 @@ export default function PrivacyPage() {
       title="Chính sách quyền riêng tư"
       subtitle={`Quiz Cùng Cua · cập nhật ${UPDATED}`}
       backTo="/"
-      backLabel="← Trang chủ"
+      backLabel="Lui vìa cửa chánh"
     >
       <div className="mx-auto max-w-3xl space-y-5">
         <Section title="Quiz Cùng Cua là gì?">
