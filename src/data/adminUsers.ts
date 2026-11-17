@@ -56,6 +56,33 @@ export async function setUserDisplayName(userId: string, name: string): Promise<
   if (error) fail(error);
 }
 
+export type NewUser = {
+  email: string;
+  password: string;
+  displayName: string;
+  isAdmin: boolean;
+};
+
+export const FUNCTION_MISSING =
+  "Không gọi được function tạo tài khoản. Hãy triển khai supabase/functions/admin-create-user (hướng dẫn ở đầu file) rồi thử lại.";
+
+/** Tạo tài khoản qua Edge Function (cần service_role nên không thể làm trực tiếp từ trình duyệt). */
+export async function createUser(input: NewUser): Promise<{ id: string; email: string; warning?: string }> {
+  const { data, error } = await supabase.functions.invoke("admin-create-user", { body: input });
+  if (error) {
+    const ctx = (error as { context?: unknown }).context;
+    if (ctx instanceof Response) {
+      if (ctx.status === 404) throw new Error(FUNCTION_MISSING);
+      const body = (await ctx.json().catch(() => null)) as { error?: string } | null;
+      throw new Error(body?.error ?? `Lỗi ${ctx.status} khi tạo tài khoản.`);
+    }
+    throw new Error(FUNCTION_MISSING);
+  }
+  const res = data as { user?: { id: string; email: string }; warning?: string; error?: string } | null;
+  if (!res?.user) throw new Error(res?.error ?? "Không tạo được tài khoản.");
+  return { ...res.user, warning: res.warning };
+}
+
 export async function deleteUser(userId: string): Promise<void> {
   const { error } = await supabase.rpc("admin_delete_user", { p_user: userId });
   if (error) fail(error);

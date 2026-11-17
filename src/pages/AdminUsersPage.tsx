@@ -10,6 +10,7 @@ import {
 } from "../data/adminUsers";
 import { useAuthStore } from "../store/authStore";
 import PageShell from "../components/PageShell";
+import AdminCreateUser from "../components/AdminCreateUser";
 import { ErrorBox, Loading } from "../components/LoadState";
 import { dangerBtn, ghostBtn, inputClass, panel, primaryBtn } from "../components/adminStyles";
 
@@ -39,6 +40,7 @@ export default function AdminUsersPage() {
   const [editing, setEditing] = useState<string | null>(null);
   const [nameDraft, setNameDraft] = useState("");
   const [notice, setNotice] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
 
   const refresh = () =>
     Promise.all([
@@ -172,7 +174,26 @@ export default function AdminUsersPage() {
           <button type="button" onClick={() => users.refetch()} disabled={users.isFetching} className={primaryBtn}>
             {users.isFetching ? "Đang tải…" : "Làm mới"}
           </button>
+          <button
+            type="button"
+            onClick={() => {
+              clearMessages();
+              setCreating((v) => !v);
+            }}
+            className={primaryBtn}
+          >
+            {creating ? "Đóng form" : "+ Tạo tài khoản"}
+          </button>
         </div>
+
+        {creating && (
+          <AdminCreateUser
+            onCreated={() => {
+              void refresh();
+            }}
+            onClose={() => setCreating(false)}
+          />
+        )}
 
         {notice && (
           <p role="status" className="text-sm text-emerald-300">
