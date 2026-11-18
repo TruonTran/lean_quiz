@@ -3,6 +3,7 @@ import { useSummary } from "../data/hooks";
 import { errMsg } from "../data/api";
 import { useExamTheme } from "../theme/ThemeContext";
 import type { SummarySection } from "../types/Subject";
+import { SummaryPoints, SummaryToolbar } from "./SummaryText";
 
 type Props = {
   subjectId: string;
@@ -83,11 +84,13 @@ function SummaryBody({
         </div>
       </div>
 
+      <SummaryToolbar className="mt-3" />
+
       <input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Tìm trong tóm tắt…"
-        className={`mt-3 w-full rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/40 ${theme.input}`}
+        className={`mt-2 w-full rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/40 ${theme.input}`}
       />
 
       <div className="mt-3 min-h-0 flex-1 space-y-2 overflow-y-auto pr-1">
@@ -129,16 +132,9 @@ function SummaryBody({
                   </span>
                 </button>
                 {isOpen && s.points.length > 0 && (
-                  <ul
-                    className={`space-y-1.5 px-3 pb-3 text-sm leading-relaxed ${theme.text}`}
-                  >
-                    {s.points.map((p, i) => (
-                      <li key={i} className="flex gap-2">
-                        <span className={theme.accent}>•</span>
-                        <span className="min-w-0 break-words">{p}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className={`px-2 pb-3 ${theme.text}`}>
+                    <SummaryPoints sectionId={s.id} points={s.points} compact />
+                  </div>
                 )}
               </section>
             );

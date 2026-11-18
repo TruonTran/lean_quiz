@@ -1,9 +1,9 @@
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteSection, errMsg, saveSection, swapSections } from "../data/api";
 import type { SummarySection } from "../types/Subject";
-import { isTablePoint, parsePoints, pasteTable } from "../data/tableText";
-import Markdown from "./Markdown";
+import { parsePoints, pasteTable } from "../data/tableText";
+import { SummaryPoints, SummaryToolbar } from "./SummaryText";
 
 type Props = {
   subjectId: string;
@@ -33,6 +33,38 @@ function SectionForm({
 }) {
   const [title, setTitle] = useState(initial.title);
   const [pointsText, setPointsText] = useState(initial.pointsText);
+  const areaRef = useRef<HTMLTextAreaElement>(null);
+
+  /** Bọc đoạn đang chọn bằng ký hiệu (==tô vàng==, **đậm**, !!đỏ!!). */
+  const wrap = (mark: string) => {
+    const el = areaRef.current;
+    if (!el) return;
+    const { selectionStart: a, selectionEnd: b, value } = el;
+    const next = `${value.slice(0, a)}${mark}${value.slice(a, b) || "chữ"}${mark}${value.slice(b)}`;
+    setPointsText(next);
+    requestAnimationFrame(() => el.focus());
+  };
+
+  /** Thêm / đổi / bỏ tiền tố cho các dòng đang chọn (# ! > ~). */
+  const prefixLines = (prefix: string) => {
+    const el = areaRef.current;
+    if (!el) return;
+    const { selectionStart: a, selectionEnd: b, value } = el;
+    const start = value.lastIndexOf("\n", a - 1) + 1;
+    const endIdx = value.indexOf("\n", b);
+    const end = endIdx === -1 ? value.length : endIdx;
+    const block = value
+      .slice(start, end)
+      .split("\n")
+      .map((l) => {
+        if (l.trim().startsWith("|") || !l.trim()) return l;
+        const bare = l.replace(/^(#|!|>|~)\s+/, "");
+        return l.startsWith(prefix) ? bare : prefix + bare;
+      })
+      .join("\n");
+    setPointsText(value.slice(0, start) + block + value.slice(end));
+    requestAnimationFrame(() => el.focus());
+  };
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -52,11 +84,35 @@ function SectionForm({
         className={inputClass}
         autoFocus
       />
+      <div className="flex flex-wrap gap-1.5">
+        <button type="button" onClick={() => wrap("==")} className={ghostBtn}>
+          Tô vàng
+        </button>
+        <button type="button" onClick={() => wrap("**")} className={ghostBtn}>
+          Đậm
+        </button>
+        <button type="button" onClick={() => wrap("!!")} className={ghostBtn}>
+          Chữ đỏ
+        </button>
+        <button type="button" onClick={() => prefixLines("! ")} className={ghostBtn}>
+          Quan trọng
+        </button>
+        <button type="button" onClick={() => prefixLines("# ")} className={ghostBtn}>
+          Tiêu đề nhỏ
+        </button>
+        <button type="button" onClick={() => prefixLines("> ")} className={ghostBtn}>
+          Ghi chú
+        </button>
+        <button type="button" onClick={() => prefixLines("~ ")} className={ghostBtn}>
+          Bỏ chấm
+        </button>
+      </div>
       <textarea
+        ref={areaRef}
         value={pointsText}
         onPaste={(e) => pasteTable(e, setPointsText)}
         onChange={(e) => setPointsText(e.target.value)}
-        placeholder={"Mỗi dòng là một ý chính. Có thể dán bảng từ Word hoặc Excel."}
+        placeholder={"Mỗi dòng là một ý chính. Bôi đen chữ rồi bấm nút phía trên để tô vàng / in đậm. Có thể dán bảng từ Word hoặc Excel."}
         rows={7}
         className={`${inputClass} resize-y`}
       />
@@ -120,6 +176,8 @@ export default function SummaryEditor({ subjectId, sections, isAdmin }: Props) {
 
   return (
     <div className="space-y-5">
+      {sections.length > 0 && <SummaryToolbar />}
+
       {isAdmin && editing !== "new" && (
         <button
           onClick={() => openEditor("new")}
@@ -211,19 +269,9 @@ export default function SummaryEditor({ subjectId, sections, isAdmin }: Props) {
               )}
             </div>
 
-            {section.points.length > 0 && (
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-zinc-300">
-                {section.points.map((p, j) =>
-                  isTablePoint(p) ? (
-                    <li key={j} className="-ml-5 list-none">
-                      <Markdown>{p}</Markdown>
-                    </li>
-                  ) : (
-                    <li key={j}>{p}</li>
-                  ),
-                )}
-              </ul>
-            )}
+            <div className="text-zinc-300">
+              <SummaryPoints sectionId={section.id} points={section.points} />
+            </div>
           </section>
         ),
       )}
