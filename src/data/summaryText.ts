@@ -1,11 +1,4 @@
-/**
- * Cú pháp một ý trong tóm tắt (mỗi dòng = một ý, không cần đổi DB):
- *   Đầu dòng:  `# `  tiêu đề nhỏ (không chấm)
- *              `! `  quan trọng (khung vàng nổi bật)
- *              `> `  ghi chú / ví dụ (khung nghiêng bên trái)
- *              `~ `  dòng thường nhưng không chấm
- *   Trong dòng: `==chữ==` tô vàng, `**chữ**` in đậm, `!!chữ!!` chữ đỏ
- */
+
 type Kind = "normal" | "heading" | "important" | "note" | "plain";
 
 export function parseKind(raw: string): { kind: Kind; text: string } {

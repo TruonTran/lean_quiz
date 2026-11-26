@@ -1,10 +1,18 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+export type SubjectProgress = {
+  answers: Record<number, number | number[]>;
+  currentIndex: number;
+  notes: Record<number, string>;
+};
+
 interface ExamState {
   answers: Record<string, Record<number, number | number[]>>;
   currentIndex: Record<string, number>;
   notes: Record<string, Record<number, string>>;
+  /** Thời điểm (ms) môn này được sửa lần cuối trên máy này — dùng để đồng bộ giữa các thiết bị. */
+  updatedAt: Record<string, number>;
 
   setAnswer: (
     subjectId: string,
@@ -16,7 +24,14 @@ interface ExamState {
   clearExam: (subjectId: string) => void;
   clearAnswers: (subjectId: string, questionIds: number[]) => void;
   setNote: (subjectId: string, questionId: number, note: string) => void;
+  /** Ghi đè tiến độ một môn bằng bản từ server (không tính là thay đổi mới). */
+  applyRemote: (subjectId: string, p: SubjectProgress, updatedAt: number) => void;
 }
+
+const stamp = (s: ExamState, subjectId: string) => ({
+  ...s.updatedAt,
+  [subjectId]: Date.now(),
+});
 
 export const useExamStore = create<ExamState>()(
   persist(
@@ -24,6 +39,7 @@ export const useExamStore = create<ExamState>()(
       answers: {},
       currentIndex: {},
       notes: {},
+      updatedAt: {},
 
       setAnswer: (subjectId, questionId, answer) =>
         set((state) => ({
@@ -34,6 +50,7 @@ export const useExamStore = create<ExamState>()(
               [questionId]: answer,
             },
           },
+          updatedAt: stamp(state, subjectId),
         })),
 
       setCurrentIndex: (subjectId, index) =>
@@ -42,6 +59,7 @@ export const useExamStore = create<ExamState>()(
             ...state.currentIndex,
             [subjectId]: index,
           },
+          updatedAt: stamp(state, subjectId),
         })),
 
       clearExam: (subjectId) =>
@@ -55,6 +73,7 @@ export const useExamStore = create<ExamState>()(
           return {
             answers,
             currentIndex,
+            updatedAt: stamp(state, subjectId),
           };
         }),
 
@@ -68,6 +87,7 @@ export const useExamStore = create<ExamState>()(
               ...state.answers,
               [subjectId]: subjectAnswers,
             },
+            updatedAt: stamp(state, subjectId),
           };
         }),
 
@@ -80,21 +100,43 @@ export const useExamStore = create<ExamState>()(
               [questionId]: note,
             },
           },
+          updatedAt: stamp(state, subjectId),
+        })),
+
+      applyRemote: (subjectId, p, updatedAt) =>
+        set((state) => ({
+          answers: { ...state.answers, [subjectId]: p.answers },
+          currentIndex: { ...state.currentIndex, [subjectId]: p.currentIndex },
+          notes: { ...state.notes, [subjectId]: p.notes },
+          updatedAt: { ...state.updatedAt, [subjectId]: updatedAt },
         })),
     }),
     {
       name: "quiz-storage",
-      version: 1,
+      version: 2,
       migrate: (persisted, version) => {
         const state = persisted as Partial<ExamState>;
+        let next = state;
         if (version < 1) {
           const answers = { ...state.answers };
           const currentIndex = { ...state.currentIndex };
           delete answers.prm393;
           delete currentIndex.prm393;
-          return { ...state, answers, currentIndex } as ExamState;
+          next = { ...state, answers, currentIndex };
         }
-        return state as ExamState;
+        if (version < 2) {
+          // Dữ liệu cũ chưa có mốc thời gian: gán mốc rất nhỏ (1) để nếu server đã có bản của môn đó
+          // thì bản server thắng, còn nếu server chưa có thì bản này được đẩy lên lần đầu.
+          const updatedAt: Record<string, number> = {};
+          const ids = new Set([
+            ...Object.keys(next.answers ?? {}),
+            ...Object.keys(next.currentIndex ?? {}),
+            ...Object.keys(next.notes ?? {}),
+          ]);
+          ids.forEach((id) => (updatedAt[id] = 1));
+          next = { ...next, updatedAt };
+        }
+        return next as ExamState;
       },
     },
   ),
